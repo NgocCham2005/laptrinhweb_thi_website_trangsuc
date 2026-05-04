@@ -6,6 +6,10 @@
 -- Thời gian đã tạo: Th5 02, 2026 lúc 09:59 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.1.25
+CREATE DATABASE IF NOT EXISTS quanly_trangsuc;
+USE quanly_trangsuc;
+
+SET FOREIGN_KEY_CHECKS=0;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
