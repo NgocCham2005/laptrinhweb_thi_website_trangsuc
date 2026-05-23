@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Mulish:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+
+    /* =========================
+       COLORS
+    ========================= */
+
+    --gold: #c9a227;
+    --gold-soft: #e8d7a5;
+    --gold-pale: #faf5e8;
+
+    --navy: #16274f;
+    --navy-soft: #243b6b;
+
+    --white: #ffffff;
+
+    --gray-50: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #ebebeb;
+    --gray-300: #dddddd;
+    --gray-400: #b9b9b9;
+    --gray-500: #8c8c8c;
+    --gray-600: #666666;
+    --gray-700: #444444;
+    --gray-800: #1f1f1f;
+
+    --success: #1f9d67;
+    --success-bg: #eaf8f1;
+
+    --danger: #e5484d;
+    --danger-bg: #fff0f0;
+
+    --warning: #d89b18;
+    --warning-bg: #fff7e7;
+
+    --info: #2677d9;
+    --info-bg: #eef5ff;
+
+    /* =========================
+       TYPOGRAPHY
+    ========================= */
+
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Mulish', sans-serif;
+
+    --text-xs: 12px;
+    --text-sm: 14px;
+    --text-base: 15px;
+    --text-lg: 18px;
+    --text-xl: 24px;
+    --text-2xl: 32px;
+
+    /* =========================
+       SPACING
+    ========================= */
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+
+    /* =========================
+       RADIUS
+    ========================= */
+
+    --radius-sm: 10px;
+    --radius: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-full: 999px;
+
+    /* =========================
+       SHADOW
+    ========================= */
+
+    --shadow-sm: 0 2px 10px rgba(0,0,0,.03);
+
+    --shadow:
+        0 10px 30px rgba(0,0,0,.05);
+
+    --shadow-lg:
+        0 24px 60px rgba(0,0,0,.08);
+
+    /* =========================
+       TRANSITION
+    ========================= */
+
+    --transition: .25s ease;
+}
