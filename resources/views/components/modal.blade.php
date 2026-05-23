@@ -27,3 +27,29 @@
 
     </div>
 </div>
+<script>
+function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function handleBackdropClick(event, id) {
+    if (event.target.classList.contains('modal-backdrop')) {
+        closeModal(id);
+    }
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-backdrop.open')
+            .forEach(function(el) {
+                closeModal(el.id);
+            });
+    }
+});
+</script>
