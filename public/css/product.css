@@ -1,0 +1,76 @@
+:root {
+    --navy: #162a4a;
+    --gold: #cca43b;
+    --red-price: #d90429;
+    --text-gray: #475569;
+    --border-color: #e2e8f0;
+}
+
+body {
+    background-color: #f8fafc;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    padding: 40px;
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+}
+
+/* --- STYLE CHO PRODUCT CARD --- */
+.product-card {
+    background: #fff;
+    border: 1px solid #d8d8d8;
+    border-radius: 10px;
+    width: 320px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.product-img-container {
+    width: 100%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #cca43b;
+}
+.product-img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.product-title { font-size: 16px; color: var(--navy); font-weight: 700; margin: 15px 0 5px 0; min-height: 40px; }
+.product-material { color: var(--text-gray); font-size: 13px; margin-bottom: 15px; }
+.product-price { color: var(--red-price); font-size: 24px; font-weight: 700; }
+
+/* --- STYLE CHO PRODUCT INFO BOX trang chi tiết sp --- */
+.product-info-box {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    padding: 30px;
+    width: 380px;
+    border: 1px solid var(--border-color);
+}
+.info-title { font-size: 20px; color: var(--navy); font-weight: 700; line-height: 1.4; margin: 0; }
+.info-divider { border: 0; border-top: 2px solid var(--gold); margin: 15px 0; width: 100%; }
+.info-body { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
+.info-row { display: flex; font-size: 14px; }
+.info-row.align-start { align-items: flex-start; }
+.info-label { width: 80px; font-weight: 700; color: #000; }
+.info-value { color: #333; margin: 0; flex: 1; }
+.info-price-red { color: var(--red-price); font-size: 26px; font-weight: 700; line-height: 1; }
+
+/* --- STYLE HỆ THỐNG NÚT BẤM HOÁN ĐỔI --- */
+.product-actions, .info-actions { display: flex; gap: 12px; margin-top: 15px; }
+button { flex: 1; padding: 10px 0; font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+
+.btn-outline-navy { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+.btn-outline-navy:hover { background: #f1f5f9; }
+
+.btn-solid-gold { background: var(--gold); color: #fff; border: none; }
+.btn-solid-gold:hover { opacity: 0.9; }
+
+.btn-outline-gold { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
+.btn-outline-gold:hover { background: #fffbeb; }
+
+.btn-solid-navy { background: var(--navy); color: #fff; border: none; }
+.btn-solid-navy:hover { opacity: 0.9; }
