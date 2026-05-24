@@ -3,8 +3,8 @@
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: center;        /* căn giữa nội dung */
-            min-height: 320px;              /* cao hơn: 220 → 320 */
+            justify-content: center;        
+            min-height: 320px;              
             border-radius: 16px;
             overflow: hidden;
             margin-bottom: 32px;
