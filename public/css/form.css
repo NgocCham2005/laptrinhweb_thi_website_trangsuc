@@ -5,9 +5,10 @@
 }
 
 body{
-    font-family:var(--font-body);
+    font-family: arial;
     color:var(--gray-800);
 }
+
 
 /* ===================================================
    BUTTON
@@ -25,7 +26,7 @@ body{
     border:none;
     border-radius:14px;
 
-    font-family:var(--font-body);
+    font-family: arial;
     font-size:14px;
     font-weight:600;
 
@@ -566,4 +567,54 @@ textarea.form-control{
 .alert-info{
     background:#eff6ff;
     color:#1d4ed8;
+}
+/*Châm thêm từ đây xuống cuối*/
+/* ===================================================
+   PAGE HEADER
+=================================================== */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #0f2347; /* xanh đậm */
+    color: white;
+
+    padding: 14px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.page-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+/* ===================================================
+   ACTION BUTTONS (TABLE)
+=================================================== */
+
+.action-buttons{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.action-buttons a{
+    display:inline-flex;
+}
+
+.table .btn{
+    height:36px;
+    padding:0 14px;
+    font-size:13px;
+    border-radius:10px;
+}
+
+/* Cột thao tác */
+.action-col a {
+    margin-right: 8px;
+    text-decoration: none;
+    font-size: 13px;
 }

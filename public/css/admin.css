@@ -154,3 +154,28 @@ border-radius:15px;
 min-height:80vh;
 
 }
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #0f2347; /* xanh đậm */
+    color: white;
+
+    padding: 14px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.page-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+/* Cột thao tác */
+.action-col a {
+    margin-right: 8px;
+    text-decoration: none;
+    font-size: 13px;
+}
