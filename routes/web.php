@@ -49,10 +49,18 @@ Route::prefix('admin')
     )->name('customers');
 
 
-    Route::view(
-        '/banners',
-        'admin.banners'
-    )->name('banners');
+    Route::get('/banners', [BannerController::class, 'index'])
+    ->name('banners');
+    Route::get('/add-banner', [BannerController::class, 'create'])
+    ->name('addBanner');
+    Route::post('/add-banner', [BannerController::class, 'store'])
+    ->name('storeBanner');
+    Route::get('/edit-banner/{id}', [BannerController::class, 'edit'])
+    ->name('editBanner');
+    Route::post('/update-banner/{id}', [BannerController::class, 'update'])
+    ->name('updateBanner');
+    Route::delete('/delete-banner/{id}', [BannerController::class, 'destroy'])
+    ->name('deleteBanner');
 
     Route::get('/vouchers', [VoucherController::class, 'index'])
     ->name('vouchers');
