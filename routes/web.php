@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\BannerController;
 
 Route::get('/', function () {
     return view('welcome');
