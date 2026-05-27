@@ -24,7 +24,7 @@ Quản lý banner
             </div>
 
             <div class="action-buttons">
-                <x-button>
+                <x-button type="submit" variant="primary">
                     <i class="fa-solid fa-floppy-disk"></i>
                     Lưu banner
                 </x-button>
