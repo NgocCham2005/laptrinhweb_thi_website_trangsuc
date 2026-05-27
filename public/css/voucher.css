@@ -1,0 +1,35 @@
+/* TABLE */
+
+.voucher-table .table-wrapper{
+    border-radius:18px;
+
+    overflow-x:auto;
+
+    border:1px solid #edf1f7;
+
+    box-shadow:
+        0 10px 24px rgba(0,0,0,.05);
+}
+
+.voucher-table .table{
+    min-width:950px;
+}
+
+.voucher-table .table thead{
+    background:
+    linear-gradient(
+        135deg,
+        #15264B,
+        #1f3d75
+    );
+}
+
+.voucher-table .table thead th{
+    color:white;
+
+    white-space:nowrap;
+}
+
+.voucher-table .table tbody tr:hover{
+    background:#f8fbff;
+}

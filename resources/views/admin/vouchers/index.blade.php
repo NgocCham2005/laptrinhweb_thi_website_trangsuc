@@ -6,6 +6,8 @@
 
 @section('content')
 
+<link rel="stylesheet" href="{{ asset('css/voucher.css') }}">
+
 {{-- HEADER --}}
 <div class="page-header">
     <h3>Danh sách voucher</h3>
@@ -30,26 +32,48 @@
             <td>{{ $v->DieuKien }}</td>
             <td>{{ $v->GiaTriGiamToiDa }}</td>
             <td>{{ $v->SoLanSuDung }}</td>
-            <td>{{ $v->TrangThai }}</td>
-
+            <td>
+                @if($v->TrangThai == 1)
+                <x-badge variant="success">
+                    Hoạt động
+                </x-badge>
+                @else
+                    <x-badge variant="danger">
+                        Đã vô hiệu
+                    </x-badge>
+                @endif
+            </td>
             {{-- CỘT THAO TÁC --}}
             <td class="action-col">
             <div class="action-buttons">
             <a href="{{ route('admin.vouchers.edit',$v->MaVoucher) }}">
                 <x-button>Sửa</x-button>
             </a>
-            <form action="{{ route('admin.vouchers.destroy',$v->MaVoucher) }}" method="POST"
-                onsubmit="
-                return confirm('Bạn có chắc chắn muốn xóa voucher này?')">
-            @csrf
-            @method('DELETE')
-            <x-button variant="danger" type="submit">Xóa</x-button>
-            </form>
+            <x-button variant="danger" class="btn-disable" type="button"
+                onclick="openModal('disableVoucher{{ $v->MaVoucher }}')">Vô hiệu</x-button>
             </div>
             </td>
         </tr>
+        <x-modal id="disableVoucher{{ $v->MaVoucher }}" title="Vô hiệu hóa voucher">
+        Bạn có chắc chắn muốn vô hiệu hóa voucher <b>{{ $v->TenVoucher }}</b> ?
+        <x-slot:footer>
+        <form action="{{route('admin.vouchers.destroy', $v->MaVoucher)}}"
+        method="POST">
+        @csrf
+        @method('DELETE')
+        <x-button variant="danger" type="submit">Xác nhận</x-button>
+        </form>
+        <x-button variant="ghost" type="button"
+        onclick="closeModal('disableVoucher{{ $v->MaVoucher }}')">Hủy
+        </x-button>
+        </x-slot:footer>
+        </x-modal>
     @endforeach
     
 </x-table>
+
+<x-pagination
+    :paginator="$vouchers"
+/>
 
 @endsection

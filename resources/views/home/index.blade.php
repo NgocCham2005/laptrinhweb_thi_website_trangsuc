@@ -2,4 +2,6 @@
 
 @section('content')
 
+<x-banner />
+
 @endsection

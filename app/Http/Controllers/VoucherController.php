@@ -9,7 +9,7 @@ class VoucherController extends Controller
 {
     public function index()
     {
-        $vouchers = Voucher::all();
+        $vouchers = Voucher::paginate(5);
 
         return view('admin.vouchers.index', compact('vouchers'));
     }
@@ -64,16 +64,17 @@ class VoucherController extends Controller
     }
     public function destroy($id)
     {
-
         $voucher = Voucher::findOrFail($id);
 
-        $voucher->delete();
+        $voucher->update([
+            'TrangThai' => 0
+        ]);
 
         return redirect()
             ->route('admin.vouchers')
             ->with(
                 'success',
-                'Xóa thành công'
+                'Đã vô hiệu hóa voucher'
             );
     }
 
