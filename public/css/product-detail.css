@@ -300,3 +300,19 @@
 .review-form button:hover{
     background:#D4AF37;
 }
+
+.empty-review{
+    padding:20px 20px;
+    text-align:center;
+}
+
+.empty-review i{
+    font-size:30px;
+    color:#D4AF37;
+    margin-bottom:20px;
+}
+
+.empty-review p{
+    font-size:20px;
+    color:#777;
+}

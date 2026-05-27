@@ -45,9 +45,10 @@
         <h2>ĐÁNH GIÁ SẢN PHẨM</h2>
     </div>
     <div class="review-box">
-        @foreach($product->reviews as $review)
-            <div class="review-item">
-                <div class="review-avatar">
+        @if($product->reviews->count() >0)
+            @foreach($product->reviews as $review)
+                <div class="review-item">
+                    <div class="review-avatar">
                     <i class="fa-solid fa-user"></i>
                 </div>
                 <div class="review-content">
@@ -80,6 +81,13 @@
             </div>
         <div class="review-line"></div>
         @endforeach
+        @else
+            <div class="empty-review">
+                <i class="fa-regular fa-comment-dots"></i>
+        <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+            </div>
+        </div>
+        @endif
     </div>
 
     <form action="{{ route('review.store') }}" method="POST" class="review-form">

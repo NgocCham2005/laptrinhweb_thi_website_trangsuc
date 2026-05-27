@@ -5,6 +5,7 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminReviewController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -97,10 +98,16 @@ Route::prefix('admin')
     Route::delete('/vouchers/{id}', [VoucherController::class, 'destroy'])
     ->name('vouchers.destroy');
 
-    Route::view(
-        '/reviews',
-        'admin.reviews'
-    )->name('reviews');
+    Route::get('/reviews', [AdminReviewController::class, 'index'])
+    ->name('reviews');
+    Route::post('/reviews/reply/{id}',[AdminReviewController::class, 'reply'])
+    ->name('replyReview');
+    Route::put('/reviews/hide/{id}',[AdminReviewController::class, 'hide'])
+    ->name('hideReview');
+    Route::put('/reviews/display/{id}',[AdminReviewController::class, 'display'])
+    ->name('displayReview');
+    Route::delete('/reviews/delete/{id}',[AdminReviewController::class, 'destroy'])
+    ->name('deleteReview');
 
 
     Route::view(

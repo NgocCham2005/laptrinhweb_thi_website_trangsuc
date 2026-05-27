@@ -29,19 +29,11 @@ class DanhGia extends Model
 
     public function product()
     {
-        return $this->belongsTo(
-            SanPham::class,
-            'MaSanPham',
-            'MaSanPham'
-        );
+        return $this->belongsTo(SanPham::class,'MaSanPham','MaSanPham');
     }
 
     public function replies()
     {
-        return $this->hasMany(
-            ChiTietPhanHoi::class,
-            'MaDanhGia',
-            'MaDanhGia'
-        );
+        return $this->hasMany(ChiTietPhanHoi::class,'MaDanhGia','MaDanhGia');
     }
 }
