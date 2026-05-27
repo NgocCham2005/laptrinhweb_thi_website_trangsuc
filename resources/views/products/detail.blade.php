@@ -41,6 +41,9 @@
         </div>
     </div>
 
+    <div class="section-title">
+        <h2>ĐÁNH GIÁ SẢN PHẨM</h2>
+    </div>
     <div class="review-box">
         @foreach($product->reviews as $review)
             <div class="review-item">
