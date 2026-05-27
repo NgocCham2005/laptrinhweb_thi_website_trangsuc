@@ -8,7 +8,7 @@ class ProductController extends Controller
 {
     public function show($id)
     {
-        $product = SanPham::with('images')->findOrFail($id);
+        $product = SanPham::with(['images','reviews.replies'])->findOrFail($id);
 
         $relatedProducts = SanPham::where('MaDanhMuc',$product->MaDanhMuc)->where('MaSanPham','!=', $id)->take(3)->get();
 

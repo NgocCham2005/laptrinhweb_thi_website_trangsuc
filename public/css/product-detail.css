@@ -114,3 +114,225 @@
     grid-template-columns:repeat(3, 1fr);
     gap:25px;
 }
+
+/* =========================
+   REVIEW
+========================= */
+
+.product-review{
+    margin-top:70px;
+}
+
+/* HEADER */
+
+.review-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:30px;
+}
+
+.review-header h2{
+    font-size:34px;
+    color:#15264b;
+}
+
+.review-count{
+    font-size:18px;
+    color:#777;
+}
+
+/* BOX */
+
+.review-box{
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:35px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,0.06);
+}
+
+/* ITEM */
+
+.review-item{
+    display:flex;
+    gap:20px;
+}
+
+/* AVATAR */
+
+.review-avatar{
+    width:60px;
+    height:60px;
+
+    border-radius:50%;
+
+    background:#f1f1f1;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    flex-shrink:0;
+}
+
+.review-avatar i{
+    font-size:28px;
+    color:#999;
+}
+
+/* CONTENT */
+
+.review-content{
+    flex:1;
+}
+
+.review-content h4{
+    font-size:22px;
+    color:#15264b;
+
+    margin-bottom:8px;
+}
+
+/* STAR */
+
+.review-stars{
+    color:#D4AF37;
+
+    font-size:22px;
+
+    margin-bottom:15px;
+
+    letter-spacing:2px;
+}
+
+/* COMMENT */
+
+.review-content p{
+    font-size:17px;
+
+    color:#555;
+
+    line-height:1.8;
+}
+
+/* LINE */
+
+.review-line{
+    width:100%;
+    height:1px;
+
+    background:#e5e5e5;
+
+    margin:30px 0;
+}
+
+/* =========================
+   SHOP REPLY
+========================= */
+
+.admin-reply{
+    margin-top:18px;
+
+    background:#f8f8f8;
+
+    border-left:4px solid #D4AF37;
+
+    padding:15px 18px;
+
+    border-radius:10px;
+}
+
+.admin-reply strong{
+    color:#15264b;
+
+    display:block;
+
+    margin-bottom:8px;
+}
+
+.admin-reply p{
+    color:#666;
+
+    font-size:16px;
+}
+
+/* =========================
+   REVIEW FORM
+========================= */
+
+.review-form{
+    margin-top:35px;
+
+    display:flex;
+    gap:15px;
+
+    align-items:center;
+}
+
+/* SELECT */
+
+.review-form select{
+    width:130px;
+    height:55px;
+
+    border:none;
+
+    background:#f3f3f3;
+
+    border-radius:10px;
+
+    padding:0 15px;
+
+    font-size:16px;
+
+    outline:none;
+}
+
+/* INPUT */
+
+.review-form input{
+    flex:1;
+
+    height:55px;
+
+    border:none;
+
+    background:#f3f3f3;
+
+    border-radius:10px;
+
+    padding:0 20px;
+
+    font-size:16px;
+
+    outline:none;
+}
+
+/* BUTTON */
+
+.review-form button{
+    width:60px;
+    height:55px;
+
+    border:none;
+
+    background:#15264b;
+
+    color:#fff;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    transition:0.3s;
+}
+
+.review-form button:hover{
+    background:#D4AF37;
+}

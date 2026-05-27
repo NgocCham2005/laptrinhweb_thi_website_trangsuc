@@ -31,4 +31,13 @@ class SanPham extends Model
     {
         return $this->hasMany(HinhAnhSP::class,'MaSanPham','MaSanPham');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(
+            DanhGia::class,
+            'MaSanPham',
+            'MaSanPham'
+        );
+    }
 }

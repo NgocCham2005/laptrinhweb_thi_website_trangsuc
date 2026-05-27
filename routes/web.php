@@ -22,6 +22,9 @@ Route::get('/product/{id}',
     [ProductController::class, 'show'])
     ->name('product.detail');
 
+Route::post('/add-review', [ReviewController::class, 'store'])
+->name('review.store');
+
 #Test route admin
 
 Route::prefix('admin')
