@@ -22,7 +22,17 @@ class="menu-item
 
 </a>
 
+<a href="{{ route('admin.categories') }}"
+class="menu-item
+{{ request()->routeIs('admin.categories')
+? 'active'
+: '' }}">
 
+<i class="fa-solid fa-layer-group"></i>
+
+<span>Danh mục SP</span>
+
+</a>
 
 <a href="{{ route('admin.products') }}"
 class="menu-item

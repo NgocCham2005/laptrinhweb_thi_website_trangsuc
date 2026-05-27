@@ -39,6 +39,10 @@ Route::prefix('admin')
         'admin.orders'
     )->name('orders');
 
+    Route::view(
+        '/categories',
+        'admin.categories'
+    )->name('categories');
 
     Route::view(
         '/products',
