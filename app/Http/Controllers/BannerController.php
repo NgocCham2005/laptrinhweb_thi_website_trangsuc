@@ -8,7 +8,7 @@ class BannerController extends Controller
 {
     public function index()
     {
-        $banners = Banner::all();
+        $banners = Banner::paginate(3);
         return view('admin.banners.banners', compact('banners'));
     }
 

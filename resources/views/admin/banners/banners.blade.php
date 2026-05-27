@@ -55,4 +55,6 @@ Quản lý banner
         @endforeach
     </x-table>
 
+    <x-pagination :paginator="$banners"/>
+
 @endsection
