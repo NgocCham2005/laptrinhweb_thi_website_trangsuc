@@ -12,7 +12,7 @@ alt="Logo">
 
 <a href="{{ route('admin.orders') }}"
 class="menu-item
-{{ request()->routeIs('admin.orders')
+{{ request()->routeIs('admin.orders*')
 ? 'active'
 : '' }}">
 

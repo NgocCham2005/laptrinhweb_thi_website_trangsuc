@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,11 +36,20 @@ Route::prefix('admin')
         '/admin/orders'
     );
 
-
-    Route::view(
-        '/orders',
-        'admin.orders'
+    Route::get(
+    '/orders',
+    [OrderController::class,'index']
     )->name('orders');
+
+    Route::get(
+    '/orders/{id}',
+    [OrderController::class,'show']
+    )->name('orders.show');
+
+    Route::put(
+    '/orders/{id}',
+    [OrderController::class,'update']
+    )->name('orders.update');
 
     Route::view(
         '/categories',
