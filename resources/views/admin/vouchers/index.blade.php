@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title','Voucher')
+
 @section('page-title', 'Quản lý Voucher')
 
 @section('content')
@@ -32,18 +34,22 @@
 
             {{-- CỘT THAO TÁC --}}
             <td class="action-col">
-                <div class="action-buttons">
-                    <a href="#">
-                        <x-button>Sửa</x-button>
-                    </a>
-                    <a href="#">
-                        <x-button variant="danger">Xóa</x-button>
-                    </a>
-                </div>
+            <div class="action-buttons">
+            <a href="{{ route('admin.vouchers.edit',$v->MaVoucher) }}">
+                <x-button>Sửa</x-button>
+            </a>
+            <form action="{{ route('admin.vouchers.destroy',$v->MaVoucher) }}" method="POST"
+                onsubmit="
+                return confirm('Bạn có chắc chắn muốn xóa voucher này?')">
+            @csrf
+            @method('DELETE')
+            <x-button variant="danger" type="submit">Xóa</x-button>
+            </form>
+            </div>
             </td>
         </tr>
     @endforeach
-
+    
 </x-table>
 
 @endsection

@@ -30,4 +30,51 @@ class VoucherController extends Controller
 
         return redirect()->route('admin.vouchers');
     }
+
+    public function edit($id)
+    {
+        $voucher = Voucher::findOrFail($id);
+        return view(
+            'admin.vouchers.edit',
+            compact('voucher')
+        );
+    }
+
+    public function update(
+        Request $request,
+        $id
+    )
+    {
+
+        $voucher = Voucher::findOrFail($id);
+        $voucher->update([
+            'TenVoucher' => $request->TenVoucher,
+            'DieuKien' => $request->DieuKien,
+            'GiaTriGiamToiDa' => $request->GiaTriGiamToiDa,
+            'SoLanSuDung' => $request->SoLanSuDung,
+            'TrangThai' => $request->TrangThai
+        ]);
+
+        return redirect()
+            ->route('admin.vouchers')
+            ->with(
+                'success',
+                'Cập nhật thành công'
+            );
+    }
+    public function destroy($id)
+    {
+
+        $voucher = Voucher::findOrFail($id);
+
+        $voucher->delete();
+
+        return redirect()
+            ->route('admin.vouchers')
+            ->with(
+                'success',
+                'Xóa thành công'
+            );
+    }
+
 }
