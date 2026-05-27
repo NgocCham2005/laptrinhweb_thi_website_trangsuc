@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -13,9 +14,12 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('/products', function () {
-    return view('products.index');
-})->name('products');
+// Route::get('/products', function () {
+//     return view('products.index');
+// })->name('products');
+Route::get('/product/{id}',
+    [ProductController::class, 'show'])
+    ->name('product.detail');
 
 #Test route admin
 
