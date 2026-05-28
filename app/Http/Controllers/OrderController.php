@@ -14,7 +14,7 @@ class OrderController extends Controller
 {
     // TẠM THỜI — dùng tài khoản cứng để test
     private function layMaTaiKhoan() {
-        return 'TK0001'; // TODO: thay bằng Auth::user()->MaTaiKhoan
+        return 'TK015'; // TODO: thay bằng Auth::user()->MaTaiKhoan
     }
 
     // Tạo mã đơn hàng tự động
@@ -55,8 +55,9 @@ class OrderController extends Controller
     // =====================
     public function checkout() {
         $maTaiKhoan = $this->layMaTaiKhoan();
-        $vouchers   = Voucher::where('SoLanSuDung', '>', 0)->get();
-        $gioHang    = null;
+$vouchers = Voucher::where('SoLanSuDung', '>', 0)
+                   ->where('TrangThai', 1)   // ← thêm dòng này
+                   ->get();        $gioHang    = null;
 
         // Flow MUA NGAY
         if (session('mua_ngay')) {

@@ -97,7 +97,8 @@ Route::prefix('admin')
 // =====================
 // GIỎ HÀNG & ĐẶT HÀNG (cần đăng nhập)
 // =====================
-Route::middleware('auth')->group(function () {
+// Route::middleware('auth')->group(function () {
+Route::group([], function () {
 
     // Giỏ hàng
     Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
@@ -111,10 +112,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/thanh-toan/dat-hang', [OrderController::class, 'datHang'])->name('order.datHang');
     Route::get('/dat-hang-thanh-cong/{maDonHang}', [OrderController::class, 'success'])->name('order.success');
 
-    // Mua ngay từ trang sản phẩm
+    // Mua ngay
     Route::post('/mua-ngay', [OrderController::class, 'muaNgay'])->name('order.muaNgay');
 
-    // Lịch sử đơn hàng
     Route::get('/don-hang', function () {
         return redirect('/')->with('info', 'Chức năng đang phát triển!');
     })->name('order.lichSu');

@@ -1,0 +1,270 @@
+/* ================================================
+   CART.CSS — Trang giỏ hàng
+   ================================================ */
+
+/* ── Container ── */
+.cart-container {
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 0 24px;
+}
+
+/* ── Header ── */
+.cart-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.cart-title {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    color: var(--navy);
+    font-weight: 700;
+    margin: 0;
+}
+
+.cart-count {
+    background: var(--gold-pale);
+    color: var(--gold-dark);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--gold-light);
+}
+
+/* ── Alert ── */
+.alert {
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-4);
+}
+.alert-success { background: var(--success-pale); color: #155c3c; border: 1px solid #b7e4cc; }
+.alert-danger  { background: var(--danger-pale);  color: #842029; border: 1px solid #f5c2c7; }
+
+/* ── Giỏ hàng trống ── */
+.cart-empty {
+    text-align: center;
+    padding: 80px 20px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200);
+}
+.cart-empty-icon { font-size: 56px; margin-bottom: 16px; }
+.cart-empty h3 { font-family: var(--font-display); font-size: var(--text-xl); color: var(--navy); margin-bottom: 8px; }
+.cart-empty p  { font-size: var(--text-sm); color: var(--gray-500); margin-bottom: 24px; }
+
+/* ── Layout 2 cột ── */
+.cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 28px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .cart-layout { grid-template-columns: 1fr; }
+}
+
+/* ── Bảng sản phẩm ── */
+.cart-items {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+}
+
+/* Tên & mã SP */
+.item-name {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--navy);
+}
+.item-code {
+    font-size: var(--text-xs);
+    color: var(--gray-400);
+}
+
+/* Thành tiền */
+.item-total {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--navy);
+    white-space: nowrap;
+}
+
+/* ── Số lượng + / - (col-qty) ── */
+.col-qty {
+    display: flex;
+    align-items: center;
+    flex-direction: row;        /* nút ngang hàng */
+    gap: 0;
+    border: 1.5px solid var(--gray-300);
+    border-radius: var(--radius);
+    overflow: hidden;
+    width: fit-content;
+    transition: border-color var(--transition-fast);
+}
+
+.col-qty:focus-within {
+    border-color: var(--gold);
+}
+
+.qty-btn {
+    width: 32px;
+    height: 36px;
+    border: none;
+    background: var(--gray-100);
+    color: var(--navy);
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.qty-btn:hover {
+    background: var(--gold-pale);
+    color: var(--gold-dark);
+}
+
+.qty-input {
+    width: 48px;
+    height: 36px;
+    border: none;
+    border-left: 1px solid var(--gray-200);
+    border-right: 1px solid var(--gray-200);
+    text-align: center;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--navy);
+    outline: none;
+    -moz-appearance: textfield;
+}
+
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.qty-saving {
+    font-size: 12px;
+    margin-left: 6px;
+    color: var(--gray-400);
+}
+
+/* ── Cart actions (chọn tất cả / xóa đã chọn) ── */
+.cart-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-top: 1px solid var(--gray-100);
+    background: var(--gray-50);
+}
+
+.cart-actions-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.check-all-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--text-sm);
+    color: var(--gray-600);
+    cursor: pointer;
+    user-select: none;
+}
+
+.selected-info {
+    font-size: var(--text-sm);
+    color: var(--gray-500);
+}
+
+/* ── Checkbox tùy chỉnh ── */
+.custom-check {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.custom-check input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--navy);
+    cursor: pointer;
+}
+
+/* ── Summary card ── */
+.cart-summary {
+    position: sticky;
+    top: 20px;
+}
+
+.summary-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-200);
+    padding: 24px;
+}
+
+.summary-title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    color: var(--navy);
+    font-weight: 700;
+    margin: 0 0 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--gold);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-sm);
+    color: var(--gray-600);
+    padding: 8px 0;
+}
+
+.summary-row.summary-total {
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--navy);
+}
+
+.free-ship   { color: var(--success); font-weight: 600; }
+.total-price { color: var(--gold-dark); font-size: var(--text-xl); font-weight: 700; }
+
+.summary-divider {
+    height: 1px;
+    background: var(--gray-200);
+    margin: 8px 0;
+}
+
+.checkout-hint {
+    font-size: var(--text-xs);
+    color: var(--gray-400);
+    text-align: center;
+    margin-top: 10px;
+}
+
+.cart-back-link {
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+/* Nút xóa ẩn khi chưa tick */
+.btn-xoa-hidden {
+    visibility: hidden;
+    pointer-events: none;
+}
