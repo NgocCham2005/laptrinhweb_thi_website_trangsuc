@@ -25,12 +25,10 @@ Quản lý banner
 
             <div class="action-buttons">
                 <x-button type="submit" variant="primary">
-                    <i class="fa-solid fa-floppy-disk"></i>
                     Lưu banner
                 </x-button>
-                <a href="{{ route('admin.banners') }}">
-                    <x-button>
-                        <i class="fa-solid fa-arrow-left"></i>
+                <a href="{{ route('admin.banners') }}" style="text-decoration: none;">
+                    <x-button variant="outline-navy">
                         Quay lại
                     </x-button>
                 </a>
