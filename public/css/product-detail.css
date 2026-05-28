@@ -130,7 +130,6 @@
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     margin-bottom:30px;
 }
 
@@ -148,11 +147,8 @@
 
 .review-box{
     background:#fff;
-
     border-radius:18px;
-
     padding:35px;
-
     box-shadow:0 5px 15px rgba(0,0,0,0.06);
 }
 
@@ -168,15 +164,11 @@
 .review-avatar{
     width:60px;
     height:60px;
-
     border-radius:50%;
-
     background:#f1f1f1;
-
     display:flex;
     justify-content:center;
     align-items:center;
-
     flex-shrink:0;
 }
 

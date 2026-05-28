@@ -41,8 +41,8 @@
        TYPOGRAPHY
     ========================= */
 
-    --font-display: arial;
-    --font-body: arial;
+    --font-display: 'Segoe UI', system-ui, sans-serif;
+    --font-body: 'Segoe UI', system-ui, sans-serif;
 
     --text-xs: 12px;
     --text-sm: 14px;
