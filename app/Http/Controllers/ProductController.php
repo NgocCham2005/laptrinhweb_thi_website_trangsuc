@@ -12,7 +12,7 @@ class ProductController extends Controller
             $query->where('TrangThai',1);
             }, 'reviews.replies'])->findOrFail($id);
 
-        $relatedProducts = SanPham::where('MaDanhMuc',$product->MaDanhMuc)->where('MaSanPham','!=', $id)->take(3)->get();
+        $relatedProducts = SanPham::where('MaDanhMuc',$product->MaDanhMuc)->where('MaSanPham','!=', $id)->take(4)->get();
 
         return view('products.detail',compact('product','relatedProducts'));
     }

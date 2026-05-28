@@ -81,7 +81,7 @@
 }
 
 .section-title h2{
-    font-size:27px;
+    font-size:22px;
     color:#15264b;
     display:inline-block;
     border-bottom:6px solid #D4AF37;
@@ -99,20 +99,36 @@
 /* ===== Sản phẩm tương tự ===== */
 
 .related-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     margin-top:40px;
     margin-bottom:30px;
 }
 
 .related-header h2{
-    font-size:27px;
+    font-size:22px;
     color:#15264b;
     border-left:6px solid #15264b;
     padding-left:15px;
 }
 
+.related-header a{
+    font-weight:bold;
+    text-decoration:none;
+    color:#15264b;
+    font-size:16px;
+    padding:8px 15px;
+    border-radius:8px;
+}
+
+.related-header a:hover{
+    background:#ddd;
+}
+
 .related-grid{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(4, 1fr);
     gap:25px;
 }
 
@@ -134,7 +150,7 @@
 }
 
 .review-header h2{
-    font-size:34px;
+    font-size:22px;
     color:#15264b;
 }
 

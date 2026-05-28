@@ -8,7 +8,7 @@
     <div class="breadcrumb">
         <a href="{{ route('home') }}">Trang chủ</a>
         <span>/</span>
-        <a href="">Sản phẩm</a>
+        <a href="{{ route('products.index') }}">Sản phẩm</a>
         <span>/</span>
         <p>{{ $product->TenSanPham }}</p>
     </div>
@@ -113,6 +113,10 @@
     <div class="related-products">
         <div class="related-header">
             <h2>SẢN PHẨM TƯƠNG TỰ</h2>
+            <a href="{{ route('products.index', ['category' => $product->MaDanhMuc]) }}">
+                Xem thêm    
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
         </div>
         <div class="related-grid">
             @foreach($relatedProducts as $item)

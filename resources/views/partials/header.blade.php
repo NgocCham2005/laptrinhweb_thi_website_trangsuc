@@ -5,7 +5,9 @@
 
         <!-- LOGO -->
         <div class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="">
+            <a href="/">
+                <img src="{{ asset('images/logo.png') }}" alt="">
+            </a>
         </div>
 
         <!-- SEARCH -->
@@ -18,32 +20,33 @@
 
         <!-- RIGHT MENU -->
         <div class="header-right">
-            <a href="" class="cart">
+            <a href="/cart" class="cart">
                 <i class="fa-solid fa-cart-shopping"></i>
                 Giỏ hàng
             </a>
-            <a href="">Đăng nhập</a>
-            <a href="">Đăng ký</a>
+            <a href="/login">Đăng nhập</a>
         </div>
     </div>
 
-    <!-- ===== NAVBAR ===== -->
-    <div class="navbar">
-        <a href="/"
-            class="{{ request()->routeIs('home') ? 'active' : '' }}">
-            Trang chủ
-        </a>
-        <a href="/products"
-            class="{{ request()->routeIs('products') ? 'active' : '' }}">
-            Sản phẩm
-        </a>
+    <div class="bottom-header">
+        <div class="navbar">
+            <a href="/"
+                class="{{ request()->is('/') ? 'active' : '' }}">
+                Trang chủ
+            </a>
+            <a href="/products"
+                class="{{ request()->is('products') ? 'active' : '' }}">
+                Sản phẩm
+            </a>
+            <a href="/orders"
+                class="{{ request()->is('orders') ? 'active' : '' }}">
+                Đơn hàng
+            </a>
+        </div>
+        <div class="policy-bar">
+            <div>SẢN PHẨM CHẤT LƯỢNG</div>
+            <div>HỖ TRỢ 24/7</div>
+            <div>ƯU ĐÃI VẬN CHUYỂN</div>
+        </div>
     </div>
-
-    <!-- ===== POLICY ===== -->
-    <div class="policy-bar">
-        <div>SẢN PHẨM CHẤT LƯỢNG</div>
-        <div>HỖ TRỢ 24/7</div>
-        <div>ƯU ĐÃI VẬN CHUYỂN</div>
-    </div>
-
 </header>
