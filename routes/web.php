@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\BannerController;
-use App\Http\Controllers\ProductController;
+
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminReviewController;
 use App\Http\Controllers\AdminCategoryController;
@@ -132,4 +134,30 @@ Route::prefix('admin')
     Route::get('/products/edit/{id}', [AdminProductController::class, 'edit'])->name('editProduct');
     Route::put('/products/update/{id}', [AdminProductController::class, 'update'])->name('updateProduct');
     Route::delete('/products/delete/{id}', [AdminProductController::class, 'destroy'])->name('deleteProduct');
+});
+// =====================
+// GIỎ HÀNG & ĐẶT HÀNG (cần đăng nhập)
+// =====================
+// Route::middleware('auth')->group(function () {
+Route::group([], function () {
+
+    // Giỏ hàng
+    Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/gio-hang/them', [CartController::class, 'them'])->name('cart.them');
+    Route::post('/gio-hang/sua', [CartController::class, 'sua'])->name('cart.sua');
+    Route::post('/gio-hang/xoa', [CartController::class, 'xoa'])->name('cart.xoa');
+
+    // Đặt hàng & thanh toán
+    Route::get('/thanh-toan', [OrderController::class, 'checkout'])->name('order.checkout');
+    Route::post('/thanh-toan/ap-voucher', [OrderController::class, 'apVoucher'])->name('order.apVoucher');
+    Route::post('/thanh-toan/dat-hang', [OrderController::class, 'datHang'])->name('order.datHang');
+    Route::get('/dat-hang-thanh-cong/{maDonHang}', [OrderController::class, 'success'])->name('order.success');
+
+    // Mua ngay
+    Route::post('/mua-ngay', [OrderController::class, 'muaNgay'])->name('order.muaNgay');
+
+    Route::get('/don-hang', function () {
+        return redirect('/')->with('info', 'Chức năng đang phát triển!');
+    })->name('order.lichSu');
+
 });

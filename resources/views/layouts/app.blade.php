@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Luminous Jewelry</title>
+    <link rel="stylesheet" href="{{ asset('css/variables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user-layout.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form.css') }}">
     <link rel="stylesheet" href="{{ asset('css/product.css') }}">

@@ -29,7 +29,11 @@ class SanPham extends Model
 
     public function images()
     {
-        return $this->hasMany(HinhAnhSP::class,'MaSanPham','MaSanPham');
+        return $this->hasMany(
+            HinhAnhSP::class,
+            'MaSanPham',
+            'MaSanPham'
+        );
     }
 
     public function reviews()

@@ -1,0 +1,281 @@
+/* =====================================================
+   ORDER SUCCESS PAGE — Luminous Jewelry
+   Font: var(--font-display) / var(--font-body)
+   Màu: Navy #16274f + Gold #c9a227
+   ===================================================== */
+
+.success-wrap {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 0 20px 60px;
+    font-family: var(--font-body);
+}
+
+/* ── Header thành công ── */
+.success-header {
+    background: #fff;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow);
+    text-align: center;
+    padding: 40px 28px 32px;
+    margin-bottom: 20px;
+}
+
+.success-icon {
+    font-size: 54px;
+    display: block;
+    margin-bottom: 14px;
+}
+
+.success-header h1 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--success);
+    margin-bottom: 8px;
+    letter-spacing: .01em;
+}
+
+.success-header p {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--gray-500);
+    line-height: 1.7;
+}
+
+.success-order-id {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 22px;
+    background: var(--gold-pale);
+    border: 1.5px solid var(--gold-soft);
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: .06em;
+}
+
+/* ── Card chung ── */
+.success-card {
+    background: #fff;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow);
+    padding: 28px;
+    margin-bottom: 20px;
+}
+
+.success-card-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1.5px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Thông tin chuyển khoản ── */
+.ck-box {
+    background: linear-gradient(135deg, #faf8f0 0%, #fdfbf4 100%);
+    border: 1.5px solid var(--gold-soft);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 2.2;
+    color: var(--gray-700);
+    margin-top: 4px;
+}
+
+.ck-box strong { color: var(--navy); font-weight: 700; }
+
+.ck-title {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--warning);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ck-highlight {
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.ck-warn {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 12px;
+    background: var(--warning-bg);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    color: var(--warning);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ── Info grid ── */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+@media (max-width: 500px) {
+    .info-grid { grid-template-columns: 1fr; }
+}
+
+.info-item label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.info-item span {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-800);
+}
+
+.info-full { grid-column: 1 / -1; }
+
+/* ── Badge trạng thái ── */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-0 { background: var(--warning-bg); color: var(--warning); }
+.status-1 { background: var(--success-bg); color: var(--success); }
+
+.pttt-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.pttt-cod { background: var(--info-bg);    color: var(--info); }
+.pttt-ck  { background: var(--warning-bg); color: var(--warning); }
+
+/* ── Danh sách sản phẩm ── */
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.order-item:last-of-type { border-bottom: none; }
+
+.order-item-info { flex: 1; min-width: 0; }
+
+.order-item-name {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+}
+
+.order-item-qty {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--gray-400);
+    margin-top: 2px;
+}
+
+.order-item-price {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    white-space: nowrap;
+}
+
+/* ── Tổng tiền ── */
+.summary-divider {
+    border: none;
+    border-top: 1.5px solid var(--gray-200);
+    margin: 16px 0 12px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--gray-600);
+}
+
+.summary-row span:last-child {
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.summary-row.discount { color: var(--success); font-weight: 600; }
+.summary-row.discount span:last-child { color: var(--success); }
+
+.summary-row.free span:last-child { color: var(--success); font-weight: 600; }
+
+.summary-row.total {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    padding-top: 14px;
+    margin-top: 6px;
+    border-top: 2px solid var(--gray-200);
+}
+
+.summary-row.total span:last-child {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 20px;
+}
+
+/* ── Nút điều hướng ── */
+.success-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.success-actions .btn {
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+}
+
+@media (max-width: 500px) {
+    .success-actions { flex-direction: column; }
+}
