@@ -199,3 +199,38 @@ body{
     color:black;
     padding:15px;
 }
+
+/* ===== STICKY HEADER ===== */
+
+.sticky-header{
+    width:100%;
+    z-index:999;
+    background:#15264b;
+}
+
+/* khi scroll */
+
+.sticky-header.fixed{
+    position:fixed;
+    top:0;
+    left:0;
+}
+
+/* ===== TOP HEADER ANIMATION ===== */
+
+.top-header{
+    transition:0.4s ease;
+    overflow:hidden;
+}
+
+/* lúc ẩn */
+
+.top-header.hide{
+    padding-top:0;
+    padding-bottom:0;
+
+    max-height:0;
+    opacity:0;
+
+    border:none;
+}

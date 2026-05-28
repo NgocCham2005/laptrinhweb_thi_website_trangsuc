@@ -1,24 +1,16 @@
 <header class="header">
-
-    <!-- ===== TOP HEADER ===== -->
-    <div class="top-header">
-
-        <!-- LOGO -->
+    <div class="top-header" id="topHeader">
         <div class="logo">
             <a href="/">
                 <img src="{{ asset('images/logo.png') }}" alt="">
             </a>
         </div>
-
-        <!-- SEARCH -->
         <div class="search-box">
             <input type="text" placeholder="Tìm kiếm sản phẩm...">
             <button>
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
-
-        <!-- RIGHT MENU -->
         <div class="header-right">
             <a href="/cart" class="cart">
                 <i class="fa-solid fa-cart-shopping"></i>
@@ -27,8 +19,9 @@
             <a href="/login">Đăng nhập</a>
         </div>
     </div>
+</header>
 
-    <div class="bottom-header">
+    <div class="sticky-header" id="stickyHeader">
         <div class="navbar">
             <a href="/"
                 class="{{ request()->is('/') ? 'active' : '' }}">
@@ -49,4 +42,3 @@
             <div>ƯU ĐÃI VẬN CHUYỂN</div>
         </div>
     </div>
-</header>
