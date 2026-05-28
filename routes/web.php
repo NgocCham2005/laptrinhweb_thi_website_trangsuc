@@ -3,8 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\BannerController;
+
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AdminReviewController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,9 +19,15 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('/products', function () {
-    return view('products.index');
-})->name('products');
+// Route::get('/products', function () {
+//     return view('products.index');
+// })->name('products');
+Route::get('/product/{id}',
+    [ProductController::class, 'show'])
+    ->name('product.detail');
+
+Route::post('/add-review', [ReviewController::class, 'store'])
+->name('review.store');
 
 #Test route admin
 
@@ -33,11 +43,20 @@ Route::prefix('admin')
         '/admin/orders'
     );
 
-
-    Route::view(
-        '/orders',
-        'admin.orders'
+    Route::get(
+    '/orders',
+    [OrderController::class,'index']
     )->name('orders');
+
+    Route::get(
+    '/orders/{id}',
+    [OrderController::class,'show']
+    )->name('orders.show');
+
+    Route::put(
+    '/orders/{id}',
+    [OrderController::class,'update']
+    )->name('orders.update');
 
     Route::view(
         '/categories',
@@ -82,10 +101,16 @@ Route::prefix('admin')
     Route::delete('/vouchers/{id}', [VoucherController::class, 'destroy'])
     ->name('vouchers.destroy');
 
-    Route::view(
-        '/reviews',
-        'admin.reviews'
-    )->name('reviews');
+    Route::get('/reviews', [AdminReviewController::class, 'index'])
+    ->name('reviews');
+    Route::post('/reviews/reply/{id}',[AdminReviewController::class, 'reply'])
+    ->name('replyReview');
+    Route::put('/reviews/hide/{id}',[AdminReviewController::class, 'hide'])
+    ->name('hideReview');
+    Route::put('/reviews/display/{id}',[AdminReviewController::class, 'display'])
+    ->name('displayReview');
+    Route::delete('/reviews/delete/{id}',[AdminReviewController::class, 'destroy'])
+    ->name('deleteReview');
 
 
     Route::view(

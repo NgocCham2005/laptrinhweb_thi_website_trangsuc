@@ -5,7 +5,7 @@
 }
 
 body{
-    font-family: arial;
+    font-family: 'Segoe UI', system-ui, sans-serif;
     color:var(--gray-800);
 }
 
@@ -26,7 +26,7 @@ body{
     border:none;
     border-radius:14px;
 
-    font-family: arial;
+    font-family: 'Segoe UI', system-ui, sans-serif;
     font-size:14px;
     font-weight:600;
 
@@ -301,7 +301,9 @@ textarea.form-control{
 
     border-radius:22px;
 
-    overflow:hidden;
+    overflow-x:auto;
+
+    overflow-y:hidden;
 
     box-shadow:
         0 10px 30px rgba(0,0,0,.05);
@@ -611,7 +613,10 @@ font-family: arial;
     border-radius:16px;
 
     font-size:14px;
+
     font-weight:500;
+
+    margin-bottom:10px;
 }
 
 .alert-success{

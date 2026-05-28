@@ -20,8 +20,8 @@
         </div>
     </div>
 
-    <div class="info-actions">
-        <button type="button" class="btn-outline-gold">Thêm vào giỏ</button>
-        <button type="button" class="btn-solid-navy">Mua ngay</button>
+    <div class="product-actions">
+        <x-button>Thêm vào giỏ</x-button>
+        <x-button>Mua ngay</x-button>
     </div>
 </div>
