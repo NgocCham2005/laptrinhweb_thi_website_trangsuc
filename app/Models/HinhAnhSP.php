@@ -9,7 +9,8 @@ class HinhAnhSP extends Model
     protected $table = 'hinh_anh_sp';
 
     protected $primaryKey = 'MaHinhAnh';
-
+    protected $keyType = 'string';
+    public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [

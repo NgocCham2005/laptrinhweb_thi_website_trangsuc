@@ -227,3 +227,88 @@ min-height:80vh;
     color:#fff;
     cursor:pointer;
 }
+
+/* Custom ô chọn ảnh sản phẩm */
+.form-group-image {
+    margin-bottom: 15px;
+}
+
+.form-group-image label {
+    display: block; 
+    font-weight: 600; 
+    margin-bottom: 5px;
+    color: #334155;
+}
+
+.form-group-image .input-file-custom {
+    width: 100%; 
+    border: 1px solid #e2e8f0; 
+    border-radius: 8px; 
+    padding: 8px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+/* Hiệu ứng khi click chọn vào ô file */
+.form-group-image .input-file-custom:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+.img-product-admin {
+    width: 80px; 
+    height: 80px; 
+    object-fit: cover; 
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+/* Khung chứa các ảnh sản phẩm */
+.image-gallery-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    background-color: #f8fafc;
+}
+
+/* Từng ô ảnh */
+.image-item-box {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.image-item-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Nút xóa ảnh màu đỏ nhỏ xinh nằm đè lên góc ảnh */
+.btn-delete-img {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: rgba(239, 68, 68, 0.9);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: background-color 0.2s;
+}
+
+.btn-delete-img:hover {
+    background-color: #dc2626;
+}
