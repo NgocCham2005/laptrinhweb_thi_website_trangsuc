@@ -20,10 +20,7 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         $imageName = time() . '.' . $request->hinh_anh->extension();
-        $request->hinh_anh->move(
-            public_path('images/banner'),
-            $imageName
-        );
+        $request->hinh_anh->move(public_path('images/banner'),$imageName);
         Banner::create([
             'MaBanner'  => $request->ma_banner,
             'TenBanner' => $request->ten_banner,

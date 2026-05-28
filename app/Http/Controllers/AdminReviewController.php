@@ -45,7 +45,8 @@ class AdminReviewController extends Controller
     public function reply(Request $request,$id)
     {
         $request->validate(['reply' => 'required|max:255']);
-        ChiTietPhanHoi::create(['MaDanhGia' => $id,'MaTaiKhoan' => 'ADMIN','NoiDungPhanHoi' => $request->reply]);
+        // TẠM THỜI FAKE TÀI KHOẢN PHẢN HỒI
+        ChiTietPhanHoi::create(['MaDanhGia' => $id,'MaTaiKhoan' => 'TK005','NoiDungPhanHoi' => $request->reply]);
         return redirect()->back()->with('success','Đã phản hồi đánh giá');
     }
 }

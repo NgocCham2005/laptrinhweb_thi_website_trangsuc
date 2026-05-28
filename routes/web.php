@@ -5,6 +5,7 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminReviewController;
 
 Route::get('/', function () {
