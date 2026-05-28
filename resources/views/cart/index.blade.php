@@ -60,8 +60,12 @@
                         {{-- Tên --}}
                         <td><span class="item-name">{{ $item->sanPham->TenSanPham }}</span></td>
 
-                        {{-- Đơn giá --}}
-                        <td><x-price-tag :gia="$item->sanPham->GiaBan" /></td>
+                       {{-- Đơn giá --}}
+<td>
+    <span class="item-price-plain">
+        {{ number_format($item->sanPham->GiaBan, 0, ',', '.') }}đ
+    </span>
+</td>
 
                         {{-- Số lượng: + / - auto-save --}}
                         <td>
@@ -151,10 +155,6 @@
                     <div class="summary-row">
                         <span>Tạm tính</span>
                         <span id="tong-tam-tinh"></span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Phí giao hàng</span>
-                        <span class="free-ship">Miễn phí</span>
                     </div>
                     <div class="summary-divider"></div>
                     <div class="summary-row summary-total">

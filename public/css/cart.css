@@ -268,3 +268,8 @@
     visibility: hidden;
     pointer-events: none;
 }
+.item-price-plain {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+}

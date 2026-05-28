@@ -19,7 +19,7 @@ class CartController extends Controller
     {
         // TODO: đổi lại khi auth xong:
         // return Auth::user()->MaTaiKhoan;
-        return 'TK015';
+        return 'TK014';
     }
 
     private function layGioHang(): ?GioHang
@@ -217,7 +217,7 @@ class CartController extends Controller
 
    public function xoa(Request $request) {
     $request->validate([
-        'MaSanPham' => 'required',
+         'MaSanPham' => 'required|string|exists:san_pham,MaSanPham',
     ]);
 
     $gioHang = $this->layGioHang();

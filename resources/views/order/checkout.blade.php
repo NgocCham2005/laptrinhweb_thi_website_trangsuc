@@ -14,18 +14,13 @@
 
     {{-- ── Step indicator ── --}}
     <div class="checkout-steps">
-        <div class="step done">
-            <span class="step-num">✓</span>
-            <span>Giỏ hàng</span>
-        </div>
-        <div class="step-sep done"></div>
         <div class="step active">
-            <span class="step-num">2</span>
+            <span class="step-num">1</span>
             <span>Thanh toán</span>
         </div>
         <div class="step-sep"></div>
         <div class="step">
-            <span class="step-num">3</span>
+            <span class="step-num">2</span>
             <span>Xác nhận</span>
         </div>
     </div>
@@ -221,7 +216,7 @@
 
                     <div class="summary-row free">
                         <span>Phí giao hàng</span>
-                        <span>🎁 Miễn phí</span>
+                        <span>0đ</span>
                     </div>
 
                     <div class="summary-row total">

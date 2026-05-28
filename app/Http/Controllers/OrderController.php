@@ -15,7 +15,7 @@ class OrderController extends Controller
 {
     // TẠM THỜI — dùng tài khoản cứng để test
     private function layMaTaiKhoan() {
-        return 'TK015'; // TODO: thay bằng Auth::user()->MaTaiKhoan
+        return 'TK014'; // TODO: thay bằng Auth::user()->MaTaiKhoan
     }
 
     // Tạo mã đơn hàng tự động
@@ -31,7 +31,7 @@ class OrderController extends Controller
     public function muaNgay(Request $request) {
         $request->validate([
             'MaSanPham' => 'required|exists:san_pham,MaSanPham',
-            'SoLuong'   => 'required|integer|min:1',
+'SoLuong' => 'required|integer|min:1|max:999',
         ]);
 
         $sanPham = SanPham::findOrFail($request->MaSanPham);
@@ -57,8 +57,10 @@ class OrderController extends Controller
     public function checkout() {
         $maTaiKhoan = $this->layMaTaiKhoan();
 $vouchers = Voucher::where('SoLanSuDung', '>', 0)
-                   ->where('TrangThai', 1)   // ← thêm dòng này
-                   ->get();        $gioHang    = null;
+                   ->where('TrangThai', 1)
+                   ->get();
+
+$gioHang = null;
 
         // Flow MUA NGAY
         if (session('mua_ngay')) {
@@ -102,12 +104,30 @@ $vouchers = Voucher::where('SoLanSuDung', '>', 0)
     // =====================
     public function datHang(Request $request) {
         $request->validate([
-            'TenNguoiNhan'   => 'required|string|max:100',
-            'SoDienThoai'    => 'required|string|max:15',
-            'DiaChiGiaoHang' => 'required|string|max:255',
-            'PTTT'           => 'required|in:COD,CK',
-            'MaVoucher'      => 'nullable|exists:voucher,MaVoucher',
-        ]);
+           
+    'TenNguoiNhan'   => 'required|string|min:2|max:100|regex:/^[\p{L}\s]+$/u',
+    'SoDienThoai'    => [
+        'required',
+        'digits_between:10,11',
+        'regex:/^(0[35789])[0-9]{8,9}$/',
+    ],
+    'DiaChiGiaoHang' => 'required|string|min:10|max:255',
+    'PTTT'           => 'required|in:COD,CK',
+    'NguonDat'       => 'required|in:mua_ngay,gio_hang',
+    'MaVoucher'      => 'nullable|string|exists:voucher,MaVoucher',
+], [
+    'TenNguoiNhan.required'     => 'Vui lòng nhập họ tên người nhận.',
+    'TenNguoiNhan.min'          => 'Họ tên phải có ít nhất 2 ký tự.',
+    'TenNguoiNhan.regex'        => 'Họ tên chỉ được chứa chữ cái và khoảng trắng.',
+    'SoDienThoai.required'      => 'Vui lòng nhập số điện thoại.',
+    'SoDienThoai.digits_between'=> 'Số điện thoại phải có 10-11 chữ số.',
+    'SoDienThoai.regex'         => 'Số điện thoại không đúng định dạng Việt Nam.',
+    'DiaChiGiaoHang.required'   => 'Vui lòng nhập địa chỉ giao hàng.',
+    'DiaChiGiaoHang.min'        => 'Địa chỉ giao hàng quá ngắn.',
+    'PTTT.required'             => 'Vui lòng chọn phương thức thanh toán.',
+    'NguonDat.required'         => 'Nguồn đặt hàng không hợp lệ.',
+]);
+        
 
         $maTaiKhoan = $this->layMaTaiKhoan();
         $nguonDat   = $request->input('NguonDat', 'gio_hang');
@@ -155,10 +175,10 @@ $vouchers = Voucher::where('SoLanSuDung', '>', 0)
         }
 
        // ── Xử lý voucher ──
-$maVoucher    = null;
-$giaTriApDung = 0;
+    $maVoucher    = null;
+    $giaTriApDung = 0;
 
-if ($request->MaVoucher) {
+    if ($request->MaVoucher) {
     $voucher = Voucher::where('MaVoucher', $request->MaVoucher)
         ->where('SoLanSuDung', '>', 0)
         ->first();
@@ -168,7 +188,7 @@ if ($request->MaVoucher) {
         $giaTriApDung = (float) $voucher->GiaTriGiamToiDa;     // ← bỏ min 50%
         $voucher->decrement('SoLanSuDung');
     }
-}
+    }
 
         // ── Tạo đơn hàng ──
         $maDonHang = $this->taoMaDonHang();
@@ -218,51 +238,31 @@ if ($request->MaVoucher) {
             ->firstOrFail();
 
         return view('order.success', compact('donHang'));
+    }
+        
 
-
-namespace App\Http\Controllers;
-
-use App\Models\Order;
-use Illuminate\Http\Request;
-
-class OrderController extends Controller
-{
+    // =====================
+    // ADMIN - DANH SÁCH ĐƠN HÀNG
+    // =====================
     public function index(Request $request)
     {
-        $query = Order::with('details');
+        $query = DonHang::query();
 
-        // tìm kiếm
-        if($request->keyword){
-
-            $query->where(
-                'MaDonHang',
-                'like',
-                '%'.$request->keyword.'%'
-            )
-
-            ->orWhere(
-                'TenNguoiNhan',
-                'like',
-                '%'.$request->keyword.'%'
-            );
+        if ($request->keyword) {
+            $query->where('MaDonHang', 'like', '%' . $request->keyword . '%')
+                  ->orWhere('TenNguoiNhan', 'like', '%' . $request->keyword . '%');
         }
 
-        // lọc trạng thái
-        if($request->status != ''){
-
-            $query->where(
-                'TrangThai',
-                $request->status
-            );
+        if ($request->status != '') {
+            $query->where('TrangThai', $request->status);
         }
 
         $orders = $query
             ->orderByDesc('NgayDatHang')
             ->paginate(5)
-
             ->appends([
-                'keyword'=>$request->keyword,
-                'status'=>$request->status
+                'keyword' => $request->keyword,
+                'status'  => $request->status
             ]);
 
         return view(
@@ -270,24 +270,35 @@ class OrderController extends Controller
             compact('orders')
         );
     }
+
+    // =====================
+    // ADMIN - CHI TIẾT ĐƠN
+    // =====================
     public function show($id)
     {
-        $order = Order::with([
-            'details.product'
-        ])->findOrFail($id);
+        $order = DonHang::with([
+            'chiTietDonHang.sanPham'
+        ])
+        ->where('MaDonHang', $id)
+        ->firstOrFail();
 
         return view(
             'admin.orders.show',
             compact('order')
         );
     }
+
+    // =====================
+    // ADMIN - CẬP NHẬT TRẠNG THÁI
+    // =====================
     public function update(Request $request, $id)
     {
         $request->validate([
-            'TrangThai' => 'required'
+            'TrangThai' => 'required|integer|in:0,1',
         ]);
 
-        $order = Order::findOrFail($id);
+        $order = DonHang::where('MaDonHang', $id)
+            ->firstOrFail();
 
         $order->TrangThai = $request->TrangThai;
 
@@ -299,79 +310,6 @@ class OrderController extends Controller
                 'success',
                 'Cập nhật trạng thái thành công'
             );
-
     }
-    public function index(Request $request)
-{
-    $query = Order::with('details');
-
-    if($request->keyword){
-
-        $query->where(
-            'MaDonHang',
-            'like',
-            '%'.$request->keyword.'%'
-        )
-
-        ->orWhere(
-            'TenNguoiNhan',
-            'like',
-            '%'.$request->keyword.'%'
-        );
-    }
-
-    if($request->status != ''){
-
-        $query->where(
-            'TrangThai',
-            $request->status
-        );
-    }
-
-    $orders = $query
-        ->orderByDesc('NgayDatHang')
-        ->paginate(5)
-
-        ->appends([
-            'keyword'=>$request->keyword,
-            'status'=>$request->status
-        ]);
-
-    return view(
-        'admin.orders.index',
-        compact('orders')
-    );
 }
 
-public function show($id)
-{
-    $order = Order::with([
-        'details.product'
-    ])->findOrFail($id);
-
-    return view(
-        'admin.orders.show',
-        compact('order')
-    );
-}
-
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'TrangThai' => 'required'
-    ]);
-
-    $order = Order::findOrFail($id);
-
-    $order->TrangThai = $request->TrangThai;
-
-    $order->save();
-
-    return redirect()
-        ->back()
-        ->with(
-            'success',
-            'Cập nhật trạng thái thành công'
-        );
-}
-}

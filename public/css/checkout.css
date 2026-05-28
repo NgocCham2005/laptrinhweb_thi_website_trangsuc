@@ -1,8 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600;700&display=swap');
-
 /* =====================================================
    CHECKOUT PAGE — Luminous Jewelry
-   Font: Cormorant Garamond (display) + Jost (body)
+   Font: theo design system (var --font-display / --font-body)
    Màu: Navy #16274f + Gold #c9a227
    ===================================================== */
 
@@ -11,28 +9,28 @@
     max-width: 1060px;
     margin: 40px auto;
     padding: 0 20px 60px;
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
 }
 
 .checkout-heading {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
     color: var(--navy);
     margin-bottom: 28px;
-    letter-spacing: .04em;
+    letter-spacing: .01em;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
 .checkout-heading .badge-nguon {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 11px;
     font-weight: 600;
     padding: 4px 12px;
     border-radius: var(--radius-full);
-    letter-spacing: .06em;
+    letter-spacing: .04em;
     text-transform: uppercase;
 }
 
@@ -55,7 +53,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 32px;
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
 }
 
 .step {
@@ -65,7 +63,7 @@
     color: var(--gray-400);
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: .08em;
+    letter-spacing: .06em;
     text-transform: uppercase;
     white-space: nowrap;
 }
@@ -118,9 +116,9 @@
 }
 
 .checkout-card-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 17px;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
     color: var(--navy);
     margin-bottom: 20px;
     padding-bottom: 14px;
@@ -128,27 +126,25 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    letter-spacing: .03em;
+    letter-spacing: .01em;
 }
 
-/* ── Override form component labels bên trong checkout ── */
+/* ── Override form component bên trong checkout ── */
 .checkout-wrap .form-label {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-600);
-    letter-spacing: .02em;
+    font-weight: 600;
+    color: var(--gray-700);
     margin-bottom: 7px;
 }
 
 .checkout-wrap .form-control {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 14px;
 }
 
 .checkout-wrap .form-control::placeholder {
-    font-family: 'Jost', sans-serif;
-    font-weight: 300;
+    font-family: var(--font-body);
     color: var(--gray-400);
 }
 
@@ -196,11 +192,10 @@
 }
 
 .pttt-option .lbl {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--navy);
-    letter-spacing: .02em;
 }
 
 /* ── Thông tin chuyển khoản ── */
@@ -211,19 +206,19 @@
     border: 1.5px solid var(--gold-soft);
     border-radius: var(--radius-lg);
     padding: 20px;
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
-    line-height: 2.2;
+    line-height: 2.1;
     color: var(--gray-700);
 }
 
-.ck-box strong { color: var(--navy); font-weight: 600; }
+.ck-box strong { color: var(--navy); font-weight: 700; }
 
 .ck-label {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: .12em;
+    letter-spacing: .10em;
     font-weight: 700;
     color: var(--gold);
     margin-bottom: 10px;
@@ -241,7 +236,7 @@
     color: var(--warning);
     font-size: 12px;
     font-weight: 500;
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
 }
 
 .ck-qr {
@@ -258,12 +253,10 @@
 }
 
 .ck-qr p {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 11px;
-    font-weight: 300;
     color: var(--gray-400);
     margin-top: 6px;
-    letter-spacing: .03em;
 }
 
 /* ── Danh sách sản phẩm ── */
@@ -281,9 +274,9 @@
 .order-item-info { flex: 1; min-width: 0; }
 
 .order-item-name {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--navy);
     white-space: nowrap;
     overflow: hidden;
@@ -291,18 +284,16 @@
 }
 
 .order-item-qty {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 12px;
-    font-weight: 300;
     color: var(--gray-400);
     margin-top: 2px;
-    letter-spacing: .02em;
 }
 
 .order-item-price {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--navy);
     white-space: nowrap;
 }
@@ -315,12 +306,11 @@
 
 .voucher-label-text {
     display: block;
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-600);
+    font-weight: 600;
+    color: var(--gray-700);
     margin-bottom: 8px;
-    letter-spacing: .02em;
 }
 
 .voucher-selector {
@@ -333,9 +323,8 @@
     border: none;
     box-shadow: inset 0 0 0 1.5px var(--gray-300);
     cursor: pointer;
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 400;
     user-select: none;
     transition: all var(--transition);
 }
@@ -382,8 +371,8 @@
     transition: background var(--transition);
 }
 
-.vd-item:last-child { border-bottom: none; }
-.vd-item.clickable  { cursor: pointer; }
+.vd-item:last-child  { border-bottom: none; }
+.vd-item.clickable   { cursor: pointer; }
 .vd-item.clickable:hover { background: var(--gold-pale); }
 
 .vd-item.disabled {
@@ -394,11 +383,9 @@
 
 .vd-item.none-opt {
     cursor: pointer;
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 300;
     color: var(--gray-500);
-    letter-spacing: .02em;
 }
 
 .vd-item.none-opt:hover { background: var(--gray-100); }
@@ -410,50 +397,46 @@
 }
 
 .vd-code {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
     font-weight: 700;
     color: var(--gold);
-    letter-spacing: .04em;
+    letter-spacing: .03em;
 }
 
 .vd-code.dim { color: var(--gray-400); }
 
 .vd-name {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 12px;
-    font-weight: 300;
     color: var(--gray-500);
     margin-left: 8px;
 }
 
 .vd-saving {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--success);
 }
 
 .vd-saving.dim { color: var(--gray-400); }
 
 .vd-note {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 11px;
-    font-weight: 400;
     color: var(--gray-400);
     margin-top: 3px;
-    letter-spacing: .01em;
 }
 
 .vd-note.ok { color: var(--success); }
 
 .voucher-msg {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 600;
     margin-top: 8px;
     min-height: 18px;
-    letter-spacing: .01em;
 }
 
 .voucher-msg.ok  { color: var(--success); }
@@ -471,43 +454,35 @@
     justify-content: space-between;
     align-items: center;
     padding: 5px 0;
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 14px;
-    font-weight: 400;
     color: var(--gray-600);
 }
 
 .summary-row span:last-child {
-    font-weight: 500;
+    font-weight: 600;
     color: var(--gray-800);
 }
 
-.summary-row.discount {
-    color: var(--success);
-    font-weight: 500;
-}
+.summary-row.discount { color: var(--success); font-weight: 600; }
+.summary-row.discount span:last-child { color: var(--success); }
 
-.summary-row.discount span:last-child {
-    color: var(--success);
-}
-
-.summary-row.free { color: var(--gray-600); }
-.summary-row.free span:last-child { color: var(--success); font-weight: 500; }
+.summary-row.free span:last-child { color: var(--success); font-weight: 600; }
 
 .summary-row.total {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
+    font-family: var(--font-display);
+    font-size: 20px;
     font-weight: 700;
     color: var(--navy);
     padding-top: 16px;
     margin-top: 6px;
     border-top: 2px solid var(--gray-200);
-    letter-spacing: .02em;
 }
 
 .summary-row.total span:last-child {
     color: var(--gold);
     font-weight: 700;
+    font-size: 20px;
 }
 
 /* ── Nút đặt hàng ── */
@@ -519,10 +494,10 @@
     color: #fff !important;
     border: none !important;
     border-radius: var(--radius-lg) !important;
-    font-family: 'Jost', sans-serif !important;
+    font-family: var(--font-body) !important;
     font-size: 15px !important;
-    font-weight: 600 !important;
-    letter-spacing: .12em !important;
+    font-weight: 700 !important;
+    letter-spacing: .08em !important;
     text-transform: uppercase !important;
     cursor: pointer !important;
     display: flex !important;
@@ -563,17 +538,16 @@
 .btn-checkout-text {
     position: relative;
     z-index: 1;
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 15px;
-    font-weight: 600;
-    letter-spacing: .12em;
+    font-weight: 700;
+    letter-spacing: .08em;
 }
 
 /* ── No voucher ── */
 .no-voucher {
-    font-family: 'Jost', sans-serif;
+    font-family: var(--font-body);
     font-size: 12px;
-    font-weight: 300;
     font-style: italic;
     color: var(--gray-400);
     margin-top: 14px;
@@ -581,5 +555,4 @@
     padding: 10px;
     background: var(--gray-50);
     border-radius: var(--radius-sm);
-    letter-spacing: .02em;
 }
