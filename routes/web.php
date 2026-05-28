@@ -7,6 +7,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminReviewController;
+use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\ListProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,11 +25,11 @@ Route::get('/', function () {
 // })->name('products');
 Route::get('/product/{id}',
     [ProductController::class, 'show'])
-    ->name('product.detail');
+    ->name('products.detail');
 
 Route::post('/add-review', [ReviewController::class, 'store'])
 ->name('review.store');
-
+Route::get('/products', [ListProductController::class, 'index'])->name('products.index');
 #Test route admin
 
 Route::prefix('admin')
@@ -56,15 +59,15 @@ Route::prefix('admin')
     [OrderController::class,'update']
     )->name('orders.update');
 
-    Route::view(
-        '/categories',
-        'admin.categories'
-    )->name('categories');
+    // Route::view(
+    //     '/categories',
+    //     'admin.categories'
+    // )->name('categories');
 
-    Route::view(
-        '/products',
-        'admin.products'
-    )->name('products');
+    // Route::view(
+    //     '/products',
+    //     'admin.products'
+    // )->name('products');
 
 
     Route::view(
@@ -116,4 +119,17 @@ Route::prefix('admin')
         'admin.reports'
     )->name('reports');
 
+    Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories');
+    Route::get('/categories/create', [AdminCategoryController::class, 'create'])->name('createCategory');
+    Route::get('/categories/edit/{id}', [AdminCategoryController::class, 'edit'])->name('editCategory');
+    Route::post('/categories/store', [AdminCategoryController::class, 'store'])->name('storeCategory');
+    Route::put('/categories/update/{id}', [AdminCategoryController::class, 'update'])->name('updateCategory');
+    Route::delete('/categories/delete/{id}', [AdminCategoryController::class, 'destroy'])->name('deleteCategory');
+
+    Route::get('/products', [AdminProductController::class, 'index'])->name('products');
+    Route::get('/products/create', [AdminProductController::class, 'create'])->name('addProduct');
+    Route::post('/products/store', [AdminProductController::class, 'store'])->name('storeProduct');
+    Route::get('/products/edit/{id}', [AdminProductController::class, 'edit'])->name('editProduct');
+    Route::put('/products/update/{id}', [AdminProductController::class, 'update'])->name('updateProduct');
+    Route::delete('/products/delete/{id}', [AdminProductController::class, 'destroy'])->name('deleteProduct');
 });

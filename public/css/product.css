@@ -16,7 +16,6 @@ body {
     background: #fff;
     border: 1px solid #d8d8d8;
     border-radius: 10px;
-    width: 320px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     padding: 15px;
@@ -61,4 +60,135 @@ body {
     gap: 15px;
     justify-content: center;
     margin-top: 20px;
+}
+/* --- BỐ CỤC CHUNG TRANG SẢN PHẨM (SIDEBAR + GRID) --- */
+.products-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+/* Sidebar danh mục bên trái */
+.category-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+}
+.sidebar-title {
+    background: var(--navy);
+    color: #fff;
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 6px 6px 0 0;
+    margin: 0;
+}
+.category-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    border-top: none;
+    background: #fff;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+}
+.category-item {
+    display: block;
+    padding: 15px 20px;
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+.category-item:last-child {
+    border-bottom: none;
+}
+/* Trạng thái active (Màu vàng gold giống thiết kế Luminous của m) */
+.category-item.active {
+    background: var(--gold);
+    color: #fff;
+    font-weight: 700;
+}
+.category-item:hover:not(.active) {
+    background: #f8fafc;
+    color: var(--gold);
+}
+
+/* Vùng hiển thị danh sách sản phẩm bên phải */
+.products-main {
+    flex-grow: 1;
+}
+.products-filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 25px;
+}
+.filter-title {
+    font-weight: 700;
+    color: var(--navy);
+}
+.products-count {
+    color: var(--text-gray);
+    font-size: 14px;
+}
+
+/* Lưới sản phẩm 3 cột giống hình sản phẩm.jpg m gửi */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+.no-product-message {
+    grid-column: span 3;
+    text-align: center;
+    padding: 60px 0;
+    color: var(--text-gray);
+    font-size: 16px;
+}
+
+/* --- THANH PHÂN TRANG CUSTOM TAY (PAGINATION) --- */
+.custom-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 50px;
+}
+.custom-pagination a,
+.custom-pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Tròn xoe như hình m gửi */
+    border: 1px solid var(--navy);
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.custom-pagination .active {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+}
+.custom-pagination a:hover:not(.active) {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+.custom-pagination .disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
