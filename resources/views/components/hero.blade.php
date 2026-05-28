@@ -1,136 +1,184 @@
-@once
-    @push('styles')
-    <style>
-        .lj-hero {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 320px;
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 32px;
-        }
+<section class="hero">
 
 
-        /* Ảnh nền */
-        .lj-hero__bg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            z-index: 0;
-        }
+    <div class="hero-slider">
 
+        <!-- BUTTON LEFT -->
 
-        /* Lớp phủ tối */
-        .lj-hero::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(15, 20, 35, 0.52);
-            z-index: 1;
-        }
+        <button class="hero-btn prev">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
 
+        <!-- HERO LIST -->
 
-        /* Logo góc dưới trái */
-        .lj-hero__logo {
-            position: absolute;
-            bottom: 28px;
-            left: 40px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Playfair Display', serif;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: #fff;
-            opacity: 0.75;
-            z-index: 2;
-        }
+        <div class="hero-wrapper">
 
+            <div class="hero-item">
+                <img src="https://www.tierra.vn/wp-content/uploads/2025/05/vang-trang-suc-la-vang-gi-hinh-anh-trang-suc-vang-dep.jpg">
+            </div>
 
-        /* Nội dung giữa */
-        .lj-hero__content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 48px 32px;
-        }
+            <div class="hero-item">
+                <img src="https://photo.znews.vn/w660/Uploaded/wyhktpu/2016_07_26/10.png">
+            </div>
 
+            <div class="hero-item active">
+                <img src="https://www.tierra.vn/wp-content/uploads/2025/05/vang-trang-suc-la-vang-gi-hinh-anh-trang-suc-vang-dep.jpg">
+            </div>
 
-        .lj-hero__tagline {
-            font-size: clamp(14px, 1.8vw, 18px);
-            color: #fff;
-            line-height: 2;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-            margin: 0;
-            font-family: 'Be Vietnam Pro', sans-serif;
-            text-shadow: 0 1px 8px rgba(0,0,0,0.4);
-        }
+            <div class="hero-item">
+                <img src="https://photo.znews.vn/w660/Uploaded/wyhktpu/2016_07_26/10.png">
+            </div>
 
+            <div class="hero-item">
+                <img src="https://photo.znews.vn/w660/Uploaded/wyhktpu/2016_07_26/10.png">
+            </div>
 
-        /* Chữ Hán góc dưới phải */
-        .lj-hero__cjk {
-            position: absolute;
-            bottom: 28px;
-            right: 40px;
-            font-size: 20px;
-            color: #fff;
-            opacity: 0.75;
-            letter-spacing: 10px;
-            font-family: serif;
-            z-index: 2;
-            text-shadow: 0 1px 8px rgba(0,0,0,0.4);
-        }
+        </div>
 
+        <!-- BUTTON RIGHT -->
 
-        @media (max-width: 640px) {
-            .lj-hero { min-height: 240px; }
-            .lj-hero__cjk { letter-spacing: 5px; font-size: 15px; }
-            .lj-hero__content { padding: 40px 20px 60px; }
-        }
-    </style>
-    @endpush
-@endonce
+        <button class="hero-btn next">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
 
-
-@props([
-    'tagline' => "It was a lovely meeting.\nTo be the only one in each other's lives.\nFind slow happiness.",
-    'cjk'     => 'Nhẫn cưới',
-    'image'   => 'https://www.tierra.vn/wp-content/uploads/2025/05/vang-trang-suc-la-vang-gi-hinh-anh-trang-suc-vang-dep.jpg',
-])
-
-
-<section class="lj-hero">
-    {{-- Ảnh nền --}}
-    <img class="lj-hero__bg" src="{{ asset($image) }}" alt="Hero background">
-
-
-    {{-- Logo --}}
-    <div class="lj-hero__logo">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <polygon points="12,2 22,8 12,22 2,8" fill="none" stroke="white" stroke-width="1.5"/>
-            <line x1="2" y1="8" x2="22" y2="8" stroke="white" stroke-width="1"/>
-        </svg>
-        LUMINOUS JEWELRY
     </div>
 
-
-    {{-- Tagline giữa --}}
-    <div class="lj-hero__content">
-        <p class="lj-hero__tagline">
-            @foreach(explode("\n", $tagline) as $line)
-                {{ $line }}<br>
-            @endforeach
-        </p>
-    </div>
-
-
-    {{-- Chữ Hán --}}
-    <div class="lj-hero__cjk">{{ $cjk }}</div>
 </section>
+
+<script>
+
+    const wrapper =
+        document.querySelector('.hero-wrapper');
+
+    const nextBtn =
+        document.querySelector('.next');
+
+    const prevBtn =
+        document.querySelector('.prev');
+
+    const itemWidth = 240;
+
+    let isAnimating = false;
+
+    function updateActive() {
+
+        const items =
+            document.querySelectorAll('.hero-item');
+
+        items.forEach(item => {
+            item.classList.remove('active');
+        });
+
+        const middle =
+            Math.floor(items.length / 2);
+
+        items[middle]
+            .classList.add('active');
+    }
+
+    /* NEXT */
+
+    nextBtn.addEventListener('click', () => {
+
+        if (isAnimating) return;
+
+        isAnimating = true;
+
+        wrapper.style.transition =
+            'transform .35s ease';
+
+        wrapper.style.transform =
+            `translateX(-${itemWidth}px)`;
+
+        setTimeout(() => {
+
+            const first =
+                wrapper.firstElementChild;
+
+            wrapper.appendChild(first);
+
+            wrapper.style.transition =
+                'none';
+
+            wrapper.style.transform =
+                'translateX(0)';
+
+            updateActive();
+
+            isAnimating = false;
+
+        }, 350);
+    });
+
+    /* PREV */
+
+    prevBtn.addEventListener('click', () => {
+
+        if (isAnimating) return;
+
+        isAnimating = true;
+
+        wrapper.style.transition =
+            'transform .35s ease';
+
+        wrapper.style.transform =
+            `translateX(${itemWidth}px)`;
+
+        setTimeout(() => {
+
+            const items =
+                document.querySelectorAll('.hero-item');
+
+            const last =
+                items[items.length - 1];
+
+            wrapper.prepend(last);
+
+            wrapper.style.transition =
+                'none';
+
+            wrapper.style.transform =
+                'translateX(0)';
+
+            updateActive();
+
+            isAnimating = false;
+
+        }, 350);
+    });
+
+    /* CLICK ITEM */
+
+document.querySelectorAll('.hero-item')
+    .forEach(item => {
+
+        item.addEventListener('click', () => {
+
+            if (isAnimating) return;
+
+            const items =
+                Array.from(wrapper.children);
+
+            const currentMiddle =
+                Math.floor(items.length / 2);
+
+            const clickedIndex =
+                items.indexOf(item);
+
+            /* CLICK RIGHT */
+
+            if (clickedIndex > currentMiddle) {
+
+                nextBtn.click();
+            }
+
+            /* CLICK LEFT */
+
+            else if (clickedIndex < currentMiddle) {
+
+                prevBtn.click();
+            }
+        });
+    });
+
+</script>
