@@ -71,14 +71,28 @@
     background:var(--white);
     border:1px solid var(--gray-200);
     border-radius:14px;
-    padding:20px;
-    margin-bottom:24px;
+    padding:16px;
+    margin-bottom:20px;
+}
+.filter-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:16px;
 }
 
+.filter-header .section-title{
+    margin-bottom:0;
+}
+
+.filter-actions{
+    display:flex;
+    gap:10px;
+}
 .filter-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:16px;
+    gap:12px;
     align-items:end;
 }
 

@@ -3,10 +3,28 @@
     {{-- ========================= --}}
 
     <div id="orders" class="tab-content">
-        <h2 class="section-title">
-            Bộ lọc dữ liệu
-        </h2>
         <form method="GET" class="report-filter">
+            <div class="filter-header">
+
+                <h2 class="section-title">
+                    Bộ lọc dữ liệu
+                </h2>
+
+                <div class="filter-actions">
+
+                    <a href="{{ route('admin.reports.index') }}">
+                        <x-button type="button">
+                            Đặt lại
+                        </x-button>
+                    </a>
+
+                    <x-button type="submit">
+                        Lọc dữ liệu
+                    </x-button>
+
+                </div>
+
+            </div>
             <div class="filter-grid">
 
                 <input type="hidden" name="tab" value="orders">
@@ -72,20 +90,6 @@
                     </select>
 
                 </div>
-
-            </div>
-
-            <div class="filter-actions">
-
-                <a href="{{ route('admin.reports.index') }}">
-                    <x-button type="button">
-                        Đặt lại
-                    </x-button>
-                </a>
-
-                <x-button type="submit">
-                    Lọc dữ liệu
-                </x-button>
 
             </div>
 
