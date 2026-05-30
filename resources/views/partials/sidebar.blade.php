@@ -104,9 +104,9 @@ class="menu-item
 
 
 
-<a href="{{ route('admin.reports') }}"
+<a href="{{ route('admin.reports.index') }}"
 class="menu-item
-{{ request()->routeIs('admin.reports')
+{{ request()->routeIs('admin.reports.index')
 ? 'active'
 : '' }}">
 

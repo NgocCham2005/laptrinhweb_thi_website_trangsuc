@@ -5,13 +5,14 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\BannerController;
 
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminReviewController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\ListProductController;
+use App\Http\Controllers\AdminReportController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -48,17 +49,17 @@ Route::prefix('admin')
 
     Route::get(
     '/orders',
-    [OrderController::class,'index']
+    [AdminOrderController::class,'index']
     )->name('orders');
 
     Route::get(
     '/orders/{id}',
-    [OrderController::class,'show']
+    [AdminOrderController::class,'show']
     )->name('orders.show');
 
     Route::put(
     '/orders/{id}',
-    [OrderController::class,'update']
+    [AdminOrderController::class,'update']
     )->name('orders.update');
 
     // Route::view(
@@ -115,11 +116,10 @@ Route::prefix('admin')
     Route::delete('/reviews/delete/{id}',[AdminReviewController::class, 'destroy'])
     ->name('deleteReview');
 
-
-    Route::view(
+    Route::get(
         '/reports',
-        'admin.reports'
-    )->name('reports');
+        [AdminReportController::class, 'index']
+    )->name('reports.index');
 
     Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories');
     Route::get('/categories/create', [AdminCategoryController::class, 'create'])->name('createCategory');
