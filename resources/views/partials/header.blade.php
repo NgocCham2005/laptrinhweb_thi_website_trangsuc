@@ -5,12 +5,7 @@
                 <img src="{{ asset('images/logo.png') }}" alt="">
             </a>
         </div>
-        <div class="search-box">
-            <input type="text" placeholder="Tìm kiếm sản phẩm...">
-            <button>
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </div>
+        <x-search-bar />
         <div class="header-right">
             <a href="/cart" class="cart">
                 <i class="fa-solid fa-cart-shopping"></i>

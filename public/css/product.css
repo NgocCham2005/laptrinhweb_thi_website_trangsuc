@@ -192,3 +192,60 @@ body {
     opacity: 0.4;
     cursor: not-allowed;
 }
+
+/* BỘ LỌC */
+.products-filter-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.filter-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #15264b; /* Màu xanh thương hiệu của m */
+}
+
+/* Khung chứa các ô select bộ lọc */
+.filter-options-group {
+    display: flex;
+    gap: 15px;
+    margin-left: 20px;
+}
+
+/* Định dạng các ô select bộ lọc giá và chất liệu */
+.filter-select {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+/* Hiệu ứng khi hover hoặc chọn vào ô select */
+.filter-select:hover {
+    border-color: #94a3b8;
+}
+
+.filter-select:focus {
+    border-color: #D4AF37; /* Màu vàng sang xịn mịn của m */
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+}
+
+/* Đoạn hiển thị tổng số lượng sản phẩm bên phải */
+.products-count {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+}

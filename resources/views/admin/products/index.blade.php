@@ -37,7 +37,7 @@ Quản lý sản phẩm
             <td class="action-col">
                 <div class="action-buttons">
                     <a href="{{ route('admin.editProduct', $product->MaSanPham) }}">
-                        <x-button>Sửa</x-button>
+                        <x-button variant="primary">Sửa</x-button>
                     </a>
                     <x-button variant="danger" type="button" onclick="openModal('deleteProduct{{ $product->MaSanPham }}')">
                         Xóa

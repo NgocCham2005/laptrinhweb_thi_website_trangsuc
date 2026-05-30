@@ -21,10 +21,10 @@ body{
     gap:8px;
 
     height:44px;
-    padding:0 22px;
+    padding:0 20px;
 
     border:none;
-    border-radius:14px;
+    border-radius:10px;
 
     font-family: 'Segoe UI', system-ui, sans-serif;
     font-size:14px;
@@ -40,7 +40,7 @@ body{
 }
 
 .btn:hover{
-    transform:translateY(-2px);
+    transform:translateY(-3px);
 }
 
 .btn:active{
@@ -67,7 +67,7 @@ body{
 }
 
 .btn-secondary:hover{
-    background:#0f1d3d;
+    background:#15264B;
 }
 
 .btn-outline-gold{
