@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Models\SanPham;
 use App\Models\DanhMucSP;
 
 class AdminProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['category','images'])->paginate(5);
+        $products = SanPham::with(['category','images'])->paginate(5);
         foreach ($products as $product) {
         $product->first_image = \DB::table('hinh_anh_sp')
             ->where('MaSanPham', $product->MaSanPham)
@@ -56,7 +56,7 @@ class AdminProductController extends Controller
 
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
+        $product = SanPham::findOrFail($id);
         $categories = DanhMucSP::where('TrangThai', 1)->get();
         $images = \DB::table('hinh_anh_sp')->where('MaHinhAnh', $id)->get();
         return view('admin.products.edit-product', compact('product', 'categories','images'));
@@ -64,7 +64,7 @@ class AdminProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        $product = Product::findOrFail($id);
+        $product = SanPham::findOrFail($id);
         $product->update([
             'TenSanPham' => $request->ten_sanpham,
             'MaDanhMuc'  => $request->ma_danhmuc,
@@ -97,7 +97,7 @@ class AdminProductController extends Controller
 
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
+        $product = SanPham::findOrFail($id);
         // Kiểm tra xem sản phẩm này đã nằm trong chi tiết đơn hàng nào chưa
         $isUsed = \DB::table('chi_tiet_don_hang')->where('MaSanPham', $id)->exists();
 

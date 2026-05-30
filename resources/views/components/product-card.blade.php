@@ -21,7 +21,7 @@
         <x-price-tag :gia="$product->GiaBan" />
         
         <div class="product-actions">
-            <x-button>Thêm vào giỏ</x-button>
+            <x-button variant="secondary">Thêm vào giỏ</x-button>
             <x-button>Mua ngay</x-button>
         </div>
     </div>

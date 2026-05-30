@@ -30,7 +30,7 @@ class="menu-item
 
 <i class="fa-solid fa-layer-group"></i>
 
-<span>Danh mục SP</span>
+<span>Danh mục sản phẩm</span>
 
 </a>
 
