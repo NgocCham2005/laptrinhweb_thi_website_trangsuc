@@ -1,72 +1,91 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', () => {
 
-    function initCarousel(wrapperSelector, nextSelector, prevSelector, itemClass) {
+    document.querySelectorAll('.product-track').forEach(track => {
 
-        const wrapper = document.querySelector(wrapperSelector);
-        const nextBtn = document.querySelector(nextSelector);
-        const prevBtn = document.querySelector(prevSelector);
+        const wrapper = track.querySelector('.home-product-wrapper');
+        const prevBtn = track.querySelector('.product-prev');
+        const nextBtn = track.querySelector('.product-next');
 
-        if (!wrapper || !nextBtn || !prevBtn) return;
+        let items = [...wrapper.children];
 
-        const itemWidth = 240;
-        let isAnimating = false;
+        if (items.length <= 3) return;
 
-        function updateActive() {
-            const items = wrapper.querySelectorAll(itemClass);
+        const visibleCount = 3;
 
-            items.forEach(i => i.classList.remove("active"));
+        // clone 3 card đầu và cuối
+        const firstClones = items
+            .slice(0, visibleCount)
+            .map(item => item.cloneNode(true));
 
-            const middle = Math.floor(items.length / 2);
-            if (items[middle]) items[middle].classList.add("active");
+        const lastClones = items
+            .slice(-visibleCount)
+            .map(item => item.cloneNode(true));
+
+        lastClones.forEach(clone => {
+            wrapper.insertBefore(clone, wrapper.firstChild);
+        });
+
+        firstClones.forEach(clone => {
+            wrapper.appendChild(clone);
+        });
+
+        items = [...wrapper.children];
+
+        let currentIndex = visibleCount;
+
+        function getStepWidth() {
+            const itemWidth =
+                items[0].getBoundingClientRect().width;
+
+            const gap =
+                parseFloat(getComputedStyle(wrapper).gap) || 20;
+
+            return itemWidth + gap;
         }
 
-        nextBtn.addEventListener("click", () => {
-            if (isAnimating) return;
-            isAnimating = true;
+        function move(animate = true) {
 
-            wrapper.style.transition = "transform .35s ease";
-            wrapper.style.transform = `translateX(-${itemWidth}px)`;
+            wrapper.style.transition =
+                animate ? 'transform .45s ease' : 'none';
 
-            setTimeout(() => {
-                wrapper.appendChild(wrapper.firstElementChild);
+            wrapper.style.transform =
+                `translateX(-${currentIndex * getStepWidth()}px)`;
+        }
 
-                wrapper.style.transition = "none";
-                wrapper.style.transform = "translateX(0)";
+        move(false);
 
-                updateActive();
-                isAnimating = false;
-            }, 350);
+        nextBtn.addEventListener('click', () => {
+            currentIndex++;
+            move();
         });
 
-        prevBtn.addEventListener("click", () => {
-            if (isAnimating) return;
-            isAnimating = true;
-
-            wrapper.style.transition = "transform .35s ease";
-            wrapper.style.transform = `translateX(${itemWidth}px)`;
-
-            setTimeout(() => {
-                wrapper.prepend(wrapper.lastElementChild);
-
-                wrapper.style.transition = "none";
-                wrapper.style.transform = "translateX(0)";
-
-                updateActive();
-                isAnimating = false;
-            }, 350);
+        prevBtn.addEventListener('click', () => {
+            currentIndex--;
+            move();
         });
-    }
 
-    /* HERO */
-    initCarousel(".hero-wrapper", ".hero .next", ".hero .prev", ".hero-item");
+        wrapper.addEventListener('transitionend', () => {
 
-    /* PRODUCT FEATURED */
-    initCarousel(".featured .product-wrapper", ".featured .product-next", ".featured .product-prev", ".product-item");
+            const realCount = items.length - visibleCount * 2;
 
-    /* PRODUCT NEW */
-    initCarousel(".new .product-wrapper", ".new .product-next", ".new .product-prev", ".product-item");
+            // cuối -> đầu
+            if (currentIndex >= realCount + visibleCount) {
+                currentIndex = visibleCount;
+                move(false);
+            }
 
-    /* BEST SELLING */
-    initCarousel(".best_selling .product-wrapper", ".best_selling .product-next", ".best_selling .product-prev", ".product-item");
+            // đầu -> cuối
+            if (currentIndex < visibleCount) {
+                currentIndex = realCount + visibleCount - 1;
+                move(false);
+            }
+
+        });
+
+        window.addEventListener('resize', () => {
+            move(false);
+        });
+
+    });
 
 });

@@ -157,7 +157,6 @@
         LUMINOUS JEWELRY
     </div>
 
-
     <div class="lj-banner__content">
         <h2 class="lj-banner__title">{{ $title }}</h2>
         <span class="lj-banner__offer-label">ưu đãi</span>

@@ -10,14 +10,14 @@
         <i class="fa-solid fa-chevron-left"></i>
     </button>
 
-    <div class="product-wrapper">
-
-        @foreach ($products as $product)
-            <div class="product-item">
-                <x-product-card :product="$product" />
-            </div>
-        @endforeach
-
+    <div class="home-product-viewport">
+        <div class="home-product-wrapper">
+            @foreach ($products as $product)
+                <div class="product-item">
+                    <x-product-card :product="$product" />
+                </div>
+            @endforeach
+        </div>
     </div>
 
     <button class="hero-btn product-next">

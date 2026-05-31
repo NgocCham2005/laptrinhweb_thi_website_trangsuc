@@ -264,39 +264,54 @@
 ========================= */
 
 .product-block {
-    margin: 90px auto;
-    padding: 40px 60px;
-    max-width: 1350px;
-
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 1150px;
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 8px 22px rgba(0,0,0,0.06);
 }
 
-/* =========================
-   SLIDER LAYOUT
-========================= */
-
 .product-track {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 20px;
 }
 
-/* wrapper chứa item */
-.product-wrapper {
+.home-product-viewport {
+    overflow: hidden;
+    flex: 1;
+}
+
+.home-product-wrapper {
     display: flex;
     gap: 20px;
-    overflow: hidden;
-    padding: 20px;
-    width: 100%;
+    padding-left: 2px;
+    transition: transform 0.45s ease;
 }
 
-/* item sản phẩm */
 .product-item {
-    flex-shrink: 0;
-    width: 220px;
+    flex: 0 0 calc((100% - 40px) / 3);
+    box-sizing: border-box;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.product-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.product-actions button {
+    flex: 1;
+    white-space: nowrap;
+    font-size: 13px;
 }
 
 /* =========================
