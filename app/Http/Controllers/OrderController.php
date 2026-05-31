@@ -15,7 +15,7 @@ class OrderController extends Controller
 {
     // TẠM THỜI — dùng tài khoản cứng để test
     private function layMaTaiKhoan() {
-        return 'TK014'; // TODO: thay bằng Auth::user()->MaTaiKhoan
+        return 'TK013'; // TODO: thay bằng Auth::user()->MaTaiKhoan
     }
 
     // Tạo mã đơn hàng tự động
