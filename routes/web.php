@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\AdminVoucherController;
 use App\Http\Controllers\BannerController;
-
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\ProductController;
@@ -93,17 +92,17 @@ Route::prefix('admin')
     Route::delete('/delete-banner/{id}', [BannerController::class, 'destroy'])
     ->name('deleteBanner');
 
-    Route::get('/vouchers', [VoucherController::class, 'index'])
+    Route::get('/vouchers', [AdminVoucherController::class, 'index'])
     ->name('vouchers');
-    Route::get('/vouchers/create', [VoucherController::class, 'create'])
+    Route::get('/vouchers/create', [AdminVoucherController::class, 'create'])
     ->name('vouchers.create');
-    Route::post('/vouchers', [VoucherController::class, 'store'])
+    Route::post('/vouchers', [AdminVoucherController::class, 'store'])
     ->name('vouchers.store');
-    Route::get('/vouchers/{id}/edit', [VoucherController::class, 'edit'])
+    Route::get('/vouchers/{id}/edit', [AdminVoucherController::class, 'edit'])
     ->name('vouchers.edit');
-    Route::put('/vouchers/{id}', [VoucherController::class, 'update'])
+    Route::put('/vouchers/{id}', [AdminVoucherController::class, 'update'])
     ->name('vouchers.update');
-    Route::delete('/vouchers/{id}', [VoucherController::class, 'destroy'])
+    Route::delete('/vouchers/{id}', [AdminVoucherController::class, 'destroy'])
     ->name('vouchers.destroy');
 
     Route::get('/reviews', [AdminReviewController::class, 'index'])
