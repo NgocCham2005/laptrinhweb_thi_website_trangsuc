@@ -16,4 +16,12 @@ class ProductController extends Controller
 
         return view('products.detail',compact('product','relatedProducts'));
     }
+    public function scopeBestSelling($query)
+    {
+        return $query->select('products.*')
+            ->join('order_details', 'order_details.product_id', '=', 'products.id')
+            ->selectRaw('SUM(order_details.quantity) as total_sold')
+            ->groupBy('products.id')
+            ->orderByDesc('total_sold');
+    }
 }

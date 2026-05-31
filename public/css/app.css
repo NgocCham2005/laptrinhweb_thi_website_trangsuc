@@ -187,3 +187,145 @@
 
     margin-left: 10px;
 }
+
+:root {
+    --navy: #1a2a4a;
+    --gold: #c9a84c;
+    --white: #ffffff;
+    --gray-50: #f9f9f9;
+    --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.15);
+    --transition: all 0.3s ease;
+    --space-4: 16px;
+    --space-8: 32px;
+    --font-display: 'Georgia', serif;
+    --radius-full: 9999px;
+    --font-display: 'Segoe UI', system-ui, sans-serif;
+}
+
+
+/* =========================
+   SECTION TITLE
+========================= */
+
+.section-title {
+
+    text-align: center;
+
+    margin-bottom:
+        var(--space-8);
+}
+
+.section-heading {
+
+    font-family:
+        var(--font-display);
+
+    font-size:
+        42px;
+
+    color:
+        var(--navy);
+
+    margin-bottom:
+        var(--space-4);
+
+    position:
+        relative;
+
+    display:
+        inline-block;
+}
+
+.section-heading::after {
+
+    content: '';
+
+    width: 60%;
+
+    height: 3px;
+
+    background:
+        var(--gold);
+
+    display:
+        block;
+
+    margin:
+        12px auto 0;
+
+    border-radius:
+        var(--radius-full);
+
+}
+
+/* =========================
+   PRODUCT BLOCK (KHỐI CHỮ NHẬT)
+========================= */
+
+.product-block {
+    margin: 90px auto;
+    padding: 40px 60px;
+    max-width: 1350px;
+
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.06);
+}
+
+/* =========================
+   SLIDER LAYOUT
+========================= */
+
+.product-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* wrapper chứa item */
+.product-wrapper {
+    display: flex;
+    gap: 20px;
+    overflow: hidden;
+    padding: 20px;
+    width: 100%;
+}
+
+/* item sản phẩm */
+.product-item {
+    flex-shrink: 0;
+    width: 220px;
+}
+
+/* =========================
+   HERO STYLE BUTTON (DÙNG CHUNG)
+========================= */
+
+.hero-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #1a2a4a;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.hero-btn:hover {
+    background: #c9a84c;
+    color: #fff;
+}
+
+/* =========================
+   SPACING GIỮA CÁC BLOCK
+========================= */
+
+.product-block + .product-block {
+    margin-top: 70px;
+}
