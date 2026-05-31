@@ -26,12 +26,13 @@ Route::get('/', function () {
 // Route::get('/products', function () {
 //     return view('products.index');
 // })->name('products');
-Route::get('/product/{id}',
-    [ProductController::class, 'show'])
-    ->name('products.detail');
+Route::get('/product/{id}',[ProductController::class, 'show'])->name('products.detail');
 
-Route::post('/add-review', [ReviewController::class, 'store'])
-->name('review.store');
+//review cho sản phẩm trong đơn hàng
+
+Route::get('/review/create/{product}/{order}',[ReviewController::class, 'create'])->name('review.create');
+Route::post('/review/store',[ReviewController::class, 'store'])->name('review.store');
+
 Route::get('/products', [ListProductController::class, 'index'])->name('products.index');
 #Test route admin
 

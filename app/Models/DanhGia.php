@@ -36,4 +36,9 @@ class DanhGia extends Model
     {
         return $this->hasMany(ChiTietPhanHoi::class,'MaDanhGia','MaDanhGia');
     }
+
+    public function order()
+    {
+        return $this->belongsTo(DonHang::class,'MaDonHang','MaDonHang');
+    }
 }
