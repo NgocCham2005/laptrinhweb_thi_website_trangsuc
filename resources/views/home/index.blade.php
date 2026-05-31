@@ -3,8 +3,10 @@
 @section('content')
 
 <x-banner />
-
+<div class="product-block">
+<x-section-title title="Danh mục sản phẩm" />  
 <x-hero />
+</div>
 <div class="product-block">
     <x-section-title title="Sản phẩm nổi bật" />
     <x-home-product-section
