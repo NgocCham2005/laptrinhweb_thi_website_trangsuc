@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Banner;
 
-class BannerController extends Controller
+class AdminBannerController extends Controller
 {
     public function index()
     {
@@ -20,7 +20,7 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         $imageName = time() . '.' . $request->hinh_anh->extension();
-        $request->hinh_anh->move(public_path('images/banner'),$imageName);
+        $request->hinh_anh->move(public_path('images/banners'),$imageName);
         Banner::create([
             'MaBanner'  => $request->ma_banner,
             'TenBanner' => $request->ten_banner,
@@ -47,7 +47,7 @@ class BannerController extends Controller
             $imageName = time() . '.' .
                          $request->hinh_anh->extension();
             $request->hinh_anh->move(
-                public_path('images/banner'),
+                public_path('images/banners'),
                 $imageName
             );
             $banner->HinhAnh = $imageName;
@@ -67,7 +67,7 @@ class BannerController extends Controller
         $banner = Banner::findOrFail($id);
         // XỬ LÝ XÓA ẢNH
         $imagePath = public_path(
-            'images/banner/' . $banner->HinhAnh
+            'images/banners/' . $banner->HinhAnh
         );
         if(file_exists($imagePath))
         {

@@ -27,21 +27,21 @@ class SanPham extends Model
         'MaDanhMuc'
     ];
 
+    // 1. Mối quan hệ với ảnh sản phẩm
     public function images()
     {
-        return $this->hasMany(
-            HinhAnhSP::class,
-            'MaSanPham',
-            'MaSanPham'
-        );
+        return $this->hasMany(HinhAnhSP::class, 'MaSanPham', 'MaSanPham');
     }
 
+    // 2. Mối quan hệ với đánh giá sản phẩm (dùng ở trang chi tiết)
     public function reviews()
     {
-        return $this->hasMany(
-            DanhGia::class,
-            'MaSanPham',
-            'MaSanPham'
-        );
+        return $this->hasMany(DanhGia::class, 'MaSanPham', 'MaSanPham');
+    }
+
+    // 3. Mối quan hệ với danh mục (dùng ở trang quản lý admin)
+    public function category()
+    {
+        return $this->belongsTo(DanhMucSP::class, 'MaDanhMuc', 'MaDanhMuc');
     }
 }

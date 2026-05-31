@@ -18,16 +18,14 @@ class AdminReviewController extends Controller
     public function hide($id)
     {
         $review = DanhGia::findOrFail($id);
-        $review->TrangThai = 0;
-        $review->save();
+        $review->update(['TrangThai' => 0]);
         return redirect()->back()->with('success','Đã ẩn đánh giá');
     }
 
     public function display($id)
     {
         $review = DanhGia::findOrFail($id);
-        $review->TrangThai = 1;
-        $review->save();
+        $review->update(['TrangThai' => 1]);
         return redirect()->back()->with('success','Đã hiển thị đánh giá');
     }
 

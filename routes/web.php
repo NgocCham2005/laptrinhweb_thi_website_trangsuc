@@ -1,34 +1,37 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\VoucherController;
-use App\Http\Controllers\BannerController;
-
+use App\Http\Controllers\AdminVoucherController;
+use App\Http\Controllers\AdminBannerController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminReviewController;
+use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\ListProductController;
+use App\Http\Controllers\AdminReportController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', function () {
-    return view('home.index');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 // Route::get('/products', function () {
 //     return view('products.index');
 // })->name('products');
-Route::get('/product/{id}',
-    [ProductController::class, 'show'])
-    ->name('product.detail');
+Route::get('/product/{id}',[ProductController::class, 'show'])->name('products.detail');
 
-Route::post('/add-review', [ReviewController::class, 'store'])
-->name('review.store');
+//review cho sản phẩm trong đơn hàng
 
+Route::get('/review/create/{product}/{order}',[ReviewController::class, 'create'])->name('review.create');
+Route::post('/review/store',[ReviewController::class, 'store'])->name('review.store');
+
+Route::get('/products', [ListProductController::class, 'index'])->name('products.index');
 #Test route admin
 
 Route::prefix('admin')
@@ -45,28 +48,28 @@ Route::prefix('admin')
 
     Route::get(
     '/orders',
-    [OrderController::class,'index']
+    [AdminOrderController::class,'index']
     )->name('orders');
 
     Route::get(
     '/orders/{id}',
-    [OrderController::class,'show']
+    [AdminOrderController::class,'show']
     )->name('orders.show');
 
     Route::put(
     '/orders/{id}',
-    [OrderController::class,'update']
+    [AdminOrderController::class,'update']
     )->name('orders.update');
 
-    Route::view(
-        '/categories',
-        'admin.categories'
-    )->name('categories');
+    // Route::view(
+    //     '/categories',
+    //     'admin.categories'
+    // )->name('categories');
 
-    Route::view(
-        '/products',
-        'admin.products'
-    )->name('products');
+    // Route::view(
+    //     '/products',
+    //     'admin.products'
+    // )->name('products');
 
 
     Route::view(
@@ -75,30 +78,30 @@ Route::prefix('admin')
     )->name('customers');
 
 
-    Route::get('/banners', [BannerController::class, 'index'])
+    Route::get('/banners', [AdminBannerController::class, 'index'])
     ->name('banners');
-    Route::get('/add-banner', [BannerController::class, 'create'])
+    Route::get('/add-banner', [AdminBannerController::class, 'create'])
     ->name('addBanner');
-    Route::post('/add-banner', [BannerController::class, 'store'])
+    Route::post('/add-banner', [AdminBannerController::class, 'store'])
     ->name('storeBanner');
-    Route::get('/edit-banner/{id}', [BannerController::class, 'edit'])
+    Route::get('/edit-banner/{id}', [AdminBannerController::class, 'edit'])
     ->name('editBanner');
-    Route::post('/update-banner/{id}', [BannerController::class, 'update'])
+    Route::post('/update-banner/{id}', [AdminBannerController::class, 'update'])
     ->name('updateBanner');
-    Route::delete('/delete-banner/{id}', [BannerController::class, 'destroy'])
+    Route::delete('/delete-banner/{id}', [AdminBannerController::class, 'destroy'])
     ->name('deleteBanner');
 
-    Route::get('/vouchers', [VoucherController::class, 'index'])
+    Route::get('/vouchers', [AdminVoucherController::class, 'index'])
     ->name('vouchers');
-    Route::get('/vouchers/create', [VoucherController::class, 'create'])
+    Route::get('/vouchers/create', [AdminVoucherController::class, 'create'])
     ->name('vouchers.create');
-    Route::post('/vouchers', [VoucherController::class, 'store'])
+    Route::post('/vouchers', [AdminVoucherController::class, 'store'])
     ->name('vouchers.store');
-    Route::get('/vouchers/{id}/edit', [VoucherController::class, 'edit'])
+    Route::get('/vouchers/{id}/edit', [AdminVoucherController::class, 'edit'])
     ->name('vouchers.edit');
-    Route::put('/vouchers/{id}', [VoucherController::class, 'update'])
+    Route::put('/vouchers/{id}', [AdminVoucherController::class, 'update'])
     ->name('vouchers.update');
-    Route::delete('/vouchers/{id}', [VoucherController::class, 'destroy'])
+    Route::delete('/vouchers/{id}', [AdminVoucherController::class, 'destroy'])
     ->name('vouchers.destroy');
 
     Route::get('/reviews', [AdminReviewController::class, 'index'])
@@ -112,12 +115,24 @@ Route::prefix('admin')
     Route::delete('/reviews/delete/{id}',[AdminReviewController::class, 'destroy'])
     ->name('deleteReview');
 
-
-    Route::view(
+    Route::get(
         '/reports',
-        'admin.reports'
-    )->name('reports');
+        [AdminReportController::class, 'index']
+    )->name('reports.index');
 
+    Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories');
+    Route::get('/categories/create', [AdminCategoryController::class, 'create'])->name('createCategory');
+    Route::get('/categories/edit/{id}', [AdminCategoryController::class, 'edit'])->name('editCategory');
+    Route::post('/categories/store', [AdminCategoryController::class, 'store'])->name('storeCategory');
+    Route::put('/categories/update/{id}', [AdminCategoryController::class, 'update'])->name('updateCategory');
+    Route::delete('/categories/delete/{id}', [AdminCategoryController::class, 'destroy'])->name('deleteCategory');
+
+    Route::get('/products', [AdminProductController::class, 'index'])->name('products');
+    Route::get('/products/create', [AdminProductController::class, 'create'])->name('addProduct');
+    Route::post('/products/store', [AdminProductController::class, 'store'])->name('storeProduct');
+    Route::get('/products/edit/{id}', [AdminProductController::class, 'edit'])->name('editProduct');
+    Route::put('/products/update/{id}', [AdminProductController::class, 'update'])->name('updateProduct');
+    Route::delete('/products/delete/{id}', [AdminProductController::class, 'destroy'])->name('deleteProduct');
 });
 // =====================
 // GIỎ HÀNG & ĐẶT HÀNG (cần đăng nhập)

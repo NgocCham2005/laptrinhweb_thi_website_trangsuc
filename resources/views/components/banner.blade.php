@@ -1,4 +1,4 @@
- <!-- @once 
+ @once 
     @push('styles')
     <style>
         .lj-banner {
@@ -11,7 +11,6 @@
             overflow: hidden;
             margin-bottom: 32px;
         }
-
 
         .lj-banner__bg {
             position: absolute;
@@ -147,10 +146,8 @@
     'image'    => 'https://photo.znews.vn/w660/Uploaded/wyhktpu/2016_07_26/10.png',
 ])
 
-
 <section class="lj-banner">
     <img class="lj-banner__bg" src="{{ asset($image) }}" alt="{{ $title }}">
-
 
     <div class="lj-banner__logo">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">

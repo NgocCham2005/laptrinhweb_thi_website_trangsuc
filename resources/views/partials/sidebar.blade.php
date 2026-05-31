@@ -30,7 +30,7 @@ class="menu-item
 
 <i class="fa-solid fa-layer-group"></i>
 
-<span>Danh mục SP</span>
+<span>Danh mục sản phẩm</span>
 
 </a>
 
@@ -104,9 +104,9 @@ class="menu-item
 
 
 
-<a href="{{ route('admin.reports') }}"
+<a href="{{ route('admin.reports.index') }}"
 class="menu-item
-{{ request()->routeIs('admin.reports')
+{{ request()->routeIs('admin.reports.index')
 ? 'active'
 : '' }}">
 

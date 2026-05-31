@@ -45,7 +45,7 @@ Quản lý đánh giá
                         <form action="{{ route( 'admin.hideReview', $review->MaDanhGia) }}"method="POST">
                             @csrf
                             @method('PUT')
-                            <x-button variant="warning">Ẩn</x-button>
+                            <x-button variant="warning" type="submit">Ẩn</x-button>
                         </form>
                         <form action="{{ route( 'admin.displayReview', $review->MaDanhGia) }}"method="POST">
                             @csrf

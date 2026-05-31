@@ -15,7 +15,6 @@ Quản lý banner
     </div>
 
     <div class="form-grid">
-
         <form action="{{ route('admin.updateBanner', $banner->MaBanner) }}"
             method="POST"
             enctype="multipart/form-data">
@@ -23,7 +22,7 @@ Quản lý banner
             <div>
                 <x-input type="text" name="ma_banner" label="Mã banner" value="{{ $banner->MaBanner }}" disabled />
                 <x-input type="text" name="ten_banner" label="Tên banner" value="{{ $banner->TenBanner }}" />
-                <img src="{{ asset('images/banner/' . $banner->HinhAnh) }}" label="Ảnh hiện tại" width="250" alt="Ảnh hiện tại">
+                <img src="{{ asset('images/banners/' . $banner->HinhAnh) }}" label="Ảnh hiện tại" width="250" alt="Ảnh hiện tại">
                 <br><br>
                 <x-input type="file" name="hinh_anh" label="Chọn ảnh mới" />
                 <x-input type="select" name="trang_thai" label="Trạng thái">
@@ -33,13 +32,11 @@ Quản lý banner
             </div>
 
             <div class="action-buttons">
-                <x-button type="submit">
-                    <i class="fa-solid fa-floppy-disk"></i>
+                <x-button type="submit" variant="primary">
                     Cập nhật
                 </x-button>
-                <a href="{{ route('admin.banners') }}">
-                    <x-button>
-                        <i class="fa-solid fa-arrow-left"></i>
+                <a href="{{ route('admin.banners') }}" style="text-decoration: none;">
+                    <x-button variant="outline-navy">
                         Quay lại
                     </x-button>
                 </a>

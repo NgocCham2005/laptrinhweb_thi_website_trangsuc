@@ -8,7 +8,7 @@
     <div class="breadcrumb">
         <a href="{{ route('home') }}">Trang chủ</a>
         <span>/</span>
-        <a href="">Sản phẩm</a>
+        <a href="{{ route('products.index') }}">Sản phẩm</a>
         <span>/</span>
         <p>{{ $product->TenSanPham }}</p>
     </div>
@@ -90,10 +90,9 @@
         @endif
     </div>
 
-    <form action="{{ route('review.store') }}" method="POST" class="review-form">
+    <!-- <form action="{{ route('review.store') }}" method="POST" class="review-form">
         @csrf
         <input type="hidden" name="product_id" value="{{ $product->MaSanPham }}">
-        <!-- RATING -->
         <select name="rating">
             <option value="5">5 sao</option>
             <option value="4">4 sao</option>
@@ -102,17 +101,20 @@
             <option value="1">1 sao</option>
         </select>
 
-        <!-- COMMENT -->
         <input type="text" name="comment" placeholder="Viết đánh giá...">
             <button type="submit">
                 <i class="fa-solid fa-paper-plane"></i>
             </button>
-    </form>
+    </form> -->
 
     <!-- Sản phẩm tương tự -->
     <div class="related-products">
         <div class="related-header">
             <h2>SẢN PHẨM TƯƠNG TỰ</h2>
+            <a href="{{ route('products.index', ['category' => $product->MaDanhMuc]) }}">
+                Xem thêm    
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
         </div>
         <div class="related-grid">
             @foreach($relatedProducts as $item)

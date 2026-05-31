@@ -20,6 +20,7 @@ min-height:100vh;
 position:fixed;
 
 left:0;
+
 top:0;
 
 width:260px;
@@ -226,4 +227,397 @@ min-height:80vh;
     background:#15264b;
     color:#fff;
     cursor:pointer;
+}
+
+/* Custom ô chọn ảnh sản phẩm */
+.form-group-image {
+    margin-bottom: 15px;
+}
+
+.form-group-image label {
+    display: block; 
+    font-weight: 600; 
+    margin-bottom: 5px;
+    color: #334155;
+}
+
+.form-group-image .input-file-custom {
+    width: 100%; 
+    border: 1px solid #e2e8f0; 
+    border-radius: 8px; 
+    padding: 8px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+/* Hiệu ứng khi click chọn vào ô file */
+.form-group-image .input-file-custom:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+.img-product-admin {
+    width: 80px; 
+    height: 80px; 
+    object-fit: cover; 
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+/* Khung chứa các ảnh sản phẩm */
+.image-gallery-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    background-color: #f8fafc;
+}
+
+/* Từng ô ảnh */
+.image-item-box {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.image-item-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Nút xóa ảnh màu đỏ nhỏ xinh nằm đè lên góc ảnh */
+.btn-delete-img {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: rgba(239, 68, 68, 0.9);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: background-color 0.2s;
+}
+
+.btn-delete-img:hover {
+    background-color: #dc2626;
+}
+
+
+
+/* ============================================================
+   DÙNG CHO TRANG CHI TIẾT KHÁCH HÀNG
+   ============================================================ */
+ 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap');
+ 
+/* ÁP NOTO SANS TOÀN BỘ TRANG NÀY */
+.ud-wrapper,
+.ud-wrapper * {
+    font-family: 'Noto Sans', sans-serif;
+}
+ 
+.ud-wrapper {
+    padding: 28px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+ 
+/* ── HEADER ─────────────────────────────────────── */
+.ud-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+ 
+.ud-header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+ 
+.ud-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #1e3a5f;
+    transition: all 0.18s ease;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(30,58,95,0.25);
+}
+ 
+.ud-back-btn:hover {
+    background: #162d4a;
+    color: #ffffff;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(30,58,95,0.35);
+    transform: translateY(-1px);
+}
+ 
+.ud-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.2px;
+}
+ 
+.ud-subtitle {
+    font-size: 13px;
+    font-weight: 500;
+    color: #94a3b8;
+    margin: 0;
+}
+ 
+/* ── BADGE TRẠNG THÁI (header) ───────────────────── */
+.ud-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+ 
+.ud-status-badge::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+ 
+.ud-status-active  { background: #dcfce7; color: #15803d; }
+.ud-status-active::before  { background: #16a34a; }
+.ud-status-locked  { background: #fee2e2; color: #b91c1c; }
+.ud-status-locked::before  { background: #dc2626; }
+ 
+/* ── BODY ────────────────────────────────────────── */
+.ud-body {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+ 
+/* ── CARD ────────────────────────────────────────── */
+.ud-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+ 
+.ud-card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+ 
+.ud-card-head svg {
+    color: #1e3a5f;
+    flex-shrink: 0;
+}
+ 
+.ud-card-body {
+    padding: 24px;
+}
+ 
+.ud-no-pad {
+    padding: 0;
+}
+ 
+/* ── THÔNG TIN TÀI KHOẢN ─────────────────────────── */
+.ud-info-card .ud-card-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+}
+ 
+.ud-avatar {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e3a5f, #2d6a9f);
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(30,58,95,0.25);
+}
+ 
+.ud-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 32px;
+    flex: 1;
+}
+ 
+.ud-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+ 
+.ud-info-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+ 
+.ud-info-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+}
+ 
+/* ── BẢNG ĐƠN HÀNG ───────────────────────────────── */
+.ud-order-count {
+    margin-left: auto;
+    background: #1e3a5f;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+ 
+.ud-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+ 
+.ud-table thead tr {
+    background: #f8fafc;
+}
+ 
+.ud-table thead th {
+    padding: 13px 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+    white-space: nowrap;
+}
+ 
+.ud-table tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.15s ease;
+}
+ 
+.ud-table tbody tr:last-child {
+    border-bottom: none;
+}
+ 
+.ud-table tbody tr:hover {
+    background: #f8fafc;
+}
+ 
+.ud-table tbody td {
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    vertical-align: middle;
+}
+ 
+.ud-order-id {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e3a5f;
+}
+ 
+/* ── BADGE TRẠNG THÁI ĐƠN HÀNG ───────────────────── */
+.ud-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+ 
+.ud-badge-pending    { background: #fef9c3; color: #854d0e; }
+.ud-badge-processing { background: #dbeafe; color: #1d4ed8; }
+.ud-badge-shipping   { background: #ede9fe; color: #6d28d9; }
+.ud-badge-done       { background: #dcfce7; color: #15803d; }
+.ud-badge-cancel     { background: #fee2e2; color: #b91c1c; }
+ 
+/* ── EMPTY STATE ─────────────────────────────────── */
+.ud-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    color: #94a3b8;
+    gap: 12px;
+}
+ 
+.ud-empty p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+ 
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 768px) {
+    .ud-wrapper { padding: 16px; }
+ 
+    .ud-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+ 
+    .ud-info-card .ud-card-body {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+ 
+    .ud-info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+ 
+    .ud-table {
+        display: block;
+        overflow-x: auto;
+    }
 }

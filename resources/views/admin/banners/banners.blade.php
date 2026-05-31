@@ -27,7 +27,7 @@ Quản lý banner
         <tr>
             <td>{{ $banner->MaBanner }}</td>
             <td>{{ $banner->TenBanner }}</td>
-            <td><img src="{{ asset('images/banner/' . $banner->HinhAnh) }}" alt="" style="width: 180px; height: 100px; object-fit: cover; border-radius: 8px;"></td>
+            <td><img src="{{ asset('images/banners/' . $banner->HinhAnh) }}" alt="" style="width: 180px; height: 100px; object-fit: cover; border-radius: 8px;"></td>
             <td>
                 @if($banner->TrangThai == 1) <x-badge variant="success">Hiển thị</x-badge>
                 @else <x-badge variant="warning">Ẩn</x-badge>
