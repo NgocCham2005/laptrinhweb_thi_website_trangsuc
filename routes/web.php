@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminVoucherController;
-use App\Http\Controllers\BannerController;
+use App\Http\Controllers\AdminBannerController;
+
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\ProductController;
@@ -79,17 +80,17 @@ Route::prefix('admin')
     )->name('customers');
 
 
-    Route::get('/banners', [BannerController::class, 'index'])
+    Route::get('/banners', [AdminBannerController::class, 'index'])
     ->name('banners');
-    Route::get('/add-banner', [BannerController::class, 'create'])
+    Route::get('/add-banner', [AdminBannerController::class, 'create'])
     ->name('addBanner');
-    Route::post('/add-banner', [BannerController::class, 'store'])
+    Route::post('/add-banner', [AdminBannerController::class, 'store'])
     ->name('storeBanner');
-    Route::get('/edit-banner/{id}', [BannerController::class, 'edit'])
+    Route::get('/edit-banner/{id}', [AdminBannerController::class, 'edit'])
     ->name('editBanner');
-    Route::post('/update-banner/{id}', [BannerController::class, 'update'])
+    Route::post('/update-banner/{id}', [AdminBannerController::class, 'update'])
     ->name('updateBanner');
-    Route::delete('/delete-banner/{id}', [BannerController::class, 'destroy'])
+    Route::delete('/delete-banner/{id}', [AdminBannerController::class, 'destroy'])
     ->name('deleteBanner');
 
     Route::get('/vouchers', [AdminVoucherController::class, 'index'])
