@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminReviewController;
 use App\Http\Controllers\AdminCategoryController;
@@ -138,7 +139,11 @@ Route::prefix('admin')
 // GIỎ HÀNG & ĐẶT HÀNG (cần đăng nhập)
 // =====================
 // Route::middleware('auth')->group(function () {
-Route::group([], function () {
+// =====================
+// GIỎ HÀNG & ĐẶT HÀNG (cần đăng nhập)
+// =====================
+// TẠM THỜI — bỏ auth để test, bật lại sau khi có login
+// Route::middleware('auth')->group(function () {
 
     // Giỏ hàng
     Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
@@ -147,16 +152,9 @@ Route::group([], function () {
     Route::post('/gio-hang/xoa', [CartController::class, 'xoa'])->name('cart.xoa');
 
     // Đặt hàng & thanh toán
-    Route::get('/thanh-toan', [OrderController::class, 'checkout'])->name('order.checkout');
-    Route::post('/thanh-toan/ap-voucher', [OrderController::class, 'apVoucher'])->name('order.apVoucher');
-    Route::post('/thanh-toan/dat-hang', [OrderController::class, 'datHang'])->name('order.datHang');
+Route::match(['get', 'post'], '/thanh-toan', [OrderController::class, 'checkout'])->name('order.checkout');    Route::post('/thanh-toan/dat-hang', [OrderController::class, 'datHang'])->name('order.datHang');
     Route::get('/dat-hang-thanh-cong/{maDonHang}', [OrderController::class, 'success'])->name('order.success');
-
-    // Mua ngay
     Route::post('/mua-ngay', [OrderController::class, 'muaNgay'])->name('order.muaNgay');
-
-    Route::get('/don-hang', function () {
-        return redirect('/')->with('info', 'Chức năng đang phát triển!');
-    })->name('order.lichSu');
-
-});
+   Route::get('/don-hang', [OrderController::class, 'lichSu'])->name('order.lichSu');
+Route::get('/don-hang/{maDonHang}', [OrderController::class, 'chiTiet'])->name('order.chiTiet');
+// });

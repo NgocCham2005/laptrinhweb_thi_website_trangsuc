@@ -132,17 +132,15 @@
 
     </div>
 
-    {{-- ── Nút điều hướng ── --}}
-    <div class="success-card">
-        <div class="success-actions">
-            <a href="{{ url('/') }}" class="btn btn-outline-navy">
-                ← Tiếp tục mua sắm
-            </a>
-            <a href="{{ route('order.lichSu') }}" class="btn btn-secondary">
-                Xem lịch sử đơn hàng
-            </a>
-        </div>
-    </div>
+   {{-- ── Nút điều hướng ── --}}
+<div class="success-actions">
+    <x-button variant="outline-navy" onclick="location.href='{{ route('products.index') }}'">
+        ← Tiếp tục mua sắm
+    </x-button>
+    <x-button variant="secondary" onclick="location.href='{{ route('order.lichSu') }}'">
+        Xem lịch sử đơn hàng
+    </x-button>
+</div>
 
 </div>
 
