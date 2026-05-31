@@ -20,9 +20,20 @@
         
         <x-price-tag :gia="$product->GiaBan" />
         
-        <div class="product-actions">
-            <x-button variant="secondary">Thêm vào giỏ</x-button>
-            <x-button>Mua ngay</x-button>
-        </div>
+        <div class="product-actions" style="display:flex; gap:8px; margin-top:12px;">
+    <form action="{{ route('cart.them') }}" method="POST" style="flex:1">
+        @csrf
+        <input type="hidden" name="MaSanPham" value="{{ $product->MaSanPham }}">
+        <input type="hidden" name="SoLuong" value="1">
+        <x-button type="submit" variant="secondary" :block="true">Thêm vào giỏ</x-button>
+    </form>
+
+    <form action="{{ route('order.muaNgay') }}" method="POST" style="flex:1">
+        @csrf
+        <input type="hidden" name="MaSanPham" value="{{ $product->MaSanPham }}">
+        <input type="hidden" name="SoLuong" value="1">
+        <x-button type="submit" :block="true">Mua ngay</x-button>
+    </form>
+</div>
     </div>
 </div>

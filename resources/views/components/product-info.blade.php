@@ -21,7 +21,18 @@
     </div>
 
     <div class="product-actions">
-        <x-button>Thêm vào giỏ</x-button>
-        <x-button>Mua ngay</x-button>
-    </div>
+    <form action="{{ route('cart.them') }}" method="POST" style="flex:1">
+        @csrf
+        <input type="hidden" name="MaSanPham" value="{{ $product->MaSanPham }}">
+        <input type="hidden" name="SoLuong" value="1">
+        <x-button type="submit" variant="secondary" :block="true">Thêm vào giỏ</x-button>
+    </form>
+
+    <form action="{{ route('order.muaNgay') }}" method="POST" style="flex:1">
+        @csrf
+        <input type="hidden" name="MaSanPham" value="{{ $product->MaSanPham }}">
+        <input type="hidden" name="SoLuong" value="1">
+        <x-button type="submit" :block="true">Mua ngay</x-button>
+    </form>
+</div>
 </div>

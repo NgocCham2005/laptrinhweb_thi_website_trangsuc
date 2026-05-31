@@ -13,12 +13,10 @@ use App\Models\Voucher;
 
 class OrderController extends Controller
 {
-    // TẠM THỜI — dùng tài khoản cứng để test
     private function layMaTaiKhoan() {
-        return 'TK013'; // TODO: thay bằng Auth::user()->MaTaiKhoan
+        return 'TK007'; // TODO: thay bằng Auth::user()->MaTaiKhoan
     }
 
-    // Tạo mã đơn hàng tự động
     private function taoMaDonHang() {
         $donHangCuoi = DonHang::orderBy('MaDonHang', 'desc')->first();
         $soMoi = $donHangCuoi ? ((int) substr($donHangCuoi->MaDonHang, 2)) + 1 : 1;
@@ -26,12 +24,12 @@ class OrderController extends Controller
     }
 
     // =====================
-    // MUA NGAY (từ trang sản phẩm)
+    // MUA NGAY
     // =====================
     public function muaNgay(Request $request) {
         $request->validate([
             'MaSanPham' => 'required|exists:san_pham,MaSanPham',
-'SoLuong' => 'required|integer|min:1|max:999',
+            'SoLuong'   => 'required|integer|min:1|max:999',
         ]);
 
         $sanPham = SanPham::findOrFail($request->MaSanPham);
@@ -40,13 +38,10 @@ class OrderController extends Controller
             return back()->with('error', 'Sản phẩm không đủ số lượng trong kho!');
         }
 
-        // Lưu tạm vào session
-        session([
-            'mua_ngay' => [
-                'MaSanPham' => $request->MaSanPham,
-                'SoLuong'   => (int) $request->SoLuong,
-            ]
-        ]);
+        session(['mua_ngay' => [
+            'MaSanPham' => $request->MaSanPham,
+            'SoLuong'   => (int) $request->SoLuong,
+        ]]);
 
         return redirect()->route('order.checkout');
     }
@@ -54,28 +49,22 @@ class OrderController extends Controller
     // =====================
     // TRANG CHECKOUT
     // =====================
-    public function checkout() {
+    public function checkout(Request $request) {
         $maTaiKhoan = $this->layMaTaiKhoan();
-$vouchers = Voucher::where('SoLanSuDung', '>', 0)
-                   ->where('TrangThai', 1)
-                   ->get();
-
-$gioHang = null;
+        $vouchers   = Voucher::where('SoLanSuDung', '>', 0)->where('TrangThai', 1)->get();
+        $gioHang    = null;
 
         // Flow MUA NGAY
         if (session('mua_ngay')) {
             $sp      = SanPham::findOrFail(session('mua_ngay.MaSanPham'));
             $soLuong = session('mua_ngay.SoLuong');
-
-            $chiTiet = collect([(object)[
+            $chiTiet  = collect([(object)[
                 'MaSanPham' => $sp->MaSanPham,
                 'SoLuong'   => $soLuong,
                 'sanPham'   => $sp,
             ]]);
-
             $tongTien = $soLuong * $sp->GiaBan;
             $nguonDat = 'mua_ngay';
-
             return view('order.checkout', compact('chiTiet', 'tongTien', 'vouchers', 'nguonDat', 'gioHang'));
         }
 
@@ -85,9 +74,16 @@ $gioHang = null;
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng trống!');
         }
 
-        $chiTiet = ChiTietGioHang::where('MaGio', $gioHang->MaGio)
-            ->with('sanPham')
-            ->get();
+        $query = ChiTietGioHang::where('MaGio', $gioHang->MaGio)->with('sanPham');
+
+        if ($request->has('sp_chon') && count($request->sp_chon) > 0) {
+            $query->whereIn('MaSanPham', $request->sp_chon);
+            session(['sp_chon' => $request->sp_chon]);
+        } else {
+            session()->forget('sp_chon');
+        }
+
+        $chiTiet = $query->get();
 
         if ($chiTiet->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng trống!');
@@ -104,30 +100,24 @@ $gioHang = null;
     // =====================
     public function datHang(Request $request) {
         $request->validate([
-           
-    'TenNguoiNhan'   => 'required|string|min:2|max:100|regex:/^[\p{L}\s]+$/u',
-    'SoDienThoai'    => [
-        'required',
-        'digits_between:10,11',
-        'regex:/^(0[35789])[0-9]{8,9}$/',
-    ],
-    'DiaChiGiaoHang' => 'required|string|min:10|max:255',
-    'PTTT'           => 'required|in:COD,CK',
-    'NguonDat'       => 'required|in:mua_ngay,gio_hang',
-    'MaVoucher'      => 'nullable|string|exists:voucher,MaVoucher',
-], [
-    'TenNguoiNhan.required'     => 'Vui lòng nhập họ tên người nhận.',
-    'TenNguoiNhan.min'          => 'Họ tên phải có ít nhất 2 ký tự.',
-    'TenNguoiNhan.regex'        => 'Họ tên chỉ được chứa chữ cái và khoảng trắng.',
-    'SoDienThoai.required'      => 'Vui lòng nhập số điện thoại.',
-    'SoDienThoai.digits_between'=> 'Số điện thoại phải có 10-11 chữ số.',
-    'SoDienThoai.regex'         => 'Số điện thoại không đúng định dạng Việt Nam.',
-    'DiaChiGiaoHang.required'   => 'Vui lòng nhập địa chỉ giao hàng.',
-    'DiaChiGiaoHang.min'        => 'Địa chỉ giao hàng quá ngắn.',
-    'PTTT.required'             => 'Vui lòng chọn phương thức thanh toán.',
-    'NguonDat.required'         => 'Nguồn đặt hàng không hợp lệ.',
-]);
-        
+            'TenNguoiNhan'   => 'required|string|min:2|max:100|regex:/^[\p{L}\s]+$/u',
+            'SoDienThoai'    => ['required', 'digits_between:10,11', 'regex:/^(0[35789])[0-9]{8,9}$/'],
+            'DiaChiGiaoHang' => 'required|string|min:10|max:255',
+            'PTTT'           => 'required|in:COD,CK',
+            'NguonDat'       => 'required|in:mua_ngay,gio_hang',
+            'MaVoucher'      => 'nullable|string|exists:voucher,MaVoucher',
+        ], [
+            'TenNguoiNhan.required'      => 'Vui lòng nhập họ tên người nhận.',
+            'TenNguoiNhan.min'           => 'Họ tên phải có ít nhất 2 ký tự.',
+            'TenNguoiNhan.regex'         => 'Họ tên chỉ được chứa chữ cái và khoảng trắng.',
+            'SoDienThoai.required'       => 'Vui lòng nhập số điện thoại.',
+            'SoDienThoai.digits_between' => 'Số điện thoại phải có 10-11 chữ số.',
+            'SoDienThoai.regex'          => 'Số điện thoại không đúng định dạng Việt Nam.',
+            'DiaChiGiaoHang.required'    => 'Vui lòng nhập địa chỉ giao hàng.',
+            'DiaChiGiaoHang.min'         => 'Địa chỉ giao hàng quá ngắn.',
+            'PTTT.required'              => 'Vui lòng chọn phương thức thanh toán.',
+            'NguonDat.required'          => 'Nguồn đặt hàng không hợp lệ.',
+        ]);
 
         $maTaiKhoan = $this->layMaTaiKhoan();
         $nguonDat   = $request->input('NguonDat', 'gio_hang');
@@ -156,9 +146,13 @@ $gioHang = null;
                 return back()->with('error', 'Không tìm thấy giỏ hàng!');
             }
 
-            $chiTiet = ChiTietGioHang::where('MaGio', $gioHang->MaGio)
-                ->with('sanPham')
-                ->get();
+            $query  = ChiTietGioHang::where('MaGio', $gioHang->MaGio)->with('sanPham');
+            $spChon = session('sp_chon');
+            if (!empty($spChon)) {
+                $query->whereIn('MaSanPham', $spChon);
+            }
+
+            $chiTiet = $query->get();
 
             if ($chiTiet->isEmpty()) {
                 return back()->with('error', 'Giỏ hàng trống!');
@@ -174,21 +168,21 @@ $gioHang = null;
             $tongTien = $chiTiet->sum(fn($item) => $item->SoLuong * $item->sanPham->GiaBan);
         }
 
-       // ── Xử lý voucher ──
-    $maVoucher    = null;
-    $giaTriApDung = 0;
+        // ── Xử lý voucher ──
+        $maVoucher    = null;
+        $giaTriApDung = 0;
 
-    if ($request->MaVoucher) {
-    $voucher = Voucher::where('MaVoucher', $request->MaVoucher)
-        ->where('SoLanSuDung', '>', 0)
-        ->first();
+        if ($request->MaVoucher) {
+            $voucher = Voucher::where('MaVoucher', $request->MaVoucher)
+                ->where('SoLanSuDung', '>', 0)
+                ->first();
 
-    if ($voucher && $tongTien >= (float) $voucher->DieuKien) { // ← cast float
-        $maVoucher    = $voucher->MaVoucher;
-        $giaTriApDung = (float) $voucher->GiaTriGiamToiDa;     // ← bỏ min 50%
-        $voucher->decrement('SoLanSuDung');
-    }
-    }
+            if ($voucher && $tongTien >= (float) $voucher->DieuKien) {
+                $maVoucher    = $voucher->MaVoucher;
+                $giaTriApDung = (float) $voucher->GiaTriGiamToiDa;
+                $voucher->decrement('SoLanSuDung');
+            }
+        }
 
         // ── Tạo đơn hàng ──
         $maDonHang = $this->taoMaDonHang();
@@ -219,10 +213,14 @@ $gioHang = null;
         }
 
         // ── Dọn dẹp ──
+        session()->forget('sp_chon');
         if ($nguonDat === 'mua_ngay') {
             session()->forget('mua_ngay');
         } elseif ($gioHang) {
-            ChiTietGioHang::where('MaGio', $gioHang->MaGio)->delete();
+            $spDaDat = $chiTiet->pluck('MaSanPham')->toArray();
+            ChiTietGioHang::where('MaGio', $gioHang->MaGio)
+                ->whereIn('MaSanPham', $spDaDat)
+                ->delete();
         }
 
         return redirect()->route('order.success', $maDonHang)
@@ -239,13 +237,39 @@ $gioHang = null;
 
         return view('order.success', compact('donHang'));
     }
-        
+// =====================
+    // LỊCH SỬ ĐƠN HÀNG (user)
+    // =====================
+    public function lichSu() {
+        $maTaiKhoan = $this->layMaTaiKhoan();
 
+        $donHangs = DonHang::with('chiTietDonHang.sanPham')
+            ->where('MaTaiKhoan', $maTaiKhoan)
+            ->orderByDesc('NgayDatHang')
+            ->paginate(5);
+
+        // lichSu()
+return view('order.manage_user_orders', compact('donHangs'));
+    }
+
+    // =====================
+    // CHI TIẾT ĐƠN HÀNG (user) — dùng lại view success
+    // =====================
+    public function chiTiet($maDonHang) {
+        $maTaiKhoan = $this->layMaTaiKhoan();
+
+        // Chỉ cho xem đơn của chính mình
+        $donHang = DonHang::with('chiTietDonHang.sanPham')
+            ->where('MaDonHang', $maDonHang)
+            ->where('MaTaiKhoan', $maTaiKhoan)
+            ->firstOrFail();
+
+        return view('order.success', compact('donHang'));
+    }
     // =====================
     // ADMIN - DANH SÁCH ĐƠN HÀNG
     // =====================
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $query = DonHang::query();
 
         if ($request->keyword) {
@@ -257,59 +281,35 @@ $gioHang = null;
             $query->where('TrangThai', $request->status);
         }
 
-        $orders = $query
-            ->orderByDesc('NgayDatHang')
+        $orders = $query->orderByDesc('NgayDatHang')
             ->paginate(5)
-            ->appends([
-                'keyword' => $request->keyword,
-                'status'  => $request->status
-            ]);
+            ->appends(['keyword' => $request->keyword, 'status' => $request->status]);
 
-        return view(
-            'admin.orders.index',
-            compact('orders')
-        );
+        return view('admin.orders.index', compact('orders'));
     }
 
     // =====================
     // ADMIN - CHI TIẾT ĐƠN
     // =====================
-    public function show($id)
-    {
-        $order = DonHang::with([
-            'chiTietDonHang.sanPham'
-        ])
-        ->where('MaDonHang', $id)
-        ->firstOrFail();
+    public function show($id) {
+        $order = DonHang::with(['chiTietDonHang.sanPham'])
+            ->where('MaDonHang', $id)
+            ->firstOrFail();
 
-        return view(
-            'admin.orders.show',
-            compact('order')
-        );
+        return view('admin.orders.show', compact('order'));
     }
 
     // =====================
     // ADMIN - CẬP NHẬT TRẠNG THÁI
     // =====================
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'TrangThai' => 'required|integer|in:0,1',
-        ]);
+    public function update(Request $request, $id) {
+        $request->validate(['TrangThai' => 'required|integer|in:0,1']);
 
-        $order = DonHang::where('MaDonHang', $id)
-            ->firstOrFail();
-
+        $order = DonHang::where('MaDonHang', $id)->firstOrFail();
         $order->TrangThai = $request->TrangThai;
-
         $order->save();
 
-        return redirect()
-            ->back()
-            ->with(
-                'success',
-                'Cập nhật trạng thái thành công'
-            );
+        return redirect()->back()->with('success', 'Cập nhật trạng thái thành công');
     }
+    
 }
-

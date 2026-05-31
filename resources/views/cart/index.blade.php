@@ -163,7 +163,7 @@
                     </div>
                     </div>
 
-                    <p class="checkout-hint" id="checkout-hint">☝️ Hãy chọn sản phẩm muốn mua</p>
+                    <p class="checkout-hint" id="checkout-hint"> Hãy chọn sản phẩm muốn mua</p>
 
                     {{-- Nút đặt hàng --}}
                     <x-button variant="primary" :block="true" size="lg"
@@ -340,14 +340,30 @@ function xoaNhieu() {
 function diDenCheckout() {
     const checked = document.querySelectorAll('.sp-checkbox:checked');
     if (checked.length === 0) return;
-    // Nếu chọn tất cả → đi thẳng checkout bình thường
-    const tatCa = document.querySelectorAll('.sp-checkbox').length;
-    if (checked.length === tatCa) {
-        window.location.href = '{{ route("order.checkout") }}';
-    } else {
-        // TODO: truyền danh sách SP đã chọn nếu cần đặt 1 phần
-        window.location.href = '{{ route("order.checkout") }}';
-    }
+
+    // Tạo form POST gửi danh sách SP đã chọn
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ route("order.checkout") }}';
+
+    // CSRF
+    const csrf = document.createElement('input');
+    csrf.type  = 'hidden';
+    csrf.name  = '_token';
+    csrf.value = CSRF;
+    form.appendChild(csrf);
+
+    // Danh sách SP đã chọn
+    checked.forEach(cb => {
+        const input = document.createElement('input');
+        input.type  = 'hidden';
+        input.name  = 'sp_chon[]';
+        input.value = cb.dataset.ma;
+        form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
 }
 
 function showToast(msg, type) {

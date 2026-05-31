@@ -1,0 +1,218 @@
+/* =====================================================
+   LỊCH SỬ ĐƠN HÀNG — Luminous Jewelry
+   Font: var(--font-display) / var(--font-body)
+   Màu: Navy #16274f + Gold #c9a227
+   ===================================================== */
+
+.lich-su-wrap {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px 60px;
+    font-family: var(--font-body);
+}
+
+/* ── Tiêu đề ── */
+.lich-su-heading {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ── Trống ── */
+.lich-su-empty {
+    text-align: center;
+    padding: 80px 20px;
+    background: #fff;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow);
+}
+
+.lich-su-empty-icon { font-size: 52px; display: block; margin-bottom: 16px; }
+
+.lich-su-empty h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--navy);
+    margin-bottom: 8px;
+}
+
+.lich-su-empty p {
+    font-size: 14px;
+    color: var(--gray-500);
+    margin-bottom: 24px;
+}
+
+/* ── Danh sách đơn ── */
+.don-hang-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.don-hang-card {
+    background: #fff;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.don-hang-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+/* ── Header card ── */
+.don-hang-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.don-hang-ma {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: .04em;
+}
+
+.don-hang-ngay {
+    font-size: 12px;
+    color: var(--gray-400);
+    font-weight: 400;
+}
+
+.don-hang-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ── Badge trạng thái ── */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.status-0 { background: var(--warning-bg); color: var(--warning); }
+.status-1 { background: var(--success-bg); color: var(--success); }
+
+/* ── Body card ── */
+.don-hang-body {
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* Danh sách SP tóm tắt */
+.don-hang-sp-list {
+    flex: 1;
+    min-width: 0;
+}
+
+.don-hang-sp-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray-700);
+    padding: 3px 0;
+}
+
+.don-hang-sp-item .sp-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+}
+
+.don-hang-sp-name {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 260px;
+}
+
+.don-hang-sp-qty {
+    color: var(--gray-400);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.don-hang-sp-more {
+    font-size: 12px;
+    color: var(--gray-400);
+    font-style: italic;
+    padding: 3px 0;
+}
+
+/* Tổng tiền + nút */
+.don-hang-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.don-hang-tong-label {
+    font-size: 11px;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-weight: 600;
+}
+
+.don-hang-tong-gia {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+}
+
+/* ── PTTT badge ── */
+.pttt-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 600;
+    font-family: var(--font-body);
+}
+
+.pttt-cod { background: var(--info-bg);    color: var(--info); }
+.pttt-ck  { background: var(--warning-bg); color: var(--warning); }
+
+/* ── Phân trang ── */
+.lich-su-pagination {
+    margin-top: 28px;
+    display: flex;
+    justify-content: center;
+}

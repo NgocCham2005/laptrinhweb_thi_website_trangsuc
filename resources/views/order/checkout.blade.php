@@ -96,6 +96,9 @@
                         </label>
                     </div>
 
+                    @error('PTTT')
+                        <div class="form-error" style="margin-top:8px;">{{ $message }}</div>
+                    @enderror
                     <div class="ck-box" id="ck-info">
                         <span class="ck-label">Thông tin tài khoản</span>
                         <div>
@@ -228,13 +231,13 @@
 
                     <x-button
                         type="submit"
-                        variant="secondary"
+                        variant="primary"
                         :block="true"
                         size="lg"
                         id="btn-order"
                         class="btn-checkout"
                     >
-                        <span class="btn-checkout-text">Đặt hàng ngay →</span>
+                        Đặt hàng ngay →
                     </x-button>
 
                 </div>
@@ -247,6 +250,14 @@
 
 <script>
 const tongTienGoc = {{ $tongTien }};
+
+// Scroll tới lỗi đầu tiên nếu có
+document.addEventListener("DOMContentLoaded", function() {
+    const firstError = document.querySelector(".form-error, .is-invalid");
+    if (firstError) {
+        firstError.closest(".form-group, .checkout-card")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+});
 let voucherOpen   = false;
 
 /* ── Phương thức thanh toán ── */

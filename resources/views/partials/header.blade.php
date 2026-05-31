@@ -7,10 +7,10 @@
         </div>
         <x-search-bar />
         <div class="header-right">
-            <a href="/cart" class="cart">
-                <i class="fa-solid fa-cart-shopping"></i>
-                Giỏ hàng
-            </a>
+            <a href="{{ route('cart.index') }}" class="cart">
+    <i class="fa-solid fa-cart-shopping"></i>
+    Giỏ hàng
+</a>
             <a href="/login">Đăng nhập</a>
         </div>
     </div>
@@ -26,10 +26,10 @@
                 class="{{ request()->is('products') ? 'active' : '' }}">
                 Sản phẩm
             </a>
-            <a href="/orders"
-                class="{{ request()->is('orders') ? 'active' : '' }}">
-                Đơn hàng
-            </a>
+           <a href="{{ route('order.lichSu') }}"
+    class="{{ request()->is('don-hang*') ? 'active' : '' }}">
+    Đơn hàng
+</a>
         </div>
         <div class="policy-bar">
             <div>SẢN PHẨM CHẤT LƯỢNG</div>
