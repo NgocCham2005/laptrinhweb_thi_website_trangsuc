@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use App\Models\DonHang;
 use App\Models\SanPham;
 use App\Models\DanhMucSP;
 use Illuminate\Http\Request;
@@ -38,7 +38,7 @@ class AdminReportController extends Controller
         // DOANH THU
         // =====================================
 
-        $revenueReports = Order::join(
+        $revenueReports = DonHang::join(
                 'chi_tiet_don_hang',
                 'don_hang.MaDonHang',
                 '=',
@@ -120,7 +120,7 @@ class AdminReportController extends Controller
         // TỔNG DOANH THU
         // =====================================
 
-        $totalRevenueQuery = Order::join(
+        $totalRevenueQuery = DonHang::join(
                 'chi_tiet_don_hang',
                 'don_hang.MaDonHang',
                 '=',
@@ -177,7 +177,7 @@ class AdminReportController extends Controller
         // ĐƠN TẠO DOANH THU
         // =====================================
 
-        $totalRevenueOrdersQuery = Order::where(
+        $totalRevenueOrdersQuery = DonHang::where(
             'TrangThai',
             3
         );
@@ -224,7 +224,7 @@ class AdminReportController extends Controller
             // TOP SẢN PHẨM BÁN CHẠY
             // =====================================
 
-            $topProducts = Order::join(
+            $topProducts = DonHang::join(
                     'chi_tiet_don_hang',
                     'don_hang.MaDonHang',
                     '=',
@@ -297,7 +297,7 @@ class AdminReportController extends Controller
         // =====================================
         // Order Reports
         // =====================================
-        $orderReports = Order::select(
+        $orderReports = DonHang::select(
 
             DB::raw("
                 DATE_FORMAT(
@@ -378,7 +378,7 @@ class AdminReportController extends Controller
         // TỔNG ĐƠN
         // =====================================
 
-        $totalOrdersQuery = Order::query();
+        $totalOrdersQuery = DonHang::query();
 
         if($from){
             $totalOrdersQuery->whereDate(
@@ -411,7 +411,7 @@ class AdminReportController extends Controller
         // ĐƠN HOÀN THÀNH
         // =====================================
 
-        $completedOrdersQuery = Order::where(
+        $completedOrdersQuery = DonHang::where(
             'TrangThai',
             3
         );
@@ -440,7 +440,7 @@ class AdminReportController extends Controller
         // ĐƠN ĐANG GIAO
         // =====================================
 
-        $shippingOrdersQuery = Order::where(
+        $shippingOrdersQuery = DonHang::where(
             'TrangThai',
             2
         );
@@ -482,7 +482,7 @@ class AdminReportController extends Controller
         // TRẠNG THÁI ĐƠN
         // =====================================
 
-        $orderStatusStats = Order::select(
+        $orderStatusStats = DonHang::select(
                 'TrangThai',
                 DB::raw('COUNT(*) as tong')
             );

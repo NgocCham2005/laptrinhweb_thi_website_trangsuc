@@ -90,7 +90,7 @@ href="{{ asset('css/order.css') }}">
     <td>
 
         {{ number_format(
-            $o->details->sum(
+            $o->chiTietDonHang->sum(
                 fn($d)=>$d->SoLuong*$d->DonGia
             )
         ) }}đ

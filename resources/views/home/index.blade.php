@@ -4,4 +4,5 @@
 
 <x-banner />
 
+<x-hero />
 @endsection

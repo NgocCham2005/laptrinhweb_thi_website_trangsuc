@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use App\Models\DonHang;   
+use App\Models\ChiTietDonHang;
+use App\Models\SanPham;
 use Illuminate\Http\Request;
 
 class AdminOrderController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Order::with('details');
+        $query = DonHang::with('chiTietDonHang');
 
         // tìm kiếm
         if($request->keyword){
@@ -52,8 +54,8 @@ class AdminOrderController extends Controller
     }
     public function show($id)
     {
-        $order = Order::with([
-            'details.product'
+        $order = DonHang::with([
+            'chiTietDonHang.sanPham'
         ])->findOrFail($id);
 
         return view(
@@ -67,7 +69,7 @@ class AdminOrderController extends Controller
             'TrangThai' => 'required'
         ]);
 
-        $order = Order::findOrFail($id);
+        $order = DonHang::findOrFail($id);
 
         $order->TrangThai = $request->TrangThai;
 

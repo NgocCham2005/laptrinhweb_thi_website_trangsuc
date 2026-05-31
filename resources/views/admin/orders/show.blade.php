@@ -209,7 +209,7 @@
             $tongTien = 0;
         @endphp
 
-        @foreach($order->details as $d)
+        @foreach($order->chiTietDonHang as $d)
 
         @php
             $thanhTien =
@@ -225,7 +225,7 @@
             </td>
 
             <td>
-                {{ $d->product->TenSanPham ?? '' }}
+                {{ $d->sanPham->TenSanPham ?? '' }}
             </td>
 
             <td>
