@@ -42,7 +42,7 @@ body {
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     padding: 30px;
-    width: 380px;
+    width: auto;
     border: 1px solid var(--border-color);
     height: fit-content;
 }
