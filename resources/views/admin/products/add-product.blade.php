@@ -25,22 +25,19 @@ Quản lý sản phẩm
                     @endforeach
                 </x-input>
 
-                <x-input type="number" name="gia_ban" label="Giá bán (VNĐ)" placeholder="Nhập giá bán" />
+                <x-input type="number" name="gia_ban" label="Giá bán (VNĐ)" placeholder="Nhập giá bán" min="0"/>
+                <x-input type="number" name="so_luong_ton" label="Số lượng tồn kho" placeholder="Nhập số lượng sản phẩm trong kho" min="0" />
                 <x-input type="text" name="chat_lieu" label="Chất liệu" placeholder="Ví dụ: Vàng 18K, Bạc Ý..." />
                 
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; font-weight:600; margin-bottom:5px;">Mô tả sản phẩm</label>
-                    <textarea name="mo_ta" class="form-control" rows="4" style="width:100%; border:1px solid #e2e8f0; border-radius:8px; padding:10px;" placeholder="Nhập mô tả sản phẩm..."></textarea>
-                </div>
-            <div class="form-group-image">
+                <x-input type="textarea" name="mo_ta" label="Mô tả sản phẩm"  placeholder="Nhập mô tả sản phẩm..."  rows="4"/>            <div class="form-group-image">
                 <label>Hình ảnh sản phẩm (Chọn từ 1 đến 3 ảnh) <span style="color: red;">*</span></label>
                 
                 <div class="image-upload-grid" id="uploadGrid">
                     <div class="upload-box-item" id="box-1">
-                        <input type="file" name="hinh_anh_chinh" id="file-1" accept="image/*" required style="display: none;">
+                        <input type="file" name="hinh_anh_chinh" id="file-1" accept="image/*" style="display: none;">
                         <label for="file-1" class="upload-box-placeholder">
                             <i class="fa-solid fa-plus"></i>
-                            <span>Ảnh chính (1)</span>
+                            <span>Tải lên ảnh 1</span>
                         </label>
                         <div class="preview-zone" style="display: none;"></div>
                     </div>
@@ -49,7 +46,7 @@ Quản lý sản phẩm
                         <input type="file" name="hinh_anh_phu[]" id="file-2" accept="image/*" style="display: none;">
                         <label for="file-2" class="upload-box-placeholder">
                             <i class="fa-solid fa-plus"></i>
-                            <span>Ảnh phụ (2)</span>
+                            <span>Tải lên ảnh 2</span>
                         </label>
                         <div class="preview-zone" style="display: none;"></div>
                     </div>
@@ -58,17 +55,17 @@ Quản lý sản phẩm
                         <input type="file" name="hinh_anh_phu[]" id="file-3" accept="image/*" style="display: none;">
                         <label for="file-3" class="upload-box-placeholder">
                             <i class="fa-solid fa-plus"></i>
-                            <span>Ảnh phụ (3)</span>
+                            <span>Tải lên ảnh 3</span>
                         </label>
                         <div class="preview-zone" style="display: none;"></div>
                     </div>
                 </div>
             </div>
-            </div>
+    </div>
 
             <div class="action-buttons">
                 <x-button type="submit" variant="primary">
-                    <i class="fa-solid fa-floppy-disk"></i> Lưu sản phẩm
+                    Lưu sản phẩm
                 </x-button>
                 <a href="{{ route('admin.products') }}">
                     <x-button type="button">
@@ -78,5 +75,17 @@ Quản lý sản phẩm
             </div>
         </form>
     </div>
-    <script src="{{ asset('js/product-upload.js') }}"></script>
+@if ($errors->any())
+    <div id="laravel-errors-data" data-errors="{{ json_encode($errors->all()) }}" style="display: none;"></div>
+@endif
+
+@if (session('success'))
+    <div id="laravel-success-data" data-message="{{ session('success') }}" style="display: none;"></div>
+@endif
+
+{{-- Nhúng thư viện lõi SweetAlert2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- Nhúng 1 file duy nhất chứa toàn bộ tinh hoa upload và kiểm tra lỗi --}}
+<script src="{{ asset('js/product-upload.js') }}"></script>
 @endsection
