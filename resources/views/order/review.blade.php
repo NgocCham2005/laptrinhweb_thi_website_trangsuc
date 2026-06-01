@@ -6,30 +6,25 @@
 
     <h2 class="review-title">Đánh giá sản phẩm</h2>
 
-    <!-- {{-- Thông báo thành công --}}
     @if(session('success'))
+
         <div class="alert-success">
+
             {{ session('success') }}
+
         </div>
+
     @endif
 
-    {{-- Thông báo lỗi --}}
     @if(session('error'))
-        <div class="alert-error">
-            {{ session('error') }}
-        </div>
-    @endif
 
-    {{-- Lỗi validate --}}
-    @if($errors->any())
         <div class="alert-error">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+
+            {{ session('error') }}
+
         </div>
-    @endif -->
+
+    @endif
 
     <div class="review-product">
         <h3 class="product-name">{{ $sanPham->TenSanPham }}</h3>
@@ -38,44 +33,60 @@
             <img src="{{ asset('images/products/'.$sanPham->MaSanPham.'_1.png') }}" width=300px alt="{{ $sanPham->TenSanPham }}">
         </div>  
     </div>
+    
+    @if($review)
+        <form action="{{ route('review.update',$review->MaDanhGia) }}" method="POST" class="review-form">
+            @csrf
+            @method('PUT')
 
-    <form action="{{ route('review.store') }}" method="POST" class="review-form">
-        @csrf
+    @else
+        <form action="{{ route('review.store') }}" method="POST" class="review-form">
+            @csrf
+            <input type="hidden" name="product_id" value="{{ $sanPham->MaSanPham }}">
+            <input type="hidden" name="order_id" value="{{ $order }}">
+    @endif
+    
+            <div class="form-group">
+                <label>Số sao</label>
+                <br><br>
+                <select name="rating">
+                    @for($i = 5; $i >= 1; $i--)
+                        <option value="{{ $i }}" {{ isset($review) && $review->XepHang == $i ? 'selected' : ''}}>
+                            {{ $i }} ⭐
+                        </option>
+                    @endfor
+                </select>
+            </div>
 
-        <!-- <input type="hidden" name="product_id" value="{{ $sanPham->MaSanPham }}">
-        <input type="hidden" name="order_id" value="{{ $order }}"> -->
-        
-        <!-- sửa components sau -->
-        <div class="form-group">
-            <label>Đánh giá của bạn</label>
-            <br><br>
-            <select name="rating">
-                <option value="5">
-                    ★★★★★ - Rất hài lòng
-                </option>
-                <option value="4">
-                    ★★★★ - Hài lòng
-                </option>
-                <option value="3">
-                    ★★★ - Bình thường
-                </option>
-                <option value="2">
-                    ★★ - Chưa hài lòng
-                </option>
-                <option value="1">
-                    ★ - Không hài lòng
-                </option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label>Bình luận</label>
+                <br><br>
+                <textarea name="comment" rows="5">{{ $review->BinhLuan ?? '' }}</textarea>
+            </div>
 
-        <div class="form-group">
-            <label>Nhận xét</label>
-            <br><br>
-            <textarea name="comment" rows="6" placeholder="Hãy chia sẻ cảm nhận của bạn về sản phẩm..."></textarea>
-        </div>
+            <div class="review-actions">
+                @if($review)
+                <x-button type="button" variant="outline-navy" onclick="history.back()">Quay lại</x-button>
 
-        <x-button type="submit" variant="primary"> Gửi đánh giá </x-button>
-    </form>
+                    <x-button type="submit" variant="secondary">
+                        Sửa đánh giá
+                    </x-button>
+
+        </form>
+                    <form action="{{ route('review.delete',$review->MaDanhGia) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+
+                        <x-button type="submit" variant="danger" onclick="return confirm('Bạn có chắc muốn xóa đánh giá này?')">
+                            Xóa đánh giá
+                        </x-button>
+                    </form>
+                @else
+                    <x-button type="button" variant="outline-navy" onclick="history.back()">Quay lại</x-button>
+                    <x-button type="submit" variant="primary">Gửi đánh giá</x-button>
+        </form>
+                @endif
+            </div>
 </div>
 
 @endsection

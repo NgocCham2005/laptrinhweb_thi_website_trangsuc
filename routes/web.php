@@ -27,11 +27,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // })->name('products');
 Route::get('/product/{id}',[ProductController::class, 'show'])->name('products.detail');
 
-//review cho sản phẩm trong đơn hàng
-
-Route::get('/review/create/{product}/{order}',[ReviewController::class, 'create'])->name('review.create');
-Route::post('/review/store',[ReviewController::class, 'store'])->name('review.store');
-
 Route::get('/products', [ListProductController::class, 'index'])->name('products.index');
 #Test route admin
 
@@ -157,4 +152,26 @@ Route::match(['get', 'post'], '/thanh-toan', [OrderController::class, 'checkout'
     Route::post('/mua-ngay', [OrderController::class, 'muaNgay'])->name('order.muaNgay');
    Route::get('/don-hang', [OrderController::class, 'lichSu'])->name('order.lichSu');
 Route::get('/don-hang/{maDonHang}', [OrderController::class, 'chiTiet'])->name('order.chiTiet');
+
+
+    // đánh giá sản phẩm trong đơn hàng
+    Route::get(
+    '/review/create/{product}/{order}',
+    [ReviewController::class,'create']
+)->name('review.create');
+
+Route::post(
+    '/review/store',
+    [ReviewController::class,'store']
+)->name('review.store');
+
+Route::put(
+    '/review/update/{id}',
+    [ReviewController::class,'update']
+)->name('review.update');
+
+Route::delete(
+    '/review/delete/{id}',
+    [ReviewController::class,'destroy']
+)->name('review.delete');
 // });
