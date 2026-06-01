@@ -45,9 +45,16 @@
                             <span class="pttt-badge {{ $dh->PTTT === 'COD' ? 'pttt-cod' : 'pttt-ck' }}">
                                 {{ $dh->PTTT === 'COD' ? '🚚 COD' : '🏦 Chuyển khoản' }}
                             </span>
-                            <span class="status-badge status-{{ $dh->TrangThai }}">
-                                {{ $dh->TrangThai == 0 ? '⏳ Chờ xác nhận' : '✅ Đã xác nhận' }}
-                            </span>
+                           @php
+    $trangThaiMap = [
+        0 => ['class' => 'status-0', 'label' => '⏳ Chờ xác nhận'],
+        1 => ['class' => 'status-1', 'label' => '✅ Đã xác nhận'],
+        2 => ['class' => 'status-2', 'label' => '🚚 Đang giao'],
+        3 => ['class' => 'status-3', 'label' => '🎉 Hoàn thành'],
+    ];
+    $tt = $trangThaiMap[$dh->TrangThai] ?? $trangThaiMap[0];
+@endphp
+<span class="status-badge {{ $tt['class'] }}">{{ $tt['label'] }}</span>
                         </div>
                     </div>
 
@@ -76,11 +83,22 @@
                                 <div class="don-hang-tong-label">Tổng cộng</div>
                                 <div class="don-hang-tong-gia">{{ number_format($tongCuoi) }}đ</div>
                             </div>
-                            <a href="{{ route('order.chiTiet', $dh->MaDonHang) }}">
-                                <x-button variant="outline-navy" size="sm">
-                                    Xem chi tiết →
-                                </x-button>
-                            </a>
+                            <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+                                <a href="{{ route('order.chiTiet', $dh->MaDonHang) }}">
+                                    <x-button variant="outline-navy" size="sm">Xem chi tiết →</x-button>
+                                </a>
+                                @if($dh->TrangThai == 3)
+                                    <div style="display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end;">
+                                        @foreach($dh->chiTietDonHang as $item)
+                                            @if($item->sanPham)
+                                                <a href="{{ route('review.create', [$item->MaSanPham, $dh->MaDonHang]) }}">
+                                                    <x-button variant="outline-navy" size="sm">⭐ {{ Str::limit($item->sanPham->TenSanPham, 20) }}</x-button>
+                                                </a>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
                         </div>
 
                     </div>

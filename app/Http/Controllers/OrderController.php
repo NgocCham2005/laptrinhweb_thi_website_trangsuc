@@ -303,7 +303,9 @@ return view('order.manage_user_orders', compact('donHangs'));
     // ADMIN - CẬP NHẬT TRẠNG THÁI
     // =====================
     public function update(Request $request, $id) {
-        $request->validate(['TrangThai' => 'required|integer|in:0,1']);
+        $request->validate([
+    'TrangThai' => 'required|integer|in:0,1,2,3',
+]);
 
         $order = DonHang::where('MaDonHang', $id)->firstOrFail();
         $order->TrangThai = $request->TrangThai;
