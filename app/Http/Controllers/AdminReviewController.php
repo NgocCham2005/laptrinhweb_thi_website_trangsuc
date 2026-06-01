@@ -11,7 +11,7 @@ class AdminReviewController extends Controller
 {
     public function index()
     {
-        $reviews = DanhGia::with(['product','replies','user'])->latest('NgayTao')->paginate(2);
+        $reviews = DanhGia::with(['product','replies','user'])->latest('NgayTao')->paginate(3);
         return view('admin.reviews',compact('reviews'));
     }
 
