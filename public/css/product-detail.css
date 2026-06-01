@@ -70,6 +70,23 @@
     object-fit:contain;
 }
 
+.product-info-wrapper{
+    width:30%;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.product-quote{
+    padding:15px;
+    border-left:4px solid #d4af37;
+    background:#fafafa;
+    border-radius:8px;
+    font-style:italic;
+    color:#666;
+    line-height:2;
+}
+
 /* ===== Mô tả sản phẩm ===== */
 
 .product-description{
