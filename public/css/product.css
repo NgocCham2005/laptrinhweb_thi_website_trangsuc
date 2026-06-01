@@ -60,6 +60,8 @@ body {
     gap: 15px;
     justify-content: center;
     margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 /* --- BỐ CỤC CHUNG TRANG SẢN PHẨM (SIDEBAR + GRID) --- */
 .products-container {

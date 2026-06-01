@@ -14,21 +14,14 @@ Quản lý sản phẩm
         </a>
     </div>
     
-    <x-table :headers="['Mã SP', 'Hình ảnh', 'Tên sản phẩm', 'Danh mục', 'Giá bán', 'Trạng thái', 'Thao tác']" striped>
+    <x-table :headers="['Mã SP', 'Tên sản phẩm', 'Danh mục', 'Giá bán', 'Tồn kho','Trạng thái', 'Thao tác']" striped>
         @foreach($products as $product)
         <tr>
             <td>{{ $product->MaSanPham }}</td>
-            <td>
-                @if($product->images->first())
-                <img src="{{ asset('images/product/' . $product->first_image) }}" 
-                            alt="Ảnh sản phẩm" class="img-product-admin">
-                @else
-                    <span class="text-muted">Không có ảnh</span>
-                @endif
-            </td>
             <td>{{ $product->TenSanPham }}</td>
             <td>{{ $product->category->TenDanhMuc ?? 'Trống' }}</td>
             <td>{{ number_format($product->GiaBan, 0, ',', '.') }}đ</td>
+            <td>{{number_format ($product->SoLuongTon,0, ',','.')}}</td>
             <td>
                 @if($product->TrangThai == 1) <x-badge variant="success">Hiển thị</x-badge>
                 @else <x-badge variant="warning">Ẩn</x-badge>

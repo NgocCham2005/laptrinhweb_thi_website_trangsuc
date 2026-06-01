@@ -17,7 +17,7 @@ Quản lý danh mục sản phẩm
         <x-input type="text" name="ten_danhmuc" label="Tên danh mục" placeholder="Nhập tên danh mục..." />
         
         <div class="form-actions">
-            <x-button variant="primary" type="submit">Lưu lại</x-button>
+            <x-button variant="primary" type="submit">Lưu danh mục</x-button>
             <a href="{{ route('admin.categories') }}"
                 <x-button type="button">
                     <i class="fa-solid fa-arrow-left"></i> Quay lại
