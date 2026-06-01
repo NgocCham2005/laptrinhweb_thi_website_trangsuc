@@ -6,26 +6,6 @@
 
     <h2 class="review-title">Đánh giá sản phẩm</h2>
 
-    @if(session('success'))
-
-        <div class="alert-success">
-
-            {{ session('success') }}
-
-        </div>
-
-    @endif
-
-    @if(session('error'))
-
-        <div class="alert-error">
-
-            {{ session('error') }}
-
-        </div>
-
-    @endif
-
     <div class="review-product">
         <h3 class="product-name">{{ $sanPham->TenSanPham }}</h3>
         <p class="product-code">Mã sản phẩm: {{ $sanPham->MaSanPham }}</p>

@@ -155,23 +155,12 @@ Route::get('/don-hang/{maDonHang}', [OrderController::class, 'chiTiet'])->name('
 
 
     // đánh giá sản phẩm trong đơn hàng
-    Route::get(
-    '/review/create/{product}/{order}',
-    [ReviewController::class,'create']
-)->name('review.create');
-
-Route::post(
-    '/review/store',
-    [ReviewController::class,'store']
-)->name('review.store');
-
-Route::put(
-    '/review/update/{id}',
-    [ReviewController::class,'update']
-)->name('review.update');
-
-Route::delete(
-    '/review/delete/{id}',
-    [ReviewController::class,'destroy']
-)->name('review.delete');
+    Route::get('/review/create/{product}/{order}',[ReviewController::class,'create']
+        )->name('review.create');
+    Route::post('/review/store',[ReviewController::class,'store']
+        )->name('review.store');
+    Route::put('/review/update/{id}',[ReviewController::class,'update']
+        )->name('review.update');
+    Route::delete('/review/delete/{id}',[ReviewController::class,'destroy']
+        )->name('review.delete');
 // });

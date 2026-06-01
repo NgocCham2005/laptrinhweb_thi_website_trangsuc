@@ -255,7 +255,7 @@
 }
 
 /* =========================
-   REVIEW FORM
+   REVIEW FORM (ở trang chi tiết)
 ========================= */
 
 /* .review-form{
@@ -400,24 +400,4 @@
     justify-content: flex-end;
     display: flex;
     gap: 15px;
-}
-
-/* =========================
-   ALERT
-========================= */
-
-.alert-success{
-    background: #e8f7e8;
-    color: #2d7a2d;
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.alert-error{
-    background: #ffe7e7;
-    color: #c0392b;
-    padding: 12px 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
 }
