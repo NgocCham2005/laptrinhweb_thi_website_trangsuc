@@ -47,7 +47,6 @@ class ReviewController extends Controller
         {
             $soMoi = 1;
         }
-
         $maDanhGia = 'DG' .str_pad( $soMoi, 4, '0', STR_PAD_LEFT);
 
         DanhGia::create([
@@ -59,7 +58,6 @@ class ReviewController extends Controller
             'MaSanPham' => $request->product_id,
             'MaDonHang' => $request->order_id
         ]);
-
         return redirect()->route('order.lichSu')->with( 'success','Đánh giá thành công' );
     }
 
@@ -69,24 +67,15 @@ class ReviewController extends Controller
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'required|max:255'
         ]);
-
         $review = DanhGia::findOrFail($id);
-
-        $review->update([
-            'XepHang' => $request->rating,
-            'BinhLuan' => $request->comment
-
+        $review->update(['XepHang' => $request->rating,'BinhLuan' => $request->comment
         ]);
-
         return redirect()->route('order.lichSu') ->with('success','Đã sửa đánh giá');
     }
 
     public function destroy($id)
     {
-        DanhGia::where(
-            'MaDanhGia',
-            $id
-        )->delete();
+        DanhGia::where('MaDanhGia', $id)->delete();
         return redirect()->route('order.lichSu')->with('success','Đã xóa đánh giá');
     }
 }

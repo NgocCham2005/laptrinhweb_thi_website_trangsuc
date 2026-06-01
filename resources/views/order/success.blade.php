@@ -50,12 +50,19 @@
                 <span>{{ \Carbon\Carbon::parse($donHang->NgayDatHang)->format('d/m/Y H:i') }}</span>
             </div>
 
-            <div class="info-item">
-                <label>Trạng thái</label>
-                <span class="status-badge status-{{ $donHang->TrangThai }}">
-                    {{ $donHang->TrangThai == 0 ? '⏳ Chờ xác nhận' : '✅ Đã xác nhận' }}
-                </span>
-            </div>
+           <div class="info-item">
+    <label>Trạng thái</label>
+    @php
+        $trangThaiMap = [
+            0 => ['class' => 'status-0', 'label' => 'Chờ xác nhận'],
+            1 => ['class' => 'status-1', 'label' => 'Đã xác nhận'],
+            2 => ['class' => 'status-2', 'label' => 'Đang giao'],
+            3 => ['class' => 'status-3', 'label' => 'Hoàn thành'],
+        ];
+        $tt = $trangThaiMap[$donHang->TrangThai] ?? $trangThaiMap[0];
+    @endphp
+    <span class="status-badge {{ $tt['class'] }}">{{ $tt['label'] }}</span>  {{-- ← thêm dòng này --}}
+</div>
 
             <div class="info-item">
                 <label>Phương thức thanh toán</label>
@@ -131,6 +138,27 @@
         </div>
 
     </div>
+
+   {{-- ── Đánh giá sản phẩm (chỉ hiện khi đơn hoàn thành) ── --}}
+    @if($donHang->TrangThai == 3)
+        <div class="success-card">
+            <div class="success-card-title">⭐ Đánh giá sản phẩm</div>
+            <p style="margin: 0 0 12px; color: #666; font-size: 0.9rem;">
+                Đơn hàng đã hoàn thành! Hãy chia sẻ cảm nhận của bạn về sản phẩm nhé.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                @foreach($donHang->chiTietDonHang as $item)
+                    @if($item->sanPham)
+                        <a href="{{ route('review.create', [$item->MaSanPham, $donHang->MaDonHang]) }}">
+                            <x-button variant="outline-navy" size="sm">
+                                ⭐ {{ Str::limit($item->sanPham->TenSanPham, 20) }}
+                            </x-button>
+                        </a>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    @endif
 
    {{-- ── Nút điều hướng ── --}}
 <div class="success-actions">

@@ -53,14 +53,25 @@
                     </x-button>
 
         </form>
-                    <form action="{{ route('review.delete',$review->MaDanhGia) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
+                    <x-button type="button" variant="danger" 
+                        onclick="openModal('deleteReview{{ $review->MaDanhGia }}')">Xóa đánh giá
+                    </x-button>
 
-                        <x-button type="submit" variant="danger" onclick="return confirm('Bạn có chắc muốn xóa đánh giá này?')">
-                            Xóa đánh giá
-                        </x-button>
-                    </form>
+                    <x-modal id="deleteReview{{ $review->MaDanhGia }}" title="Xác nhận xóa đánh giá">
+                        Bạn có chắc chắn muốn xóa đánh giá này?
+                        <x-slot:footer>
+                        <form action="{{ route('review.delete', $review->MaDanhGia) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+
+                            <x-button variant="danger" type="submit">Xác nhận</x-button>
+
+                            <x-button type="button" variant="ghost"
+                                onclick="closeModal('deleteReview{{ $review->MaDanhGia }}')">Hủy
+                            </x-button>
+                        </form>
+                        </x-slot:footer>
+                    </x-modal>
                 @else
                     <x-button type="button" variant="outline-navy" onclick="history.back()">Quay lại</x-button>
                     <x-button type="submit" variant="primary">Gửi đánh giá</x-button>

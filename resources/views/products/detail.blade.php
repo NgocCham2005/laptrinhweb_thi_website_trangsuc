@@ -6,9 +6,10 @@
 
     <!-- BREADCRUMB -->
     <div class="breadcrumb">
-        <a href="{{ route('home') }}">Trang chủ</a>
-        <span>/</span>
         <a href="{{ route('products.index') }}">Sản phẩm</a>
+        <span>/</span>
+        <a href="{{ route('products.index', ['category' => $product->MaDanhMuc]) }}">
+            {{ $product->category->TenDanhMuc }}</a>
         <span>/</span>
         <p>{{ $product->TenSanPham }}</p>
     </div>
@@ -30,14 +31,10 @@
         </div>
         <div class="product-info-wrapper">
             <x-product-info :product="$product" />
-            <div class="product-quote">
-            Discover our exquisite jewelry collection, where elegance meets craftsmanship.
-            Each piece is carefully designed to blend timeless beauty with modern sophistication, making it perfect for every style and occasion.
-            Whether you're looking for a statement piece or a subtle touch of sparkle, our jewelry is crafted to enhance your confidence and shine.
-            You deserve to shine, and our pieces are designed to make you feel extraordinary.
+            <div class="banner-con">
+                <img src="{{ asset('images/banner-con.jpg') }}">
             </div>
         </div>
-        <!-- <x-product-info :product="$product" /> -->
     </div>
 
     <!-- Mô tả sản phẩm -->
@@ -93,7 +90,7 @@
         @else
             <div class="empty-review">
                 <i class="fa-regular fa-comment-dots"></i>
-        <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+                <p>Chưa có đánh giá nào cho sản phẩm này.</p>
             </div>
         </div>
         @endif
