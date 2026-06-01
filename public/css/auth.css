@@ -151,7 +151,7 @@
 
 /* Phần chữ Điều hướng dưới cùng căn chính giữa */
 .auth-custom-footer {
-    text-align: left !important;
+    text-align: center !important;
     margin-top: 15px !important;
     font-size: 15px !important; 
     color: #4b5563 !important;
