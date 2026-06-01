@@ -27,7 +27,7 @@ class AdminProductController extends Controller
 
     public function store(Request $request)
     {
-        $product = Product::create([
+        $product = SanPham::create([
             'MaSanPham'  => $request->ma_sanpham,
             'TenSanPham' => $request->ten_sanpham,
             'MaDanhMuc'  => $request->ma_danhmuc,
@@ -36,19 +36,37 @@ class AdminProductController extends Controller
             'MoTa'       => $request->mo_ta,
             'TrangThai'  => 1
         ]);
-    if ($request->hasFile('hinh_anh')) {
-        foreach ($request->file('hinh_anh') as $index => $file) {
-            if ($file->isValid()) {
-                $imageName = time() . '.' . $file->extension();
-                $file->move(public_path('images/product'), $imageName);
+    // if ($request->hasFile('hinh_anh')) {
+    //     foreach ($request->file('hinh_anh') as $index => $file) {
+    //         if ($file->isValid()) {
+    //             $imageName = time() . '.' . $file->extension();
+    //             $file->move(public_path('images/product'), $imageName);
 
-        // Lưu dòng dữ liệu mới vào bảng hình ảnh sản phẩm bằng Query Builder hoặc Model
-        \DB::table('hinh_anh_sp')->insert([
-            'MaHinhAnh' => 'HA' . \Illuminate\Support\Str::random(5),
-            'MaSanPham' => $product->MaSanPham,
-            'DuongDan' => $imageName
+    //     // Lưu dòng dữ liệu mới vào bảng hình ảnh sản phẩm bằng Query Builder hoặc Model
+    //     \DB::table('hinh_anh_sp')->insert([
+    //         'MaHinhAnh' => 'HA' . \Illuminate\Support\Str::random(5),
+    //         'MaSanPham' => $product->MaSanPham,
+    //         'DuongDan' => $imageName
+    //     ]);
+    //         }
+    //     }
+    if ($request->hasFile('hinh_anh_chinh')) {
+        $pathChinh = $request->file('hinh_anh_chinh')->store('images/sanpham', 'public');
+        HinhAnhSP::create([
+             'MaSanPham' => $product->id,
+             'DuongDan' => $pathChinh,
+             'LoaiAnh' => 1 // 1 là ảnh chính
         ]);
-            }
+    }
+    if ($request->hasFile('hinh_anh_phu')) {
+        foreach ($request->file('hinh_anh_phu') as $filePhu) {
+            $pathPhu = $filePhu->store('images/sanpham', 'public');
+
+             HinhAnhSP::create([
+                 'MaSanPham' => $product->id,
+                 'DuongDan' => $pathPhu,
+                 'LoaiAnh' => 0 // 0 là ảnh phụ
+            ]);
         }
     }
         return redirect()->route('admin.products')->with('success', 'Thêm sản phẩm thành công');
