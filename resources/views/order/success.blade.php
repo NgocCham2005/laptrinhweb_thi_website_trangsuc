@@ -50,18 +50,19 @@
                 <span>{{ \Carbon\Carbon::parse($donHang->NgayDatHang)->format('d/m/Y H:i') }}</span>
             </div>
 
-            <div class="info-item">
-                <label>Trạng thái</label>
-                 @php
-    $trangThaiMap = [
-        0 => ['class' => 'status-0', 'label' => '⏳ Chờ xác nhận'],
-        1 => ['class' => 'status-1', 'label' => '✅ Đã xác nhận'],
-        2 => ['class' => 'status-2', 'label' => '🚚 Đang giao'],
-        3 => ['class' => 'status-3', 'label' => '🎉 Hoàn thành'],
-    ];
-    $tt = $trangThaiMap[$donHang->TrangThai] ?? $trangThaiMap[0];
-@endphp
-            </div>
+           <div class="info-item">
+    <label>Trạng thái</label>
+    @php
+        $trangThaiMap = [
+            0 => ['class' => 'status-0', 'label' => 'Chờ xác nhận'],
+            1 => ['class' => 'status-1', 'label' => 'Đã xác nhận'],
+            2 => ['class' => 'status-2', 'label' => 'Đang giao'],
+            3 => ['class' => 'status-3', 'label' => 'Hoàn thành'],
+        ];
+        $tt = $trangThaiMap[$donHang->TrangThai] ?? $trangThaiMap[0];
+    @endphp
+    <span class="status-badge {{ $tt['class'] }}">{{ $tt['label'] }}</span>  {{-- ← thêm dòng này --}}
+</div>
 
             <div class="info-item">
                 <label>Phương thức thanh toán</label>
