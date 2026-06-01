@@ -9,9 +9,9 @@ use App\Models\TaiKhoan;
 
 class AuthController extends Controller
 {
-    // =========================
-    // REGISTER
-    // =========================
+    // ==========================================
+    // REGISTER (ĐĂNG KÝ TÀI KHOẢN)
+    // ==========================================
 
     public function showRegister()
     {
@@ -21,155 +21,66 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-
-            'HoTen' =>
-                'required|min:3|max:50',
-
-            'TenDangNhap' =>
-                'required|min:4|max:20|unique:tai_khoan,TenDangNhap',
-
-            'Email' =>
-                'required|email|unique:tai_khoan,Email',
-
-            'SoDienThoai' =>
-                'required|regex:/^[0-9]{10,11}$/',
-
+            'HoTen' => 'required|min:3|max:50',
+            'TenDangNhap' => 'required|min:4|max:20|unique:tai_khoan,TenDangNhap',
+            'Email' => 'required|email|unique:tai_khoan,Email',
+            'SoDienThoai' => 'required|regex:/^[0-9]{10,11}$/',
             'MatKhau' => [
-
                 'required',
                 'min:6',
-
-                // phải có chữ
-                'regex:/[a-zA-Z]/',
-
-                // phải có số
-                'regex:/[0-9]/',
-
-                // phải có ký tự đặc biệt
-                'regex:/[@$!%*#?&]/'
+                'regex:/[a-zA-Z]/', // Phải có chữ
+                'regex:/[0-9]/',    // Phải có số
+                'regex:/[@$!%*#?&]/' // Phải có ký tự đặc biệt
             ],
-
-            'NhapLaiMatKhau' =>
-                'required|same:MatKhau'
-
+            'NhapLaiMatKhau' => 'required|same:MatKhau'
         ], [
-
-            'HoTen.required' =>
-                'Họ tên không được để trống',
-
-            'HoTen.min' =>
-                'Họ tên tối thiểu 3 ký tự',
-
-            'TenDangNhap.required' =>
-                'Tên đăng nhập không được để trống',
-
-            'TenDangNhap.unique' =>
-                'Tên đăng nhập đã tồn tại',
-
-            'Email.required' =>
-                'Email không được để trống',
-
-            'Email.email' =>
-                'Email không đúng định dạng',
-
-            'Email.unique' =>
-                'Email đã tồn tại',
-
-            'SoDienThoai.required' =>
-                'Số điện thoại không được để trống',
-
-            'SoDienThoai.regex' =>
-                'Số điện thoại phải từ 10-11 số',
-
-            'MatKhau.required' =>
-                'Mật khẩu không được để trống',
-
-            'MatKhau.min' =>
-                'Mật khẩu tối thiểu 6 ký tự',
-
-            'MatKhau.regex' =>
-                'Mật khẩu phải có chữ, số và ký tự đặc biệt',
-
-            'NhapLaiMatKhau.required' =>
-                'Vui lòng nhập lại mật khẩu',
-
-            'NhapLaiMatKhau.same' =>
-                'Mật khẩu nhập lại không khớp'
+            'HoTen.required' => 'Họ tên không được để trống',
+            'HoTen.min' => 'Họ tên tối thiểu 3 ký tự',
+            'HoTen.max' => 'Họ tên tối đa 50 ký tự',
+            'TenDangNhap.required' => 'Tên đăng nhập không được để trống',
+            'TenDangNhap.min' => 'Tên đăng nhập tối thiểu 4 ký tự',
+            'TenDangNhap.max' => 'Tên đăng nhập tối đa 20 ký tự',
+            'TenDangNhap.unique' => 'Tên đăng nhập đã tồn tại',
+            'Email.required' => 'Email không được để trống',
+            'Email.email' => 'Email không đúng định dạng',
+            'Email.unique' => 'Email đã tồn tại',
+            'SoDienThoai.required' => 'Số điện thoại không được để trống',
+            'SoDienThoai.regex' => 'Số điện thoại phải từ 10-11 số',
+            'MatKhau.required' => 'Mật khẩu không được để trống',
+            'MatKhau.min' => 'Mật khẩu tối thiểu 6 ký tự',
+            'MatKhau.regex' => 'Mật khẩu phải có chữ, số và ký tự đặc biệt (@$!%*#?&)',
+            'NhapLaiMatKhau.required' => 'Vui lòng nhập lại mật khẩu',
+            'NhapLaiMatKhau.same' => 'Mật khẩu nhập lại không khớp'
         ]);
 
-        // =========================
-        // TẠO MÃ TÀI KHOẢN TỰ ĐỘNG
-        // =========================
-
-        $lastUser = TaiKhoan::orderBy(
-            'MaTaiKhoan',
-            'desc'
-        )->first();
-
+        // TỰ ĐỘNG TẠO MÃ TÀI KHOẢN (TK001, TK002,...)
+        $lastUser = TaiKhoan::orderBy('MaTaiKhoan', 'desc')->first();
         if ($lastUser) {
-
-            $lastNumber = (int) substr(
-                $lastUser->MaTaiKhoan,
-                2
-            );
-
+            $lastNumber = (int) substr($lastUser->MaTaiKhoan, 2);
             $newNumber = $lastNumber + 1;
-
         } else {
-
             $newNumber = 1;
         }
+        $newMaTaiKhoan = 'TK' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
 
-        // TK001
-        $newMaTaiKhoan =
-            'TK' . str_pad(
-                $newNumber,
-                3,
-                '0',
-                STR_PAD_LEFT
-            );
-
-        // =========================
-        // CREATE USER
-        // =========================
-
+        // LƯU VÀO DATABASE
         TaiKhoan::create([
-
-            'MaTaiKhoan' =>
-                $newMaTaiKhoan,
-
-            'HoTen' =>
-                $request->HoTen,
-
-            'TenDangNhap' =>
-                $request->TenDangNhap,
-
-            'Email' =>
-                $request->Email,
-
-            'SoDienThoai' =>
-                $request->SoDienThoai,
-
-            'MatKhau' =>
-                Hash::make(
-                    $request->MatKhau
-                ),
-
+            'MaTaiKhoan' => $newMaTaiKhoan,
+            'HoTen' => $request->HoTen,
+            'TenDangNhap' => $request->TenDangNhap,
+            'Email' => $request->Email,
+            'SoDienThoai' => $request->SoDienThoai,
+            'MatKhau' => Hash::make($request->MatKhau),
             'VaiTro' => 'user',
-
             'TrangThai' => 1
         ]);
 
-        return redirect('/login')
-            ->with(
-                'success',
-                'Đăng ký thành công'
-            );
+        return redirect('/login')->with('success', 'Đăng ký thành công');
     }
 
-    // =========================
-    // LOGIN
-    // =========================
+    // ==========================================
+    // LOGIN (ĐĂNG NHẬP HỆ THỐNG)
+    // ==========================================
 
     public function showLogin()
     {
@@ -178,194 +89,133 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $user = TaiKhoan::where(
-            'TenDangNhap',
-            $request->TenDangNhap
-        )->first();
+        $user = TaiKhoan::where('TenDangNhap', $request->TenDangNhap)->first();
 
-        // không tồn tại user
-        if (!$user) {
-
-            return back()->with(
-                'error',
-                'Sai tài khoản hoặc mật khẩu'
-            );
-        }
-
-        // kiểm tra mật khẩu
-        if (!Hash::check(
-            $request->MatKhau,
-            $user->MatKhau
-        )) {
-
-            return back()->with(
-                'error',
-                'Sai tài khoản hoặc mật khẩu'
-            );
-        }
-
-        // kiểm tra trạng thái
-        if ($user->TrangThai == 0) {
-
-            return back()->with(
-                'error',
-                'Tài khoản đã bị khóa'
-            );
-        }
-
-        // login
-        Auth::login($user);
-
-        session()->save();
-
-        // admin
-        if ($user->VaiTro == 'admin') {
-
-            return redirect('/admin');
-        }
-
-        // user
-        return redirect('/');
+    if (!$user) {
+        return back()->with('error', 'Tên đăng nhập không tồn tại');
     }
 
-    // =========================
-    // LOGOUT
-    // =========================
+    if (!Hash::check($request->MatKhau, $user->MatKhau)) {
+        return back()->with('error', 'Mật khẩu không đúng');
+    }
+
+    if ($user->TrangThai == 0) {
+        return back()->with('error', 'Tài khoản đã bị khóa');
+    }
+
+    Auth::login($user);
+    session()->save();
+
+    if ($user->VaiTro == 'admin') {
+        return redirect('/admin');
+    }
+
+    return redirect('/'); // Sau khi đăng nhập, đẩy thẳng người dùng về trang cá nhân để test
+    }
+
+    // ==========================================
+    // LOGOUT (ĐĂNG XUẤT TÀI KHOẢN)
+    // ==========================================
 
     public function logout()
     {
         Auth::logout();
-
-        return redirect('/login');
+        return redirect('/');
     }
 
-    // =========================
-    // PROFILE
-    // =========================
+    // ==========================================
+    // PROFILE (QUẢN LÝ THÔNG TIN CÁ NHÂN)
+    // ==========================================
 
     public function showProfile()
     {
         $user = Auth::user();
-
-        return view(
-            'profile.profile',
-            compact('user')
-        );
+        return view('profile.profile', compact('user')); // Trỏ đúng vào thư mục view profile
     }
 
     public function updateProfile(Request $request)
     {
+        $userKey = Auth::user()->MaTaiKhoan; // Lấy chuỗi khóa chính (Ví dụ: TK001)
+
         $request->validate([
-
-            'HoTen' =>
-                'required|min:3|max:50',
-
-            'Email' =>
-
-                'required|email|unique:tai_khoan,Email,'
-                . Auth::id()
-                . ',MaTaiKhoan',
-
-            'SoDienThoai' =>
-                'required|regex:/^[0-9]{10,11}$/',
-
-            'DiaChi' =>
-                'required|min:5|max:255'
-
+            'HoTen' => 'required|min:3|max:50',
+            'Email' => 'required|email|unique:tai_khoan,Email,' . $userKey . ',MaTaiKhoan',
+            'SoDienThoai' => 'required|regex:/^[0-9]{10,11}$/',
+            'DiaChi' => 'required|min:5|max:255'
+        ], [
+            'HoTen.required' => 'Họ tên không được để trống',
+            'HoTen.min' => 'Họ tên tối thiểu 3 ký tự',
+            'HoTen.max' => 'Họ tên tối đa 50 ký tự',
+            'Email.required' => 'Email không được để trống',
+            'Email.email' => 'Email không đúng định dạng',
+            'Email.unique' => 'Email đã được sử dụng bởi tài khoản khác',
+            'SoDienThoai.required' => 'Số điện thoại không được để trống',
+            'SoDienThoai.regex' => 'Số điện thoại phải từ 10-11 số',
+            'DiaChi.required' => 'Địa chỉ không được để trống',
+            'DiaChi.min' => 'Địa chỉ tối thiểu 5 ký tự',
+            'DiaChi.max' => 'Địa chỉ tối đa 255 ký tự'
         ]);
 
-        $user = TaiKhoan::where(
-            'MaTaiKhoan',
-            Auth::id()
-        )->first();
-
-        $user->HoTen =
-            $request->HoTen;
-
-        $user->Email =
-            $request->Email;
-
-        $user->SoDienThoai =
-            $request->SoDienThoai;
-
-        $user->DiaChi =
-            $request->DiaChi;
-
+        $user = TaiKhoan::where('MaTaiKhoan', $userKey)->first();
+        $user->HoTen = $request->HoTen;
+        $user->Email = $request->Email;
+        $user->SoDienThoai = $request->SoDienThoai;
+        $user->DiaChi = $request->DiaChi;
         $user->save();
 
-        return back()->with(
-            'success',
-            'Cập nhật thành công'
-        );
+        return redirect('/profile')->with('success', 'Cập nhật thông tin thành công');
     }
 
-    // =========================
-    // CHANGE PASSWORD
-    // =========================
+    // ==========================================
+    // CHANGE PASSWORD (SỬA ĐỔI MẬT KHẨU)
+    // ==========================================
 
     public function showChangePassword()
     {
-        return view('auth.change-password');
+        // Đã SỬA: Chuyển từ 'auth.change-password' sang 'profile.change-password' cho đúng thư mục mới
+        return view('auth.change-password'); 
     }
 
     public function changePassword(Request $request)
     {
         $request->validate([
-
-            'MatKhauCu' =>
-                'required',
-
+            'MatKhauCu' => 'required',
             'MatKhauMoi' => [
-
                 'required',
                 'min:6',
-
                 'regex:/[a-zA-Z]/',
-
                 'regex:/[0-9]/',
-
                 'regex:/[@$!%*#?&]/'
             ],
-
-            'NhapLaiMatKhauMoi' =>
-                'required|same:MatKhauMoi'
-
+            'NhapLaiMatKhauMoi' => 'required|same:MatKhauMoi'
+        ], [
+            'MatKhauCu.required' => 'Mật khẩu cũ không được để trống',
+            'MatKhauMoi.required' => 'Mật khẩu mới không được để trống',
+            'MatKhauMoi.min' => 'Mật khẩu mới tối thiểu 6 ký tự',
+            'MatKhauMoi.regex' => 'Mật khẩu mới phải có chữ, số và ký tự đặc biệt (@$!%*#?&)',
+            'NhapLaiMatKhauMoi.required' => 'Vui lòng nhập lại mật khẩu mới',
+            'NhapLaiMatKhauMoi.same' => 'Mật khẩu nhập lại không khớp'
         ]);
 
-        $user = TaiKhoan::where(
-            'MaTaiKhoan',
-            Auth::id()
-        )->first();
+        $userKey = Auth::user()->MaTaiKhoan;
+        $user = TaiKhoan::where('MaTaiKhoan', $userKey)->first();
 
-        // kiểm tra password cũ
-        if (!Hash::check(
-            $request->MatKhauCu,
-            $user->MatKhau
-        )) {
-
-            return back()->with(
-                'error',
-                'Mật khẩu cũ không đúng'
-            );
+        // Kiểm tra password cũ có khớp không
+        if (!Hash::check($request->MatKhauCu, $user->MatKhau)) {
+            return back()->with('error', 'Mật khẩu cũ không đúng');
         }
 
-        // cập nhật password mới
-        $user->MatKhau =
-            Hash::make(
-                $request->MatKhauMoi
-            );
-
+        // Cập nhật password mới mã hóa bằng Hash
+        $user->MatKhau = Hash::make($request->MatKhauMoi);
         $user->save();
 
-        return back()->with(
-            'success',
-            'Đổi mật khẩu thành công'
-        );
+        // Chuyển hướng về lại trang profile kèm thông báo thành công chữ màu xanh
+        return redirect('/profile')->with('success', 'Đổi mật khẩu thành công');
     }
 
-    // =========================
-    // FORGOT PASSWORD
-    // =========================
+    // ==========================================
+    // FORGOT PASSWORD (QUÊN MẬT KHẨU)
+    // ==========================================
 
     public function showForgotPassword()
     {
@@ -375,168 +225,34 @@ class AuthController extends Controller
     public function forgotPassword(Request $request)
     {
         $request->validate([
-
-            'Email' =>
-                'required|email',
-
+            'Email' => 'required|email',
             'MatKhauMoi' => [
-
                 'required',
                 'min:6',
-
                 'regex:/[a-zA-Z]/',
-
                 'regex:/[0-9]/',
-
                 'regex:/[@$!%*#?&]/'
             ],
-
-            'NhapLaiMatKhau' =>
-                'required|same:MatKhauMoi'
+            'NhapLaiMatKhau' => 'required|same:MatKhauMoi'
+        ], [
+            'Email.required' => 'Email không được để trống',
+            'Email.email' => 'Email không đúng định dạng',
+            'MatKhauMoi.required' => 'Mật khẩu mới không được để trống',
+            'MatKhauMoi.min' => 'Mật khẩu mới tối thiểu 6 ký tự',
+            'MatKhauMoi.regex' => 'Mật khẩu mới phải có chữ, số và ký tự đặc biệt (@$!%*#?&)',
+            'NhapLaiMatKhau.required' => 'Vui lòng nhập lại mật khẩu',
+            'NhapLaiMatKhau.same' => 'Mật khẩu nhập lại không khớp'
         ]);
 
-        // tìm user
-        $user = TaiKhoan::where(
-            'Email',
-            $request->Email
-        )->first();
+        $user = TaiKhoan::where('Email', $request->Email)->first();
 
-        // không tồn tại email
         if (!$user) {
-
-            return back()->with(
-                'error',
-                'Email không tồn tại'
-            );
+            return back()->with('error', 'Email không tồn tại trong hệ thống');
         }
 
-        // cập nhật password mới
-        $user->MatKhau =
-            Hash::make(
-                $request->MatKhauMoi
-            );
-
+        $user->MatKhau = Hash::make($request->MatKhauMoi);
         $user->save();
 
-        return back()->with(
-            'success',
-            'Đặt lại mật khẩu thành công'
-        );
-    }
-
-    // =========================
-    // ADMIN - LIST USER
-    // =========================
-
-    public function listUsers(Request $request)
-    {
-        $keyword = $request->keyword;
-
-        // chỉ lấy tài khoản user
-        $users = TaiKhoan::where(
-            'VaiTro',
-            'user'
-        );
-
-        // tìm kiếm
-        if ($keyword) {
-
-            $users->where(function ($query) use ($keyword) {
-
-                $query->where(
-                    'MaTaiKhoan',
-                    'like',
-                    '%' . $keyword . '%'
-                )
-                ->orWhere(
-                    'HoTen',
-                    'like',
-                    '%' . $keyword . '%'
-                )
-                ->orWhere(
-                    'TenDangNhap',
-                    'like',
-                    '%' . $keyword . '%'
-                )
-                ->orWhere(
-                    'Email',
-                    'like',
-                    '%' . $keyword . '%'
-                );
-
-            });
-        }
-
-        $users = $users->get();
-
-        return view(
-            'admin.users.customers',
-            compact('users')
-        );
-    }
-
-    // =========================
-    // ADMIN - TOGGLE USER
-    // =========================
-
-    public function toggleUser($id)
-    {
-        $user = TaiKhoan::where(
-            'MaTaiKhoan',
-            $id
-        )->first();
-
-        // không tồn tại
-        if (!$user) {
-
-            return redirect('/admin/customers');
-        }
-
-        // không cho khóa admin
-        if ($user->VaiTro == 'admin') {
-
-            return redirect('/admin/customers')
-                ->with(
-                    'error',
-                    'Không thể khóa admin'
-                );
-        }
-
-        // đổi trạng thái
-        if ($user->TrangThai == 1) {
-
-            $user->TrangThai = 0;
-
-        } else {
-
-            $user->TrangThai = 1;
-        }
-
-        $user->save();
-
-        return redirect('/admin/customers');
-    }
-
-    // =========================
-    // ADMIN - DETAIL USER
-    // =========================
-
-    public function showUser($id)
-    {
-        $user = TaiKhoan::where(
-            'MaTaiKhoan',
-            $id
-        )->first();
-
-        // chỉ xem user
-        if (!$user || $user->VaiTro != 'user') {
-
-            return redirect('/admin/customers');
-        }
-
-        return view(
-            'admin.users.user-detail',
-            compact('user')
-        );
+        return back()->with('success', 'Đặt lại mật khẩu thành công');
     }
 }
