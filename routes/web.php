@@ -1,19 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AdminVoucherController;
 use App\Http\Controllers\AdminBannerController;
 use App\Http\Controllers\HomeController;
+
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminReviewController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\ListProductController;
 use App\Http\Controllers\AdminReportController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminCustomerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +28,75 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products/{id}',[ProductController::class, 'show'])->name('products.detail');
 
 Route::get('/products', [ListProductController::class, 'index'])->name('products.index');
+
+
+/*
+|--------------------------------------------------------------------------
+| AUTH
+|--------------------------------------------------------------------------
+*/
+
+// LOGIN
+Route::get(
+    '/login',
+    [AuthController::class, 'showLogin']
+)->name('login');
+
+Route::post(
+    '/login',
+    [AuthController::class, 'login']
+);
+
+// REGISTER
+Route::get(
+    '/register',
+    [AuthController::class, 'showRegister']
+);
+
+Route::post(
+    '/register',
+    [AuthController::class, 'register']
+);
+
+// LOGOUT
+Route::get(
+    '/logout',
+    [AuthController::class, 'logout']
+)->name('logout');
+
+// PROFILE
+Route::get(
+    '/profile',
+    [AuthController::class, 'showProfile']
+)->middleware('auth');
+
+Route::post(
+    '/profile/update',
+    [AuthController::class, 'updateProfile']
+)->middleware('auth');
+
+// CHANGE PASSWORD
+Route::get(
+    '/change-password',
+    [AuthController::class, 'showChangePassword']
+)->middleware('auth');
+
+Route::post(
+    '/change-password',
+    [AuthController::class, 'changePassword']
+)->middleware('auth');
+
+// FORGOT PASSWORD
+Route::get(
+    '/forgot-password',
+    [AuthController::class, 'showForgotPassword']
+);
+
+Route::post(
+    '/forgot-password',
+    [AuthController::class, 'forgotPassword']
+);
+
 #Test route admin
 
 Route::prefix('admin')
@@ -64,11 +137,25 @@ Route::prefix('admin')
     // )->name('products');
 
 
-    Route::view(
-        '/customers',
-        'admin.customers'
-    )->name('customers');
+    //Route::view(
+       // '/customers',
+       // 'admin.customers'
+    //)->name('customers');
 
+    Route::get(
+    '/customers',
+    [AdminCustomerController::class, 'index']
+)->name('customers');
+
+Route::get(
+    '/customers/toggle/{id}',
+    [AdminCustomerController::class, 'toggle']
+);
+
+Route::get(
+    '/customers/{id}',
+    [AdminCustomerController::class, 'show']
+);
 
     Route::get('/banners', [AdminBannerController::class, 'index'])
     ->name('banners');
@@ -130,11 +217,7 @@ Route::prefix('admin')
 // GIỎ HÀNG & ĐẶT HÀNG (cần đăng nhập)
 // =====================
 // Route::middleware('auth')->group(function () {
-// =====================
-// GIỎ HÀNG & ĐẶT HÀNG (cần đăng nhập)
-// =====================
-// TẠM THỜI — bỏ auth để test, bật lại sau khi có login
-// Route::middleware('auth')->group(function () {
+Route::group([], function () {
 
     // Giỏ hàng
     Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
@@ -143,8 +226,12 @@ Route::prefix('admin')
     Route::post('/gio-hang/xoa', [CartController::class, 'xoa'])->name('cart.xoa');
 
     // Đặt hàng & thanh toán
-Route::match(['get', 'post'], '/thanh-toan', [OrderController::class, 'checkout'])->name('order.checkout');    Route::post('/thanh-toan/dat-hang', [OrderController::class, 'datHang'])->name('order.datHang');
+    Route::get('/thanh-toan', [OrderController::class, 'checkout'])->name('order.checkout');
+    Route::post('/thanh-toan/ap-voucher', [OrderController::class, 'apVoucher'])->name('order.apVoucher');
+    Route::post('/thanh-toan/dat-hang', [OrderController::class, 'datHang'])->name('order.datHang');
     Route::get('/dat-hang-thanh-cong/{maDonHang}', [OrderController::class, 'success'])->name('order.success');
+
+    // Mua ngay
     Route::post('/mua-ngay', [OrderController::class, 'muaNgay'])->name('order.muaNgay');
    Route::get('/don-hang', [OrderController::class, 'lichSu'])->name('order.lichSu');
 Route::get('/don-hang/{maDonHang}', [OrderController::class, 'chiTiet'])->name('order.chiTiet');
@@ -160,3 +247,5 @@ Route::get('/don-hang/{maDonHang}', [OrderController::class, 'chiTiet'])->name('
     Route::delete('/review/delete/{id}',[ReviewController::class,'destroy']
         )->name('review.delete');
 // });
+
+});

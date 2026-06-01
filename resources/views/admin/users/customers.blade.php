@@ -62,4 +62,7 @@
     @endforelse
 </x-table>
 
+{{-- PAGINATION --}}
+<x-pagination :paginator="$users"/>
+
 @endsection

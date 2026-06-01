@@ -234,3 +234,15 @@ body{
 
     border:none;
 }
+
+/* ===== ICON ===== */
+.user-icon {
+    font-size: 32px !important;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.user-icon:hover {
+    color: #D4AF37;
+}

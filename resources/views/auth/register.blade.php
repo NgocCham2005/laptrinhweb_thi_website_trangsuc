@@ -1,159 +1,79 @@
 @extends('layouts.auth')
-
 @section('content')
 
-<div class="auth-container">
+<div class="auth-page-wrapper">
+    <div class="auth-split-card">
+        
+        <div class="auth-side-image" style="background-image: url('https://file.hstatic.net/200000355853/file/15-bo-trang-suc-cuoi-vang-trang-sang-trong-h14.png');">
+        </div>
 
-    <div class="auth-box">
+        <div class="auth-side-form">
+            <h2 class="auth-custom-title">Đăng ký</h2>
+            <p class="auth-custom-subtitle">Tạo tài khoản để trải nghiệm mua sắm</p>
 
-        <h2 class="auth-title">
+            {{-- ĐÃ SỬA: SỬ DỤNG CLASS ĐỂ HIỂN THỊ LỖI THAY VÌ INLINE-STYLE --}}
+            @if ($errors->any())
+                <div class="auth-alert auth-alert-danger">
+                    <ul class="auth-alert-list">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-            Đăng ký
+            <form action="/register" method="POST">
+                @csrf
 
-        </h2>
+                <div class="auth-form-grid">
+                    {{-- HÀNG 1 --}}
+                    <div class="auth-group">
+                        <label class="auth-label">Họ tên<span class="auth-required">*</span></label>
+                        <input type="text" name="HoTen" class="auth-input" placeholder="Nhập họ tên" value="{{ old('HoTen') }}" required>
+                    </div>
 
-        {{-- ERROR --}}
-        @if($errors->any())
+                    <div class="auth-group">
+                        <label class="auth-label">Tên đăng nhập<span class="auth-required">*</span></label>
+                        <input type="text" name="TenDangNhap" class="auth-input" placeholder="Nhập tên đăng nhập" value="{{ old('TenDangNhap') }}" required>
+                    </div>
 
-            <div class="alert alert-danger">
+                    {{-- HÀNG 2 --}}
+                    <div class="auth-group">
+                        <label class="auth-label">Email<span class="auth-required">*</span></label>
+                        <input type="email" name="Email" class="auth-input" placeholder="Nhập Email" value="{{ old('Email') }}" required>
+                    </div>
 
-                <ul>
+                    <div class="auth-group">
+                        <label class="auth-label">Số điện thoại<span class="auth-required">*</span></label>
+                        <input type="text" name="SoDienThoai" class="auth-input" placeholder="Nhập số điện thoại" value="{{ old('SoDienThoai') }}" required>
+                    </div>
 
-                    @foreach($errors->all() as $error)
+                    {{-- HÀNG 3 --}}
+                    <div class="auth-group">
+                        <label class="auth-label">Mật khẩu<span class="auth-required">*</span></label>
+                        <input type="password" name="MatKhau" class="auth-input" placeholder="Từ 6 ký tự, có chữ, số, ký tự đặc biệt" required>
+                    </div>
 
-                        <li>{{ $error }}</li>
+                    <div class="auth-group">
+                        <label class="auth-label">Nhập lại mật khẩu<span class="auth-required">*</span></label>
+                        <input type="password" name="NhapLaiMatKhau" class="auth-input" placeholder="Nhập lại mật khẩu" required>
+                    </div>
+                </div>
 
-                    @endforeach
-
-                </ul>
-
-            </div>
-
-        @endif
-
-        <form action="/register" method="POST">
-
-            @csrf
-
-            {{-- HỌ TÊN --}}
-            <div class="form-group">
-
-                <label class="form-label">
-
-                    Họ tên
-
-                </label>
-
-                <input
-                    type="text"
-                    name="HoTen"
-                    class="form-control"
-                    value="{{ old('HoTen') }}"
-                >
-
-            </div>
-
-            {{-- USERNAME --}}
-            <div class="form-group">
-
-                <label class="form-label">
-
-                    Tên đăng nhập
-
-                </label>
-
-                <input
-                    type="text"
-                    name="TenDangNhap"
-                    class="form-control"
-                    value="{{ old('TenDangNhap') }}"
-                >
-
-            </div>
-
-            {{-- EMAIL --}}
-            <div class="form-group">
-
-                <label class="form-label">
-
-                    Email
-
-                </label>
-
-                <input
-                    type="email"
-                    name="Email"
-                    class="form-control"
-                    value="{{ old('Email') }}"
-                >
-
-            </div>
-
-            {{-- PHONE --}}
-            <div class="form-group">
-
-                <label class="form-label">
-
-                    Số điện thoại
-
-                </label>
-
-                <input
-                    type="text"
-                    name="SoDienThoai"
-                    class="form-control"
-                    value="{{ old('SoDienThoai') }}"
-                >
-
-            </div>
-
-            {{-- PASSWORD --}}
-            <div class="form-group">
-
-                <label class="form-label">
-
-                    Mật khẩu
-
-                </label>
-
-                <input
-                    type="password"
-                    name="MatKhau"
-                    class="form-control"
-                >
-
-            </div>
-
-            {{-- CONFIRM PASSWORD --}}
-            <div class="form-group">
-
-                <label class="form-label">
-
-                    Nhập lại mật khẩu
-
-                </label>
-
-                <input
-                    type="password"
-                    name="NhapLaiMatKhau"
-                    class="form-control"
-                >
-
-            </div>
-
-            <button
-                type="submit"
-                class="btn btn-primary btn-block"
-            >
-
-                Đăng ký
-
-            </button>
-
-        </form>
+                {{-- NÚT ĐĂNG KÝ RỘNG BẰNG FORM --}}
+                <button type="submit" class="auth-btn-block">
+                    Đăng ký
+                </button>
+                
+                {{-- FOOTER CHUYỂN VỀ ĐĂNG NHẬP --}}
+                <div class="auth-custom-footer">
+                    <span>Đã có tài khoản? </span>
+                    <a href="/login" class="auth-gold-link">Đăng nhập</a>
+                </div>
+            </form>
+        </div>
 
     </div>
-
 </div>
 
 @endsection

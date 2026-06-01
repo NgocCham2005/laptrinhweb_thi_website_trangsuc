@@ -1,100 +1,85 @@
 @extends('layouts.auth')
-
 @section('content')
 
-<div class="container py-5">
+<div class="auth-page-wrapper">
+    {{-- Thêm class auth-card-single để ép hộp chứa thu nhỏ gọn gàng, không bị lệch --}}
+    <div class="auth-split-card auth-card-single">
+        
+        <div class="auth-side-form">
+            <h2 class="auth-custom-title">Quên mật khẩu</h2>
+            <p class="auth-custom-subtitle">Nhập email và mật khẩu mới</p>
 
-    <div class="row justify-content-center">
+            {{-- HỨNG THÔNG BÁO THÀNH CÔNG (Ép màu xanh lá cây trực tiếp bằng thuộc tính style) --}}
+            @if(session('success'))
+                <div style="color: #28a745 !important; font-weight: bold; text-align: center; margin-bottom: 20px; font-size: 16px;">
+                    <i class="fas fa-check-circle" style="color: #28a745 !important; margin-right: 5px;"></i> {{ session('success') }}
+                </div>
+            @endif
 
-        <div class="col-md-6">
+            {{-- HỨNG LỖI VALIDATION --}}
+            @if ($errors->any())
+                <div class="auth-alert auth-alert-danger">
+                    @foreach ($errors->all() as $error)
+                    <p style="margin: 0 0 4px 0;">{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
 
-            <div class="card">
+            <form action="/forgot-password" method="POST">
+                @csrf
 
-                <div class="card-header">
-                    <h3>Quên mật khẩu</h3>
+                {{-- EMAIL --}}
+                <div class="auth-group">
+                    <label class="auth-label">Email<span class="auth-required">*</span></label>
+                    <input 
+                        type="email" 
+                        name="Email" 
+                        class="auth-input" 
+                        placeholder="Nhập Email" 
+                        value="{{ old('Email') }}" 
+                        required
+                    >
                 </div>
 
-                <div class="card-body">
-
-                    @if(session('success'))
-
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-
-                    @endif
-
-                    @if(session('error'))
-
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-
-                    @endif
-
-                    <form method="POST" action="/forgot-password">
-
-                        @csrf
-
-                        <div class="mb-3">
-
-                            <label>
-                                Email
-                            </label>
-
-                            <input
-                                type="email"
-                                name="Email"
-                                class="form-control"
-                            >
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label>
-                                Mật khẩu mới
-                            </label>
-
-                            <input
-                                type="password"
-                                name="MatKhauMoi"
-                                class="form-control"
-                            >
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label>
-                                Nhập lại mật khẩu
-                            </label>
-
-                            <input
-                                type="password"
-                                name="NhapLaiMatKhau"
-                                class="form-control"
-                            >
-
-                        </div>
-
-                        <button
-                            type="submit"
-                            class="btn btn-dark"
-                        >
-                            Đặt lại mật khẩu
-                        </button>
-
-                    </form>
-
+                {{-- MẬT KHẨU MỚI --}}
+                <div class="auth-group">
+                    <label class="auth-label">Mật khẩu mới<span class="auth-required">*</span></label>
+                    <input 
+                        type="password" 
+                        name="MatKhauMoi" 
+                        class="auth-input" 
+                        placeholder="Nhập mật khẩu mới" 
+                        required
+                    >
                 </div>
 
-            </div>
+                {{-- NHẬP LẠI MẬT KHẨU MỚI --}}
+                <div class="auth-group">
+                    <label class="auth-label">Nhập lại mật khẩu mới<span class="auth-required">*</span></label>
+                    <input 
+                        type="password" 
+                        name="NhapLaiMatKhau" 
+                        class="auth-input" 
+                        placeholder="Nhập lại mật khẩu mới" 
+                        required
+                    >
+                </div>
 
+                {{-- NÚT BẤM ĐẶT LẠI MẬT KHẨU --}}
+                <button type="submit" class="auth-btn-block">
+                    Đặt lại mật khẩu
+                </button>
+                
+                {{-- FOOTER ĐIỀU HƯỚNG QUAY LẠI TRANG ĐĂNG NHẬP --}}
+                <div class="auth-custom-footer" style="margin-top: 25px;">
+                    <a href="/login" class="auth-gold-link">
+                        <i class="fas fa-arrow-left" style="margin-right: 4px;"></i> Quay lại Đăng nhập
+                    </a>
+                </div>
+            </form>
         </div>
 
     </div>
-
 </div>
 
 @endsection
