@@ -16,14 +16,14 @@ Quản lý đánh giá
     </div>
 
     <x-table 
-        :headers="['Sản phẩm', 'Khách hàng', 'Đánh giá', 'Số sao', 'Trạng thái', 'Thao tác']"
+        :headers="['Sản phẩm', 'Tên đăng nhập', 'Đánh giá', 'Số sao', 'Ngày tạo', 'Trạng thái', 'Thao tác']"
         striped
     >
 
         @foreach($reviews as $review)
             <tr>
                 <td>{{ $review->product->TenSanPham }}</td>
-                <td>{{ $review->MaTaiKhoan }} </td>
+                <td>{{ $review->user->TenDangNhap }}</td>
                 <td class="review-comment">{{ $review->BinhLuan }}
                     @foreach(
                         $review->replies
@@ -35,6 +35,7 @@ Quản lý đánh giá
                     @endforeach
                 </td>
                 <td>{{ $review->XepHang }} ⭐</td>
+                <td>{{ $review->NgayTao }}</td>
                 <td> 
                     @if($review->TrangThai == 1) <x-badge variant="success">Hiển thị</x-badge>
                     @elseif($review->TrangThai == 0)<x-badge variant="warning">Đã ẩn</x-badge>
@@ -42,16 +43,23 @@ Quản lý đánh giá
                 </td>
                 <td>
                     <div class="action-group">
-                        <form action="{{ route( 'admin.hideReview', $review->MaDanhGia) }}"method="POST">
-                            @csrf
-                            @method('PUT')
-                            <x-button variant="warning" type="submit">Ẩn</x-button>
-                        </form>
-                        <form action="{{ route( 'admin.displayReview', $review->MaDanhGia) }}"method="POST">
-                            @csrf
-                            @method('PUT')
-                            <x-button variant="primary" type="submit">Hiển thị</x-button>
-                        </form>
+                        @if($review->TrangThai == 0)
+                            <form action="{{ route('admin.displayReview', $review->MaDanhGia) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <x-button variant="primary" type="submit">
+                                    Hiển thị
+                                </x-button>
+                            </form>
+                        @else
+                            <form action="{{ route('admin.hideReview', $review->MaDanhGia) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <x-button variant="warning" type="submit">
+                                    Ẩn
+                                </x-button>
+                            </form>
+                        @endif
                         <form action="{{ route('admin.deleteReview', $review->MaDanhGia) }}" method="POST">
                             @csrf
                             @method('DELETE')
@@ -60,12 +68,64 @@ Quản lý đánh giá
                             </x-button>
                         </form>
                     </div>
-                    <form
+                    <!-- <form
                         action="{{ route('admin.replyReview',$review->MaDanhGia) }}" method="POST" class="reply-form">
                         @csrf
                         <x-input type="text" name="reply" placeholder="Phản hồi đánh giá..." />
-                        <x-button type="submit">Gửi</x-button>
-                    </form>
+                        <x-button type="submit">Phản hồi</x-button>
+                    </form> -->
+                    @if($review->replies->count() > 0)
+
+    <x-button
+        variant="warning"
+        type="button"
+        onclick="openModal('replyModal{{ $review->MaDanhGia }}')">
+        Sửa phản hồi
+    </x-button>
+
+@else
+
+    <x-button
+        variant="primary"
+        type="button"
+        onclick="openModal('replyModal{{ $review->MaDanhGia }}')">
+        Phản hồi
+    </x-button>
+
+@endif
+<x-modal id="replyModal{{ $review->MaDanhGia }}"
+         title="{{ $review->replies->count() > 0 ? 'Sửa phản hồi' : 'Phản hồi đánh giá' }}">
+
+    <form id="replyForm{{ $review->MaDanhGia }}"
+          action="{{ route('admin.replyReview',$review->MaDanhGia) }}"
+          method="POST">
+
+        @csrf
+
+        <textarea
+            name="reply"
+            rows="5"
+            style="width:100%;padding:10px;">{{ $review->replies->first()->NoiDungPhanHoi ?? '' }}</textarea>
+
+    </form>
+
+    <x-slot:footer>
+        <x-button
+            type="submit"
+            form="replyForm{{ $review->MaDanhGia }}"
+            variant="primary">
+            Gửi phản hồi
+        </x-button>
+
+        <x-button
+            type="button"
+            variant="ghost"
+            onclick="closeModal('replyModal{{ $review->MaDanhGia }}')">
+            Hủy
+        </x-button>
+    </x-slot:footer>
+
+</x-modal>
                 </td>
             </tr>
             <x-modal id="deleteReview{{ $review->MaDanhGia }}" title="Xác nhận xóa đánh giá">

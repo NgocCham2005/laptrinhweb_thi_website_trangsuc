@@ -11,7 +11,7 @@ class AdminReviewController extends Controller
 {
     public function index()
     {
-        $reviews = DanhGia::with(['product','replies'])->latest('NgayTao')->paginate(3);
+        $reviews = DanhGia::with(['product','replies','user'])->latest('NgayTao')->paginate(2);
         return view('admin.reviews',compact('reviews'));
     }
 
@@ -32,19 +32,27 @@ class AdminReviewController extends Controller
     public function destroy($id)
     {
         $review = DanhGia::findOrFail($id);
-        ChiTietPhanHoi::where(
-            'MaDanhGia',
-            $id
-        )->delete();
+        ChiTietPhanHoi::where('MaDanhGia', $id)->delete();
         $review->delete();
         return redirect()->back()->with('success','Đã xóa đánh giá');
     }
 
-    public function reply(Request $request,$id)
+    public function reply(Request $request, $id)
     {
         $request->validate(['reply' => 'required|max:255']);
-        // TẠM THỜI FAKE TÀI KHOẢN PHẢN HỒI
-        ChiTietPhanHoi::create(['MaDanhGia' => $id,'MaTaiKhoan' => 'TK005','NoiDungPhanHoi' => $request->reply]);
-        return redirect()->back()->with('success','Đã phản hồi đánh giá');
+        $reply = ChiTietPhanHoi::where('MaDanhGia',$id)->first();
+        if ($reply)
+        {
+            ChiTietPhanHoi::where('MaDanhGia', $id)
+            ->update(['NoiDungPhanHoi' => $request->reply,'NgayPhanHoi' => now()]);
+            return redirect()->back()->with('success', 'Đã cập nhật phản hồi');
+        }
+        ChiTietPhanHoi::create([
+            'MaDanhGia' => $id,
+            'MaTaiKhoan' => 'TK005',
+            'NoiDungPhanHoi' => $request->reply,
+            'NgayPhanHoi' => now()
+        ]);
+        return redirect()->back()->with('success', 'Đã phản hồi đánh giá');
     }
 }
