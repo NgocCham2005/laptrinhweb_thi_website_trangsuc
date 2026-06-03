@@ -15,6 +15,7 @@ class DanhMucSP extends Model
     protected $fillable = [
         'MaDanhMuc',
         'TenDanhMuc',
-        'TrangThai'
+        'TrangThai',
+        'HinhAnh'
     ];
 }

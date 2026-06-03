@@ -24,7 +24,8 @@ class SanPham extends Model
         'MoTa',
         'SoLuongTon',
         'TrangThai',
-        'MaDanhMuc'
+        'MaDanhMuc',
+        'NoiBat',
     ];
 
     // 1. Mối quan hệ với ảnh sản phẩm

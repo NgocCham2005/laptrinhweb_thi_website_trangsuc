@@ -7,14 +7,16 @@
         <h3 class="sidebar-title">Danh mục sản phẩm</h3>
         <div class="category-list">
             
-            <a href="{{ route('products.index', ['danh_muc' => 'all']) }}" 
-               class="category-item {{ (empty($selectedCategory) || $selectedCategory == 'all') ? 'active' : '' }}">
+            <a href="javascript:void(0)" 
+               data-id="all"
+               class="category-link category-item {{ (empty($selectedCategory) || $selectedCategory == 'all') ? 'active' : '' }}">
                 Tất cả danh mục
             </a>
 
             @foreach($categories as $cat)
-                <a href="{{ route('products.index', ['danh_muc' => $cat->MaDanhMuc]) }}" 
-                   class="category-item {{ $selectedCategory == $cat->MaDanhMuc ? 'active' : '' }}">
+                <a href="javascript:void(0)" 
+                   data-id="{{ $cat->MaDanhMuc }}"
+                   class="category-link category-item {{ $selectedCategory == $cat->MaDanhMuc ? 'active' : '' }}">
                     {{ $cat->TenDanhMuc }}
                 </a>
             @endforeach
@@ -27,22 +29,38 @@
         <div class="products-filter-header">
             <span class="filter-title">Bộ lọc</span>
 
-            <div class="filter-options-group">
+            <form id="filterForm" action="{{ route('products.index') }}" method="GET">
                 
-                <select name="gia" form="filterForm" onchange="document.getElementById('filterForm').submit()" class="filter-select">
-                    <option value="">Giá (Tất cả)</option>
-                    <option value="duoi-5tr" {{ ($priceFilter ?? '') === 'duoi-5tr' ? 'selected' : '' }}>Dưới 4.500.000đ</option>
-                    <option value="5tr-10tr" {{ ($priceFilter ?? '') === '5tr-10tr' ? 'selected' : '' }}>4.500.000đ - 10.000.000đ</option>
-                    <option value="tren-10tr" {{ ($priceFilter ?? '') === 'tren-10tr' ? 'selected' : '' }}>Trên 10.000.000đ</option>
-                </select>
+                <input type="hidden" name="danh_muc" id="filter_danh_muc" value="{{ $selectedCategory ?? 'all' }}">
+                
+                @if(!empty($searchKeyword))
+                    <input type="hidden" name="search" id="filter_search" value="{{ $searchKeyword }}">
+                @endif
 
-                <select name="chat_lieu" form="filterForm" onchange="document.getElementById('filterForm').submit()" class="filter-select">
-                    <option value="all">Chất liệu (Tất cả)</option>
-                    <option value="Bạc" {{ ($materialFilter ?? '') === 'Bạc' ? 'selected' : '' }}>Bạc</option>
-                    <option value="Vàng" {{ ($materialFilter ?? '') === 'Vàng' ? 'selected' : '' }}>Vàng</option>
-                </select>
-                
-            </div>
+                <div class="filter-options-group">
+                    <select name="gia" id="filter_gia" class="filter-select">
+                        <option value="">Giá (Tất cả)</option>
+                        <option value="duoi-5tr" {{ ($priceFilter ?? '') === 'duoi-5tr' ? 'selected' : '' }}>Dưới 4.500.000đ</option>
+                        <option value="5tr-10tr" {{ ($priceFilter ?? '') === '5tr-10tr' ? 'selected' : '' }}>4.500.000đ - 10.000.000đ</option>
+                        <option value="tren-10tr" {{ ($priceFilter ?? '') === 'tren-10tr' ? 'selected' : '' }}>Trên 10.000.000đ</option>
+                    </select>
+
+                    <select name="chat_lieu" id="filter_chat_lieu" class="filter-select">
+                        <option value="all">Chất liệu (Tất cả)</option>
+                        @foreach($materials as $mat)
+                            <option value="{{ $mat }}" {{ ($materialFilter ?? '') === $mat ? 'selected' : '' }}>
+                                {{ $mat }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <select name="sort" id="filter_sort" class="filter-select">
+                        <option value="">Sắp xếp (Mặc định)</option>
+                        <option value="gia-thap-cao" {{ ($sortFilter ?? '') === 'gia-thap-cao' ? 'selected' : '' }}>Giá: Thấp đến Cao</option>
+                        <option value="gia-cao-thap" {{ ($sortFilter ?? '') === 'gia-cao-thap' ? 'selected' : '' }}>Giá: Cao đến Thấp</option>
+                    </select>
+                </div>
+            </form>
 
             <span class="products-count">Hiển thị {{ $products->total() }} sản phẩm</span>
         </div>
@@ -52,14 +70,14 @@
                 <x-product-card :product="$product" />
             @empty
                 <div class="no-product-message">
-                    <p>Hiện tại chưa có sản phẩm nào thuộc danh mục này.</p>
+                    <p>Hiện tại chưa có sản phẩm nào thuộc bộ lọc này.</p>
                 </div>
             @endforelse
         </div>
 
-          <x-pagination :paginator="$products"/>
+        <x-pagination :paginator="$products"/>
 
     </main>
-
 </div>
+<script src="{{ asset('js/listproduct.js') }}"></script>
 @endsection

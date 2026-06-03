@@ -13,15 +13,15 @@ Quản lý sản phẩm
             <x-button variant="primary">Thêm sản phẩm</x-button>
         </a>
     </div>
-    
+    @include('admin.products.product-filter')
     <x-table :headers="['Mã SP', 'Tên sản phẩm', 'Danh mục', 'Giá bán', 'Tồn kho','Trạng thái', 'Thao tác']" striped>
-        @foreach($products as $product)
+        @forelse($products as $product)
         <tr>
             <td>{{ $product->MaSanPham }}</td>
             <td>{{ $product->TenSanPham }}</td>
             <td>{{ $product->category->TenDanhMuc ?? 'Trống' }}</td>
             <td>{{ number_format($product->GiaBan, 0, ',', '.') }}đ</td>
-            <td>{{number_format ($product->SoLuongTon,0, ',','.')}}</td>
+            <td>{{ number_format($product->SoLuongTon, 0, ',', '.') }}</td>
             <td>
                 @if($product->TrangThai == 1) <x-badge variant="success">Hiển thị</x-badge>
                 @else <x-badge variant="warning">Ẩn</x-badge>
@@ -52,7 +52,15 @@ Quản lý sản phẩm
                 </form>
             </x-slot:footer>
         </x-modal>
-        @endforeach
+        
+        @empty
+        <tr>
+            <td colspan="7">
+                Không tìm thấy sản phẩm nào khớp với bộ lọc hiện tại.
+            </td>
+        </tr>
+        
+        @endforelse
     </x-table>
 
     <x-pagination :paginator="$products"/>

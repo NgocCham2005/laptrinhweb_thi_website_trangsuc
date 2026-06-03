@@ -21,15 +21,20 @@ Quản lý sản phẩm
                 <x-input type="select" name="ma_danhmuc" label="Danh mục sản phẩm">
                     <option value="">-- Chọn danh mục --</option>
                     @foreach($categories as $cat)
-                        <option value="{{ $cat->MaDanhMuc }}">{{ $cat->TenDanhMuc }}</option>
+                        <option value="{{ $cat->MaDanhMuc }}" {{ old('ma_danhmuc') == $cat->MaDanhMuc ? 'selected' : '' }}>
+                            {{ $cat->TenDanhMuc }}
+                        </option>
                     @endforeach
                 </x-input>
 
                 <x-input type="number" name="gia_ban" label="Giá bán (VNĐ)" placeholder="Nhập giá bán" min="0"/>
                 <x-input type="number" name="so_luong_ton" label="Số lượng tồn kho" placeholder="Nhập số lượng sản phẩm trong kho" min="0" />
                 <x-input type="text" name="chat_lieu" label="Chất liệu" placeholder="Ví dụ: Vàng 18K, Bạc Ý..." />
-                
-                <x-input type="textarea" name="mo_ta" label="Mô tả sản phẩm"  placeholder="Nhập mô tả sản phẩm..."  rows="4"/>            <div class="form-group-image">
+                <label style="cursor: pointer;">
+                <input type="checkbox" name="noi_bat" value="1" class="form-check-input me-2" 
+       {{ isset($product) && $product->NoiBat == 1 ? 'checked' : '' }}>
+                Sản phẩm nổi bật</label>
+       <x-input type="textarea" name="mo_ta" label="Mô tả sản phẩm"  placeholder="Nhập mô tả sản phẩm..."  rows="4"/>            <div class="form-group-image">
                 <label>Hình ảnh sản phẩm (Chọn từ 1 đến 3 ảnh) <span style="color: red;">*</span></label>
                 
                 <div class="image-upload-grid" id="uploadGrid">
@@ -85,7 +90,5 @@ Quản lý sản phẩm
 
 {{-- Nhúng thư viện lõi SweetAlert2 --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-{{-- Nhúng 1 file duy nhất chứa toàn bộ tinh hoa upload và kiểm tra lỗi --}}
 <script src="{{ asset('js/product-upload.js') }}"></script>
 @endsection

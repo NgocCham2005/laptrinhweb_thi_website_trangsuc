@@ -777,3 +777,57 @@ min-height:80vh;
     border-radius: 4px;
     pointer-events: none;
 }
+
+/* Tìm kiếm sản phẩm */
+/* Toàn bộ khung bọc ngoài bộ lọc */
+.product-inline-filter {
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f5f9;
+}
+
+/* Container dùng Flexbox để tự động ép các ô lên chung 1 hàng ngang */
+.filter-flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Kích thước chung của các ô lọc */
+.filter-field {
+    flex: 1;
+    min-width: 140px;
+}
+
+/* Ô tìm kiếm rộng hơn một chút cho dễ gõ chữ */
+.filter-field.field-search {
+    flex:1 150px; 
+}
+
+.filter-input-control {
+    width: 100%;
+    padding: 9px 28px 9px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    color: #334155;
+    background-color: #fff;
+    transition: all 0.2s ease;
+}
+
+.filter-input-control:focus {
+    border-color: #0f3057;
+    box-shadow: 0 0 0 3px rgba(15, 48, 87, 0.1);
+}
+
+/* Nhóm 2 nút Tra cứu & Xóa bộ lọc */
+.filter-buttons-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}

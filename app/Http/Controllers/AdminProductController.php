@@ -9,15 +9,54 @@ use App\Models\HinhAnhSP;
 
 class AdminProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = SanPham::with(['category','images'])->paginate(5);
-        foreach ($products as $product) {
+$query = SanPham::with(['category', 'images']);
+
+    // 2. Lọc theo Từ khóa (Mã sản phẩm HOẶC Tên sản phẩm)
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('MaSanPham', 'LIKE', "%{$search}%")
+              ->orWhere('TenSanPham', 'LIKE', "%{$search}%");
+        });
+    }
+
+    // 3. Lọc theo Danh mục
+    if ($request->filled('category_id')) {
+        $query->where('MaDanhMuc', $request->category_id);
+    }
+
+    // 4. Lọc theo Trạng thái (Ẩn/Hiện)
+    if ($request->has('status') && $request->status !== null && $request->status !== '') {
+        $query->where('TrangThai', $request->status);
+    }
+
+    // 5. Lọc theo Tình trạng tồn kho (Sản phẩm sltk = 0 lọc riêng)
+    if ($request->filled('stock_status')) {
+        if ($request->stock_status === 'outofstock') {
+            $query->where('SoLuongTon', 0); // Riêng 1 mục hết hàng
+        } else {
+            $query->where('SoLuongTon', '>', 0); // Còn hàng
+        }
+    }
+
+    // 6. Thực hiện phân trang và GIỮ LẠI bộ lọc trên URL bằng withQueryString()
+    $products = $query->paginate(5)->withQueryString();
+
+    // 7. Vòng lặp lấy ảnh đầu tiên (Giữ nguyên logic gốc của m)
+    foreach ($products as $product) {
         $product->first_image = \DB::table('hinh_anh_sp')
             ->where('MaSanPham', $product->MaSanPham)
             ->value('DuongDan'); 
-        }
-        return view('admin.products.index', compact('products'));
+    }
+
+    // 8. Lấy thêm danh sách danh mục để đổ vào thẻ <select> trong file product-filter
+    // M thay 'DanhMuc' bằng tên Model danh mục thực tế của m nha (ví dụ: Category hoặc DanhMuc)
+    $categories = \App\Models\DanhMucSP::all(); 
+
+    // Trả về view kèm cả 2 biến products và categories
+    return view('admin.products.index', compact('products', 'categories'));
     }
 
     public function create()
@@ -33,7 +72,8 @@ class AdminProductController extends Controller
         'ten_sanpham'    => 'required',
         'ma_danhmuc'     => 'required',
         'gia_ban'        => 'required|numeric|min:0',
-        'so_luong_ton'   => 'required|integer|min:0',
+        'so_luong_ton'   => 'required|numeric|min:0',
+        'chat_lieu'      => 'required',
         'hinh_anh_chinh' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Bắt buộc phải chọn ảnh 1
     ], [
         // Viết lại câu thông báo lỗi bằng tiếng Việt để popup hiện lên thân thiện
@@ -43,8 +83,10 @@ class AdminProductController extends Controller
         'ma_danhmuc.required'     => 'Vui lòng chọn danh mục sản phẩm.',
         'gia_ban.required'        => 'Giá bán không được bỏ trống.',
         'gia_ban.numeric'         => 'Giá bán phải là số hợp lệ.',
-        'so_luong_ton.required'   => 'Số lượng tồn kho không được bỏ trống.',
-        'hinh_anh_chinh.required' => 'Bạn bắt buộc phải tải lên ảnh đại diện ở Ô số 1.',
+        'so_luong_ton.required'   => 'Số lượng tồn không được bỏ trống.',
+        'so_luong_ton.numeric'    => 'Số lượng tồn phải là số hợp lệ.',
+        'chat_lieu.required'      => 'Chất liệu không được bỏ trống.',
+        'hinh_anh_chinh.required' => 'Cần tải lên ít nhất 1 ảnh.',
         'hinh_anh_chinh.image'    => 'Cần tải lên ít nhất 1 ảnh.',
     ]);
 
@@ -99,11 +141,10 @@ class AdminProductController extends Controller
         $categories = DanhMucSP::all();
         return view('admin.products/edit-product', compact('product', 'images', 'categories'));
     }
-
     public function update(Request $request, $id)
     {
         $product = SanPham::findOrFail($id);
-        
+            $isFeatured = $request->has('noi_bat') ? 1 : 0;
         $product->update([
             'TenSanPham' => $request->ten_sanpham,
             'MaDanhMuc'  => $request->ma_danhmuc,
@@ -111,6 +152,7 @@ class AdminProductController extends Controller
             'ChatLieu'   => $request->chat_lieu,
             'MoTa'       => $request->mo_ta,
             'TrangThai'  => $request->trang_thai,
+            'NoiBat' => $isFeatured,
         ]);
 
         if ($request->has('deleted_images') && !empty($request->deleted_images)) {

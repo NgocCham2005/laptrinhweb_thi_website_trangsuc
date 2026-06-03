@@ -15,7 +15,22 @@ Quản lý danh mục sản phẩm
         @csrf
         <x-input type="text" name="ma_danhmuc" label="Mã danh mục" placeholder="Ví dụ: DM01" />
         <x-input type="text" name="ten_danhmuc" label="Tên danh mục" placeholder="Nhập tên danh mục..." />
-        
+        <div class="form-group" style="margin-top: 15px;">
+    <label>Ảnh đại diện danh mục</label>
+    
+    <div class="image-upload-grid">
+        <div class="upload-box-item" id="box-cat">
+            <input type="file" name="hinh_anh_danhmuc" id="file-cat" accept="image/*" style="display: none;">
+            
+            <label for="file-cat" class="upload-box-placeholder">
+                <i class="fa-solid fa-plus"></i>
+                <span>Tải lên ảnh danh mục</span>
+            </label>
+            
+            <div class="preview-zone" id="preview-cat" style="display: none;"></div>
+        </div>
+    </div>
+</div>
         <div class="form-actions">
             <x-button variant="primary" type="submit">Lưu danh mục</x-button>
             <a href="{{ route('admin.categories') }}"
@@ -26,4 +41,5 @@ Quản lý danh mục sản phẩm
         </div>
     </form>
 </div>
+<script src="{{ asset('js/admin/category-upload.js') }}"></script>
 @endsection

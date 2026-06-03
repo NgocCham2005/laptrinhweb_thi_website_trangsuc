@@ -32,8 +32,8 @@ Quản lý sản phẩm
 
                 <x-input type="text" name="chat_lieu" label="Chất liệu" value="{{ $product->ChatLieu }}" />
                 <x-input type="textarea" name="mo_ta" label="Mô tả sản phẩm" placeholder="Nhập mô tả sản phẩm..." rows="4" value="{{ $product->MoTa }}" />
-<div class="form-group-image">
-    <label>Hình ảnh sản phẩm (Ảnh đầu tiên sẽ là ảnh hiển thị ở Product Card) <span style="color: red;">*</span></label>
+    <div class="form-group-image">
+    <label>Hình ảnh sản phẩm <span style="color: red;">*</span></label>
     
     <div class="image-upload-grid" id="uploadGrid">
         
