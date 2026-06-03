@@ -310,7 +310,6 @@ min-height:80vh;
     display: block; 
     font-weight: 600; 
     margin-bottom: 5px;
-    color: #334155;
 }
 
 .form-group-image .input-file-custom {
@@ -366,24 +365,27 @@ min-height:80vh;
 /* Nút xóa ảnh màu đỏ nhỏ xinh nằm đè lên góc ảnh */
 .btn-delete-img {
     position: absolute;
-    top: 4px;
-    right: 4px;
-    background-color: rgba(239, 68, 68, 0.9);
+    top: -6px;
+    right: -6px;
+    background: #ef4444;
     color: white;
     border: none;
-    border-radius: 4px;
-    width: 24px;
-    height: 24px;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
     cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
-    transition: background-color 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    transition: transform 0.2s, background 0.2s;
+    z-index: 10;
 }
 
 .btn-delete-img:hover {
-    background-color: #dc2626;
+    background-color: #9a1a1a;
 }
 
 
@@ -702,11 +704,18 @@ min-height:80vh;
     margin-top: 10px;
     flex-wrap: wrap;
 }
-
+.upload-box-item {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+.upload-box-item-edit {
+    display: block;
+}
 /* Ô vuông placeholder dấu cộng khi chưa chọn ảnh */
 .upload-box-placeholder, .preview-item-box {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     border: 2px dashed #cbd5e1;
     border-radius: 8px;
     background-color: #f8fafc;
@@ -714,13 +723,10 @@ min-height:80vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    color: #64748b;
-    font-size: 12px;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
+    font-size: 13px;
     transition: all 0.2s ease;
+    text-align: center;
 }
 
 .upload-box-placeholder:hover {
@@ -728,31 +734,46 @@ min-height:80vh;
     background-color: #f1f5f9;
     color: #D4AF37;
 }
-
 .upload-box-placeholder i {
-    font-size: 20px;
+    font-size: 18px;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+.upload-box-placeholder span {
+    font-size: 11px;
+    color: #64748b;
 }
 
 /* Thẻ img bọc ảnh preview */
-.preview-item-box border-style {
-    border: 1px solid #cbd5e1;
+.preview-zone {
+    width: 100%;
+    height: 100%;
+}
+.preview-item-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .preview-item-box img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
 }
 
 /* Tag nhãn ghi chú Ảnh 1, Ảnh 2, Ảnh 3 đè lên hình */
 .img-badge {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
+    bottom: 5px;
+    left: 5px;
+    background: rgba(0, 0, 0, 0.65);
+    color: white;
+    padding: 2px 6px;
     font-size: 10px;
     text-align: center;
     padding: 2px 0;
+    border-radius: 4px;
+    pointer-events: none;
 }

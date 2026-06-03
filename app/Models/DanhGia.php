@@ -41,4 +41,9 @@ class DanhGia extends Model
     {
         return $this->belongsTo(DonHang::class,'MaDonHang','MaDonHang');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(TaiKhoan::class,'MaTaiKhoan','MaTaiKhoan');
+    }
 }

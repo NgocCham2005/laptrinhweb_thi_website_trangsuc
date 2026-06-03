@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SanPham;
 use App\Models\DanhMucSP;
+use App\Models\HinhAnhSP;
 
 class AdminProductController extends Controller
 {
@@ -27,62 +28,82 @@ class AdminProductController extends Controller
 
     public function store(Request $request)
     {
-        $product = SanPham::create([
-            'MaSanPham'  => $request->ma_sanpham,
-            'TenSanPham' => $request->ten_sanpham,
-            'MaDanhMuc'  => $request->ma_danhmuc,
-            'GiaBan'     => $request->gia_ban,
-            'ChatLieu'   => $request->chat_lieu,
-            'MoTa'       => $request->mo_ta,
-            'TrangThai'  => 1
-        ]);
-    // if ($request->hasFile('hinh_anh')) {
-    //     foreach ($request->file('hinh_anh') as $index => $file) {
-    //         if ($file->isValid()) {
-    //             $imageName = time() . '.' . $file->extension();
-    //             $file->move(public_path('images/product'), $imageName);
+        $request->validate([
+        'ma_sanpham'     => 'required|unique:san_pham,MaSanPham', // Bắt buộc nhập và không trùng mã cũ
+        'ten_sanpham'    => 'required',
+        'ma_danhmuc'     => 'required',
+        'gia_ban'        => 'required|numeric|min:0',
+        'so_luong_ton'   => 'required|integer|min:0',
+        'hinh_anh_chinh' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Bắt buộc phải chọn ảnh 1
+    ], [
+        // Viết lại câu thông báo lỗi bằng tiếng Việt để popup hiện lên thân thiện
+        'ma_sanpham.required'     => 'Mã sản phẩm không được bỏ trống.',
+        'ma_sanpham.unique'       => 'Mã sản phẩm này đã tồn tại trong hệ thống.',
+        'ten_sanpham.required'    => 'Tên sản phẩm không được bỏ trống.',
+        'ma_danhmuc.required'     => 'Vui lòng chọn danh mục sản phẩm.',
+        'gia_ban.required'        => 'Giá bán không được bỏ trống.',
+        'gia_ban.numeric'         => 'Giá bán phải là số hợp lệ.',
+        'so_luong_ton.required'   => 'Số lượng tồn kho không được bỏ trống.',
+        'hinh_anh_chinh.required' => 'Bạn bắt buộc phải tải lên ảnh đại diện ở Ô số 1.',
+        'hinh_anh_chinh.image'    => 'Cần tải lên ít nhất 1 ảnh.',
+    ]);
 
-    //     // Lưu dòng dữ liệu mới vào bảng hình ảnh sản phẩm bằng Query Builder hoặc Model
-    //     \DB::table('hinh_anh_sp')->insert([
-    //         'MaHinhAnh' => 'HA' . \Illuminate\Support\Str::random(5),
-    //         'MaSanPham' => $product->MaSanPham,
-    //         'DuongDan' => $imageName
-    //     ]);
-    //         }
-    //     }
+    $product = SanPham::create([
+        'MaSanPham'  => $request->ma_sanpham,
+        'TenSanPham' => $request->ten_sanpham,
+        'MaDanhMuc'  => $request->ma_danhmuc,
+        'GiaBan'     => $request->gia_ban,
+        'SoLuongTon' => $request->so_luong_ton,
+        'ChatLieu'   => $request->chat_lieu,
+        'MoTa'       => $request->mo_ta,
+        'TrangThai'  => 1
+    ]);
+
     if ($request->hasFile('hinh_anh_chinh')) {
-        $pathChinh = $request->file('hinh_anh_chinh')->store('images/sanpham', 'public');
-        HinhAnhSP::create([
-             'MaSanPham' => $product->id,
-             'DuongDan' => $pathChinh,
-             'LoaiAnh' => 1 // 1 là ảnh chính
-        ]);
-    }
-    if ($request->hasFile('hinh_anh_phu')) {
-        foreach ($request->file('hinh_anh_phu') as $filePhu) {
-            $pathPhu = $filePhu->store('images/sanpham', 'public');
+        $file = $request->file('hinh_anh_chinh');
+        if ($file->isValid()) {
+            $imageName = time() . '_main.' . $file->extension();
+            $file->move(public_path('images/products'), $imageName);
 
-             HinhAnhSP::create([
-                 'MaSanPham' => $product->id,
-                 'DuongDan' => $pathPhu,
-                 'LoaiAnh' => 0 // 0 là ảnh phụ
+            // Bắt buộc phải truyền MaHinhAnh tự sinh ở đây:
+            \DB::table('hinh_anh_sp')->insert([
+                'MaHinhAnh' => 'HA' . \Illuminate\Support\Str::random(5), 
+                'MaSanPham' => $product->MaSanPham,
+                'DuongDan'  => $imageName
             ]);
         }
     }
-        return redirect()->route('admin.products')->with('success', 'Thêm sản phẩm thành công');
+    if ($request->hasFile('hinh_anh_phu')) {
+        foreach ($request->file('hinh_anh_phu') as $index => $file) {
+            if ($file->isValid()) {
+                $imageName = time() . '_detail_' . $index . '.' . $file->extension();
+                $file->move(public_path('images/products'), $imageName);
+
+                // Bắt buộc phải truyền MaHinhAnh tự sinh ở đây:
+                \DB::table('hinh_anh_sp')->insert([
+                    'MaHinhAnh' => 'HA' . \Illuminate\Support\Str::random(5), 
+                    'MaSanPham' => $product->MaSanPham,
+                    'DuongDan'  => $imageName
+                ]);
+            }
+        }
     }
+
+    return redirect()->route('admin.products')->with('success', 'Thêm sản phẩm thành công');
+}
 
     public function edit($id)
     {
         $product = SanPham::findOrFail($id);
-        $categories = DanhMucSP::where('TrangThai', 1)->get();
-        $images = \DB::table('hinh_anh_sp')->where('MaHinhAnh', $id)->get();
-        return view('admin.products.edit-product', compact('product', 'categories','images'));
+            $images = HinhAnhSP::where('MaSanPham', $id)->get(); 
+        $categories = DanhMucSP::all();
+        return view('admin.products/edit-product', compact('product', 'images', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
         $product = SanPham::findOrFail($id);
+        
         $product->update([
             'TenSanPham' => $request->ten_sanpham,
             'MaDanhMuc'  => $request->ma_danhmuc,
@@ -91,70 +112,97 @@ class AdminProductController extends Controller
             'MoTa'       => $request->mo_ta,
             'TrangThai'  => $request->trang_thai,
         ]);
-        if ($request->hasFile('hinh_anh')) {
-        
-        // Vòng lặp duyệt qua từng file ảnh trong mảng gửi lên
-        foreach ($request->file('hinh_anh') as $index => $file) {
-            if ($file->isValid()) {
-                
-                // Đặt tên file ảnh phân biệt bằng cách thêm chỉ số $index và thời gian
-                $imageName = time() . '_' . $index . '.' . $file->extension();
-                $file->move(public_path('images/product'), $imageName);
 
-                // Chèn từng ảnh một vào bảng hinh_anh_sp
-                \DB::table('hinh_anh_sp')->insert([
-                    'MaHinhAnh' => 'HA' . \Illuminate\Support\Str::random(5), // Mã ngẫu nhiên không lo bị trùng/quá dài
+        if ($request->has('deleted_images') && !empty($request->deleted_images)) {
+            // Giả sử JS gửi lên mảng các MaHinhAnh cần xóa (ví dụ: ['HA001', 'HA002'])
+            $deletedIds = is_array($request->deleted_images) ? $request->deleted_images : json_decode($request->deleted_images, true);
+            
+            if (!empty($deletedIds)) {
+                // Lấy danh sách ảnh để xóa file vật lý trong folder public trước
+                $imagesToDelete = HinhAnhSP::whereIn('MaHinhAnh', $deletedIds)->get();
+                foreach ($imagesToDelete as $img) {
+                    $filePath = public_path('images/products/' . $img->DuongDan);
+                    if (file_exists($filePath)) {
+                        @unlink($filePath); // Xóa file ảnh thật trong folder products
+                    }
+                }
+                // Xóa các dòng dữ liệu ảnh đó trong Database
+                HinhAnhSP::whereIn('MaHinhAnh', $deletedIds)->delete();
+            }
+        }
+        
+        // Xử lý Ô 1: hinh_anh_chinh (Ảnh đại diện Card)
+        if ($request->hasFile('hinh_anh_chinh')) {
+            $file = $request->file('hinh_anh_chinh');
+            if ($file->isValid()) {
+                $imageName = time() . '_main.' . $file->extension();
+                $file->move(public_path('images/products'), $imageName); // Lưu vào folder products số nhiều
+
+                HinhAnhSP::create([
+                    'MaHinhAnh' => 'HA' . \Illuminate\Support\Str::random(5),
                     'MaSanPham' => $product->MaSanPham,
                     'DuongDan'  => $imageName
                 ]);
             }
         }
-    }
-        return redirect()->route('admin.products')->with('success', 'Cập nhật sản phẩm thành công');
+
+        // Xử lý Ô 2 & Ô 3: hinh_anh_phu (Mảng các ảnh chi tiết gửi lên)
+        if ($request->hasFile('hinh_anh_phu')) {
+            foreach ($request->file('hinh_anh_phu') as $index => $file) {
+                if ($file->isValid()) {
+                    $imageName = time() . '_detail_' . $index . '.' . $file->extension();
+                    $file->move(public_path('images/products'), $imageName); // Lưu vào folder products số nhiều
+
+                    HinhAnhSP::create([
+                        'MaHinhAnh' => 'HA' . \Illuminate\Support\Str::random(5),
+                        'MaSanPham' => $product->MaSanPham,
+                        'DuongDan'  => $imageName
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('admin.products')->with('success', 'Cập nhật sản phẩm và hình ảnh thành công');
     }
 
     public function destroy($id)
     {
         $product = SanPham::findOrFail($id);
-        // Kiểm tra xem sản phẩm này đã nằm trong chi tiết đơn hàng nào chưa
-        $isUsed = \DB::table('chi_tiet_don_hang')->where('MaSanPham', $id)->exists();
 
-        if ($isUsed) {
-            // TRƯỜNG HỢP 1: Có ràng buộc dữ liệu -> Chuyển sang ẨN
-            $product->update([
-                'TrangThai' => 0
-            ]);
-            return redirect()->route('admin.products')->with('success', 'Sản phẩm đã có lịch sử mua hàng nên hệ thống đã tự động chuyển sang trạng thái ẨN!');
-        } else {
-            // TRƯỜNG HỢP 2: Hoàn toàn không bị ràng buộc -> XÓA HẲN
-            // Xóa file ảnh vật lý trong thư mục trước
-            $imagePath = public_path('images/product/' . $product->HinhAnh);
-            if ($product->HinhAnh && file_exists($imagePath)) {
-                unlink($imagePath);
+        $images = HinhAnhSP::where('MaSanPham', $id)->get();
+        
+        foreach ($images as $img) {
+            $filePath = public_path('images/products/' . $img->DuongDan);
+            if (file_exists($filePath)) {
+                @unlink($filePath);
             }
-            // Xóa bản ghi trong database
-            $product->delete();
-            return redirect()->route('admin.products')->with('success', 'Xóa sản phẩm thành công!');
         }
+
+        HinhAnhSP::where('MaSanPham', $id)->delete();
+        $product->delete();
+
+        return redirect()->route('admin.products')->with('success', 'Xóa sản phẩm và toàn bộ hình ảnh thành công!');
     }
     public function deleteImage($id)
-{
-    // Tìm ảnh trong DB để lấy tên file xóa trong thư mục public
-    $image = \DB::table('hinh_anh_sp')->where('MaHinhAnh', $id)->first();
-    
-    if ($image) {
-        // Xóa file ảnh vật lý trong thư mục public/images/product
-        $imagePath = public_path('images/product/' . $image->DuongDan);
-        if (file_exists($imagePath)) {
-            @unlink($imagePath);
+    {
+        $image = HinhAnhSP::where('MaHinhAnh', $id)->first();
+        
+        if ($image) {
+            $imagePath = public_path('images/products/' . $image->DuongDan);
+            if (file_exists($imagePath)) {
+                @unlink($imagePath);
+            }
+            $image->delete();
+
+            return response()->json([
+                'success' => true, 
+                'message' => 'Xóa ảnh vật lý và dữ liệu thành công!'
+            ]);
         }
 
-        // Xóa dòng dữ liệu trong DB
-        \DB::table('hinh_anh_sp')->where('MaHinhAnh', $id)->delete();
-
-        return response()->json(['success' => true, 'message' => 'Xóa ảnh thành công!']);
+        return response()->json([
+            'success' => false, 
+            'message' => 'Không tìm thấy mã hình ảnh này!'
+        ], 404);
     }
-
-    return response()->json(['success' => false, 'message' => 'Không tìm thấy ảnh!'], 404);
-}
 }
