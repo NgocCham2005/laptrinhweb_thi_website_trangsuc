@@ -13,15 +13,25 @@ Quản lý sản phẩm
             <x-button variant="primary">Thêm sản phẩm</x-button>
         </a>
     </div>
+<<<<<<< Updated upstream
     @include('admin.products.product-filter')
     <x-table :headers="['Mã SP', 'Tên sản phẩm', 'Danh mục', 'Giá bán', 'Tồn kho','Trạng thái', 'Thao tác']" striped>
         @forelse($products as $product)
+=======
+    
+    <x-table :headers="['Mã SP', 'Tên sản phẩm', 'Danh mục', 'Giá bán', 'Tồn kho','Trạng thái', 'Thao tác']" striped>
+        @foreach($products as $product)
+>>>>>>> Stashed changes
         <tr>
             <td>{{ $product->MaSanPham }}</td>
             <td>{{ $product->TenSanPham }}</td>
             <td>{{ $product->category->TenDanhMuc ?? 'Trống' }}</td>
             <td>{{ number_format($product->GiaBan, 0, ',', '.') }}đ</td>
+<<<<<<< Updated upstream
             <td>{{ number_format($product->SoLuongTon, 0, ',', '.') }}</td>
+=======
+            <td>{{number_format ($product->SoLuongTon,0, ',','.')}}</td>
+>>>>>>> Stashed changes
             <td>
                 @if($product->TrangThai == 1) <x-badge variant="success">Hiển thị</x-badge>
                 @else <x-badge variant="warning">Ẩn</x-badge>

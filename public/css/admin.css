@@ -772,6 +772,7 @@ min-height:80vh;
     color: white;
     padding: 2px 6px;
     font-size: 10px;
+<<<<<<< Updated upstream
     text-align: center;
     padding: 2px 0;
     border-radius: 4px;
@@ -831,3 +832,8 @@ min-height:80vh;
     gap: 8px;
     align-items: center;
 }
+=======
+    border-radius: 4px;
+    pointer-events: none;
+}
+>>>>>>> Stashed changes
