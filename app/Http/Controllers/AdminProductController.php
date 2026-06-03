@@ -72,12 +72,8 @@ $query = SanPham::with(['category', 'images']);
         'ten_sanpham'    => 'required',
         'ma_danhmuc'     => 'required',
         'gia_ban'        => 'required|numeric|min:0',
-<<<<<<< Updated upstream
         'so_luong_ton'   => 'required|numeric|min:0',
         'chat_lieu'      => 'required',
-=======
-        'so_luong_ton'   => 'required|integer|min:0',
->>>>>>> Stashed changes
         'hinh_anh_chinh' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Bắt buộc phải chọn ảnh 1
     ], [
         // Viết lại câu thông báo lỗi bằng tiếng Việt để popup hiện lên thân thiện
@@ -87,15 +83,10 @@ $query = SanPham::with(['category', 'images']);
         'ma_danhmuc.required'     => 'Vui lòng chọn danh mục sản phẩm.',
         'gia_ban.required'        => 'Giá bán không được bỏ trống.',
         'gia_ban.numeric'         => 'Giá bán phải là số hợp lệ.',
-<<<<<<< Updated upstream
         'so_luong_ton.required'   => 'Số lượng tồn không được bỏ trống.',
         'so_luong_ton.numeric'    => 'Số lượng tồn phải là số hợp lệ.',
         'chat_lieu.required'      => 'Chất liệu không được bỏ trống.',
         'hinh_anh_chinh.required' => 'Cần tải lên ít nhất 1 ảnh.',
-=======
-        'so_luong_ton.required'   => 'Số lượng tồn kho không được bỏ trống.',
-        'hinh_anh_chinh.required' => 'Bạn bắt buộc phải tải lên ảnh đại diện ở Ô số 1.',
->>>>>>> Stashed changes
         'hinh_anh_chinh.image'    => 'Cần tải lên ít nhất 1 ảnh.',
     ]);
 
@@ -153,11 +144,7 @@ $query = SanPham::with(['category', 'images']);
     public function update(Request $request, $id)
     {
         $product = SanPham::findOrFail($id);
-<<<<<<< Updated upstream
             $isFeatured = $request->has('noi_bat') ? 1 : 0;
-=======
-        
->>>>>>> Stashed changes
         $product->update([
             'TenSanPham' => $request->ten_sanpham,
             'MaDanhMuc'  => $request->ma_danhmuc,

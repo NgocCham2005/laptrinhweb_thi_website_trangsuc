@@ -14,15 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // Bắn Popup báo lỗi đỏ rực bằng SweetAlert2
             Swal.fire({
                 icon: 'error',
-<<<<<<< Updated upstream
                 title: 'Thiếu thông tin!',
                 text: errorMessages,
                 confirmButtonText: 'Nhập lại',
-=======
-                title: 'Thiếu thông tin rồi m ơi!',
-                text: errorMessages,
-                confirmButtonText: 'Để tôi nhập lại',
->>>>>>> Stashed changes
                 confirmButtonColor: '#e74c3c'
             });
         }
