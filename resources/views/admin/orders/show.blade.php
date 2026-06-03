@@ -9,21 +9,12 @@
 <link rel="stylesheet" href="{{ asset('css/order.css') }}">
 
 <div class="detail-container">
-    @if(session('success'))
-
-        <div class="alert alert-success">
-
-            {{ session('success') }}
-
-        </div>
-
-    @endif
 
     <div class="top-action-bar">
 
         <a href="{{ route('admin.orders') }}">
 
-            <x-button variant="secondary">
+            <x-button variant="outline-navy">
 
                 ← Quay lại
 

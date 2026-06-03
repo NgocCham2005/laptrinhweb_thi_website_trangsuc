@@ -24,7 +24,7 @@ class="menu-item
 
 <a href="{{ route('admin.categories') }}"
 class="menu-item
-{{ request()->routeIs('admin.categories')
+{{ request()->routeIs('admin.categories*')
 ? 'active'
 : '' }}">
 
@@ -36,7 +36,7 @@ class="menu-item
 
 <a href="{{ route('admin.products') }}"
 class="menu-item
-{{ request()->routeIs('admin.products')
+{{ request()->routeIs('admin.products*')
 ? 'active'
 : '' }}">
 
@@ -50,7 +50,7 @@ class="menu-item
 
 <a href="{{ route('admin.customers') }}"
 class="menu-item
-{{ request()->routeIs('admin.customers')
+{{ request()->routeIs('admin.customers*')
 ? 'active'
 : '' }}">
 
@@ -64,7 +64,7 @@ class="menu-item
 
 <a href="{{ route('admin.banners') }}"
 class="menu-item
-{{ request()->routeIs('admin.banners')
+{{ request()->routeIs('admin.banners*')
 ? 'active'
 : '' }}">
 
@@ -78,7 +78,7 @@ class="menu-item
 
 <a href="{{ route('admin.vouchers') }}"
 class="menu-item
-{{ request()->routeIs('admin.vouchers')
+{{ request()->routeIs('admin.vouchers*')
 ? 'active'
 : '' }}">
 
@@ -92,7 +92,7 @@ class="menu-item
 
 <a href="{{ route('admin.reviews') }}"
 class="menu-item
-{{ request()->routeIs('admin.reviews')
+{{ request()->routeIs('admin.reviews*')
 ? 'active'
 : '' }}">
 

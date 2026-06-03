@@ -15,12 +15,48 @@ class AdminVoucherController extends Controller
     }
     public function create()
     {
-        return view('admin.vouchers.create');
+        $lastVoucher = Voucher::orderBy('MaVoucher', 'desc')->first();
+
+        if ($lastVoucher) {
+            $number = (int) substr($lastVoucher->MaVoucher, 2);
+            $newCode = 'VC' . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $newCode = 'VC001';
+        }
+
+        return view(
+            'admin.vouchers.create',
+            compact('newCode')
+        );
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'TenVoucher' => 'required|string|max:255',
+            'DieuKien' => 'required|numeric|min:0',
+            'GiaTriGiamToiDa' => 'required|numeric|min:0',
+            'SoLanSuDung' => 'required|integer|min:1',
+            'TrangThai' => 'required|in:0,1'
+        ], [
+            'TenVoucher.required' => 'Vui lòng nhập tên voucher.',
+            'DieuKien.required' => 'Vui lòng nhập điều kiện áp dụng.',
+            'GiaTriGiamToiDa.required' => 'Vui lòng nhập giá trị giảm tối đa.',
+            'SoLanSuDung.required' => 'Vui lòng nhập số lần sử dụng.',
+            'SoLanSuDung.min' => 'Số lần sử dụng phải lớn hơn 0.',
+            'TrangThai.required' => 'Vui lòng chọn trạng thái.'
+        ]);
+
+        $lastVoucher = Voucher::orderBy('MaVoucher', 'desc')->first();
+
+        if ($lastVoucher) {
+            $number = (int) substr($lastVoucher->MaVoucher, 2);
+            $newCode = 'VC' . str_pad($number + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $newCode = 'VC001';
+        }
+
         Voucher::create([
-            'MaVoucher' => $request->MaVoucher,
+            'MaVoucher' => $newCode,
             'TenVoucher' => $request->TenVoucher,
             'DieuKien' => $request->DieuKien,
             'GiaTriGiamToiDa' => $request->GiaTriGiamToiDa,
@@ -28,7 +64,9 @@ class AdminVoucherController extends Controller
             'TrangThai' => $request->TrangThai,
         ]);
 
-        return redirect()->route('admin.vouchers');
+        return redirect()
+            ->route('admin.vouchers')
+            ->with('success', 'Thêm voucher thành công');
     }
 
     public function edit($id)
@@ -45,6 +83,20 @@ class AdminVoucherController extends Controller
         $id
     )
     {
+        $request->validate([
+            'TenVoucher' => 'required|string|max:255',
+            'DieuKien' => 'required|numeric|min:0',
+            'GiaTriGiamToiDa' => 'required|numeric|min:0',
+            'SoLanSuDung' => 'required|integer|min:1',
+            'TrangThai' => 'required|in:0,1'
+        ], [
+            'TenVoucher.required' => 'Vui lòng nhập tên voucher.',
+            'DieuKien.required' => 'Vui lòng nhập điều kiện áp dụng.',
+            'GiaTriGiamToiDa.required' => 'Vui lòng nhập giá trị giảm tối đa.',
+            'SoLanSuDung.required' => 'Vui lòng nhập số lần sử dụng.',
+            'SoLanSuDung.min' => 'Số lần sử dụng phải lớn hơn 0.',
+            'TrangThai.required' => 'Vui lòng chọn trạng thái.'
+        ]);
 
         $voucher = Voucher::findOrFail($id);
         $voucher->update([
@@ -77,5 +129,4 @@ class AdminVoucherController extends Controller
                 'Đã vô hiệu hóa voucher'
             );
     }
-
 }
