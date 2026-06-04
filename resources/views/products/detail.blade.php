@@ -43,7 +43,7 @@
             <h2>MÔ TẢ SẢN PHẨM</h2>
         </div>
         <div class="description-content">
-            <p>{{ $product->MoTa }}</p>
+            <p>{{ $product->MoTaChiTiet }}</p>
         </div>
     </div>
 

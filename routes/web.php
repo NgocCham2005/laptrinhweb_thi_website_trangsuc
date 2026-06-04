@@ -183,16 +183,14 @@ Route::get(
     Route::delete('/vouchers/{id}', [AdminVoucherController::class, 'destroy'])
     ->name('vouchers.destroy');
 
-    Route::get('/reviews', [AdminReviewController::class, 'index'])
-    ->name('reviews');
-    Route::post('/reviews/reply/{id}',[AdminReviewController::class, 'reply'])
-    ->name('replyReview');
-    Route::put('/reviews/hide/{id}',[AdminReviewController::class, 'hide'])
-    ->name('hideReview');
-    Route::put('/reviews/display/{id}',[AdminReviewController::class, 'display'])
-    ->name('displayReview');
-    Route::delete('/reviews/delete/{id}',[AdminReviewController::class, 'destroy'])
-    ->name('deleteReview');
+    Route::get('/reviews', [AdminReviewController::class, 'index'])->name('reviews');
+    Route::get('/reviews/reply/{id}', [AdminReviewController::class, 'showReplyForm'])->name('replyReviewForm');
+    Route::post('/reviews/reply/{id}', [AdminReviewController::class, 'reply'])->name('replyReview');
+    Route::get('/reviews/edit-reply/{id}', [AdminReviewController::class, 'showEditReplyForm'])->name('editReplyForm');
+    Route::put('/reviews/edit-reply/{id}', [AdminReviewController::class, 'updateReply'])->name('updateReply');
+    Route::put('/reviews/hide/{id}', [AdminReviewController::class, 'hide'])->name('hideReview');
+    Route::put('/reviews/display/{id}', [AdminReviewController::class, 'display'])->name('displayReview');
+    Route::delete('/reviews/delete/{id}', [AdminReviewController::class, 'destroy'])->name('deleteReview');
 
     Route::get(
         '/reports',

@@ -8,13 +8,17 @@ use App\Models\SanPham;
 
 class ReviewController extends Controller
 {
+    private function layMaTaiKhoan() {
+        return Auth::user()->MaTaiKhoan;
+    }
+
     public function create($product, $order)
     {
         $sanPham = SanPham::findOrFail($product);
 
         $review = DanhGia::where('MaSanPham', $product)
                     ->where('MaDonHang', $order)
-                    ->where( 'MaTaiKhoan','TK014' ) // giả sử tài khoản đang đăng nhập là TK014
+                    ->where( 'MaTaiKhoan', $this->layMaTaiKhoan() )
                     ->first();
         return view('order.review',compact( 'sanPham','order','review' ));
     }
@@ -56,7 +60,7 @@ class ReviewController extends Controller
         }
         $exists = DanhGia::where('MaSanPham', $request->product_id)
                     ->where('MaDonHang', $request->order_id )
-                    ->where('MaTaiKhoan', 'TK014') // giả sử tài khoản đang đăng nhập là TK014
+                    ->where('MaTaiKhoan', $this->layMaTaiKhoan())
                     ->exists();
         if($exists)
         {
@@ -79,7 +83,7 @@ class ReviewController extends Controller
             'BinhLuan' => $request->comment,
             'XepHang' => $request->rating,
             'TrangThai' => 1,
-            'MaTaiKhoan' => 'TK014',
+            'MaTaiKhoan' => $this->layMaTaiKhoan(),
             'MaSanPham' => $request->product_id,
             'MaDonHang' => $request->order_id
         ]);
