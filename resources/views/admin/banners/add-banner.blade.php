@@ -18,7 +18,7 @@ Quản lý banner
         <form action="{{ route('admin.storeBanner') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div>
-                <x-input type="text" name="ma_banner" label="Mã banner" placeholder="Nhập mã banner" />
+                <x-input label="Mã banner" name="ma_banner" :value="$maBanner" readonly />
                 <x-input type="text" name="ten_banner" label="Tên banner" placeholder="Nhập tên banner" />
                 <x-input type="file" name="hinh_anh" label="Hình ảnh banner" />
             </div>

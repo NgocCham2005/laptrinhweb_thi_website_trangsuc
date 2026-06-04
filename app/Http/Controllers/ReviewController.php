@@ -22,23 +22,48 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'required|max:255',
-            'product_id' => 'required',
-            'order_id' => 'required'
+            'rating' => [
+            'required',
+            'integer',
+            'between:1,5'
+        ],
+        'comment' => [
+            'required',
+            'string',
+            'min:5',
+            'max:255'
+        ],
+        'product_id' => [
+            'required',
+            'exists:san_pham,MaSanPham'
+        ],
+        'order_id' => [
+            'required',
+            'exists:don_hang,MaDonHang'
+        ]
+        ],[
+            'rating.required' => 'Vui lòng chọn số sao.',
+            'rating.between' => 'Số sao phải từ 1 đến 5.',
+            'comment.required' => 'Vui lòng nhập nhận xét.',
+            'comment.min' => 'Nhận xét phải có ít nhất 5 ký tự.',
+            'comment.max' => 'Nhận xét tối đa 255 ký tự.',
+            'product_id.exists' => 'Sản phẩm không tồn tại.',
+            'order_id.exists' => 'Đơn hàng không tồn tại.'
         ]);
+        if(trim($request->comment) == '')
+        {
+            return back()->withErrors(['comment' => 'Nhận xét không hợp lệ.'])->withInput();
+        }
         $exists = DanhGia::where('MaSanPham', $request->product_id)
                     ->where('MaDonHang', $request->order_id )
                     ->where('MaTaiKhoan', 'TK014') // giả sử tài khoản đang đăng nhập là TK014
                     ->exists();
-        
-                    if($exists)
+        if($exists)
         {
             return back()->with('error','Bạn đã đánh giá sản phẩm này rồi');
         }
 
         $lastReview = DanhGia::orderBy('MaDanhGia','desc')->first();
-        
         if($lastReview)
         {
             $soMoi = (int) substr($lastReview->MaDanhGia,2,4) + 1;
@@ -64,9 +89,28 @@ class ReviewController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'required|max:255'
+            'rating' => [
+            'required',
+            'integer',
+            'between:1,5'
+        ],
+        'comment' => [
+            'required',
+            'string',
+            'min:5',
+            'max:255'
+        ]
+        ],[
+            'rating.required' => 'Vui lòng chọn số sao.',
+            'rating.between' => 'Số sao phải từ 1 đến 5.',
+            'comment.required' => 'Vui lòng nhập nhận xét.',
+            'comment.min' => 'Nhận xét phải có ít nhất 5 ký tự.',
+            'comment.max' => 'Nhận xét tối đa 255 ký tự.'
         ]);
+        if(trim($request->comment) == '')
+        {
+            return back()->withErrors(['comment' => 'Nhận xét không hợp lệ.'])->withInput();
+        }
         $review = DanhGia::findOrFail($id);
         $review->update(['XepHang' => $request->rating,'BinhLuan' => $request->comment
         ]);

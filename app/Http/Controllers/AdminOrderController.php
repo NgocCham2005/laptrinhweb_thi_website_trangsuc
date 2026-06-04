@@ -12,12 +12,12 @@ class AdminOrderController extends Controller
     public function index(Request $request)
     {
         $query = DonHang::with('chiTietDonHang');
-
+        # Tìm kiếm theo mã đơn hàng hoặc tên người nhận
         if ($request->keyword) {
             $query->where('MaDonHang', 'like', '%'.$request->keyword.'%')
                   ->orWhere('TenNguoiNhan', 'like', '%'.$request->keyword.'%');
         }
-
+        # Lọc theo trạng thái đơn hàng
         if ($request->status != '') {
             $query->where('TrangThai', $request->status);
         }
