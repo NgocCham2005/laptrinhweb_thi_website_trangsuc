@@ -1,5 +1,27 @@
-/* TABLE */
+/* THANH TÌM KIẾM */
+.search-box{
+    width:320px;
+}
 
+.filter-bar{
+    margin-bottom:18px;
+}
+
+.filter-form{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.status-filter{
+    width:220px;
+    
+    padding-right:42px;
+
+    background-position:right 14px center;
+}
+
+/* TABLE */
 .voucher-table .table-wrapper{
     border-radius:18px;
 

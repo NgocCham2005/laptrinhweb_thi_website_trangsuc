@@ -7,11 +7,38 @@ use Illuminate\Http\Request;
 
 class AdminVoucherController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $vouchers = Voucher::paginate(5);
+        $query = Voucher::query();
 
-        return view('admin.vouchers.index', compact('vouchers'));
+        // Tìm kiếm theo mã hoặc tên voucher
+        if ($request->keyword) {
+
+            $query->where('MaVoucher', 'like', '%' . $request->keyword . '%')
+                ->orWhere('TenVoucher', 'like', '%' . $request->keyword . '%');
+        }
+
+        // Lọc trạng thái
+        if ($request->status != '') {
+
+            $query->where(
+                'TrangThai',
+                $request->status
+            );
+        }
+
+        $vouchers = $query
+            ->orderByDesc('MaVoucher')
+            ->paginate(5)
+            ->appends([
+                'keyword' => $request->keyword,
+                'status' => $request->status
+            ]);
+
+        return view(
+            'admin.vouchers.index',
+            compact('vouchers')
+        );
     }
     public function create()
     {

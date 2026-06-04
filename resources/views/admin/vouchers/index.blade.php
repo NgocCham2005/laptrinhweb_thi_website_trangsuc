@@ -8,13 +8,56 @@
 
 <link rel="stylesheet" href="{{ asset('css/voucher.css') }}">
 
+{{-- SEARCH + FILTER --}}
+
+<div class="filter-bar">
+
+    <form method="GET" class="filter-form">
+
+        <input
+            type="text"
+            name="keyword"
+            class="form-control search-box"
+            placeholder="Tìm mã hoặc tên voucher"
+            value="{{ request('keyword') }}"
+        >
+
+        <select
+            name="status"
+            class="form-control status-filter"
+        >
+
+            <option value="">
+                Tất cả trạng thái
+            </option>
+
+            <option value="1"
+                {{ request('status') === '1' ? 'selected' : '' }}>
+                Hoạt động
+            </option>
+
+            <option value="0"
+                {{ request('status') === '0' ? 'selected' : '' }}>
+                Đã vô hiệu
+            </option>
+
+        </select>
+
+        <x-button type="submit">
+            Lọc
+        </x-button>
+
+    </form>
+
+</div>
+
 {{-- HEADER --}}
 <div class="page-header">
     <h3>Danh sách voucher</h3>
 
     <a href="{{ route('admin.vouchers.create') }}">
         <x-button>
-            + Thêm voucher
+            Thêm voucher
         </x-button>
     </a>
 </div>
