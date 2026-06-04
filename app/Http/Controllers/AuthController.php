@@ -104,7 +104,7 @@ class AuthController extends Controller
     }
 
     Auth::login($user);
-    session()->save();
+    session()->regenerate();
 
     if ($user->VaiTro == 'admin') {
         return redirect('/admin');

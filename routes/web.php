@@ -216,8 +216,8 @@ Route::get(
 // =====================
 // GIỎ HÀNG & ĐẶT HÀNG (cần đăng nhập)
 // =====================
-// Route::middleware('auth')->group(function () {
-Route::group([], function () {
+Route::middleware('auth')->group(function () {
+//Route::group([], function () {
 
     // Giỏ hàng
     Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');

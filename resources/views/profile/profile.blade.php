@@ -126,7 +126,7 @@
         <p class="logout-modal-text">Bạn có chắc chắn muốn đăng xuất tài khoản?</p>
         <div class="logout-modal-actions">
             <button onclick="closeLogoutModal()" class="btn-action-cancel" style="padding: 10px 24px;">Hủy bỏ</button>
-            <a href="/logout" class="btn-action-save" style="background-color: #dc3545; border-color: #dc3545; text-decoration: none; padding: 10px 24px;">Đăng xuất</a>
+            <a href="{{ route('logout') }}" class="btn-action-save" style="background-color: #dc3545; border-color: #dc3545; text-decoration: none; padding: 10px 24px;">Đăng xuất</a>
         </div>
     </div>
 </div>

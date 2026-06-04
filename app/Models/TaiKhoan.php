@@ -43,4 +43,5 @@ class TaiKhoan extends Authenticatable
     {
         return 'MaTaiKhoan';
     }
+    
 }

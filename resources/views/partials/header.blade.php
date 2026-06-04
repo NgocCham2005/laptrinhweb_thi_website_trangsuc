@@ -7,18 +7,24 @@
         </div>
         <x-search-bar />
         <div class="header-right">
-            <a href="{{ route('cart.index') }}" class="cart">
-                <i class="fa-solid fa-cart-shopping"></i>
-                Giỏ hàng
-            </a>
-
             @auth
-                <a href="/profile" class="user-icon" title="{{ Auth::user()->HoTen }}">
-                    <i class="fa-solid fa-circle-user"></i>
-                </a>
-            @else
-                <a href="/login">Đăng nhập</a>
-            @endauth
+    <a href="{{ route('cart.index') }}" class="cart">
+        <i class="fa-solid fa-cart-shopping"></i> Giỏ hàng
+    </a>
+@else
+    <a href="{{ route('login') }}" class="cart">
+        <i class="fa-solid fa-cart-shopping"></i> Giỏ hàng
+    </a>
+@endauth
+         
+          {{-- USER ICON --}}
+    @auth
+           <a href="/profile" class="user-icon" title="{{ Auth::user()->HoTen }}">
+              <i class="fa-solid fa-circle-user"></i>
+           </a>
+     @else
+           <a href="{{ route('login') }}">Đăng nhập</a>
+@endauth
         </div>
     </div>
 </header>
