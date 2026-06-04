@@ -181,4 +181,6 @@ document.querySelectorAll('.hero-item')
         });
     });
 
+
 </script>
+
