@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script src="{{ asset('js/slider.js') }}"></script>
+    
 </head>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -52,5 +53,5 @@ document.addEventListener('DOMContentLoaded', function () {
    
 
 </body>
-
+<script src="{{ asset('js/header.js') }}"></script>
 </html>
