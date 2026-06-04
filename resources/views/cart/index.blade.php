@@ -27,7 +27,7 @@
             <div class="cart-empty-icon">🛒</div>
             <h3>Giỏ hàng trống</h3>
             <p>Bạn chưa có sản phẩm nào trong giỏ hàng.</p>
-            <a href="{{ url('/san-pham') }}">
+            <a href="{{ url('/products.index') }}">
                 <x-button variant="primary">Tiếp tục mua sắm</x-button>
             </a>
         </div>
@@ -172,7 +172,7 @@
                         Đặt hàng ngay →
                     </x-button>
 
-                    <a href="{{ url('/san-pham') }}" class="cart-back-link">
+                    <a href="{{ url('/products.index') }}" class="cart-back-link">
                         <x-button variant="outline-navy" :block="true" style="margin-top:10px;">
                             ← Tiếp tục mua sắm
                         </x-button>

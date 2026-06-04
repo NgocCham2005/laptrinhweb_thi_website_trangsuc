@@ -43,15 +43,19 @@ class CartController extends Controller
     /**
      * Sinh mã giỏ hàng duy nhất, tránh trùng với DB.
      */
-    private function sinhMaGio(): string
-    {
-        do {
-            $ma = 'GH' . now()->format('ymdHis') . strtoupper(substr(uniqid(), -4));
-        } while (GioHang::where('MaGio', $ma)->exists());
+  private function sinhMaGio(): string
+{
+    $cuoi = GioHang::orderBy('MaGio', 'desc')->first();
 
-        return $ma;
+    if (!$cuoi) {
+        return 'G0001';
     }
 
+    $so = (int) substr($cuoi->MaGio, 1);
+    $so++;
+
+    return 'G' . str_pad($so, 4, '0', STR_PAD_LEFT);
+}
     /**
      * Trả về JSON lỗi hoặc redirect lỗi tùy loại request.
      */
