@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-// use Illuminate\Support\Facades\Auth; // TODO: bật lại khi auth xong
+use Illuminate\Support\Facades\Auth;
 use App\Models\GioHang;
 use App\Models\ChiTietGioHang;
 use App\Models\SanPham;
@@ -17,9 +17,7 @@ class CartController extends Controller
 
     private function getMaTaiKhoan(): string
     {
-        // TODO: đổi lại khi auth xong:
-        // return Auth::user()->MaTaiKhoan;
-        return 'TK007';
+        return Auth::user()->MaTaiKhoan;
     }
 
     private function layGioHang(): ?GioHang
