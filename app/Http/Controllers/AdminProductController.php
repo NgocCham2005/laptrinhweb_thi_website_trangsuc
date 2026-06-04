@@ -89,7 +89,7 @@ $query = SanPham::with(['category', 'images']);
         'hinh_anh_chinh.required' => 'Cần tải lên ít nhất 1 ảnh.',
         'hinh_anh_chinh.image'    => 'Cần tải lên ít nhất 1 ảnh.',
     ]);
-
+    $noiBat = $request->has('noi_bat') ? 1 : 0;
     $product = SanPham::create([
         'MaSanPham'  => $request->ma_sanpham,
         'TenSanPham' => $request->ten_sanpham,
@@ -98,7 +98,8 @@ $query = SanPham::with(['category', 'images']);
         'SoLuongTon' => $request->so_luong_ton,
         'ChatLieu'   => $request->chat_lieu,
         'MoTa'       => $request->mo_ta,
-        'TrangThai'  => 1
+        'TrangThai'  => 1,
+        'NoiBat'     => $noiBat,
     ]);
 
     if ($request->hasFile('hinh_anh_chinh')) {
@@ -144,7 +145,7 @@ $query = SanPham::with(['category', 'images']);
     public function update(Request $request, $id)
     {
         $product = SanPham::findOrFail($id);
-            $isFeatured = $request->has('noi_bat') ? 1 : 0;
+        $noiBat = $request->has('noi_bat') ? 1 : 0;
         $product->update([
             'TenSanPham' => $request->ten_sanpham,
             'MaDanhMuc'  => $request->ma_danhmuc,
@@ -152,7 +153,7 @@ $query = SanPham::with(['category', 'images']);
             'ChatLieu'   => $request->chat_lieu,
             'MoTa'       => $request->mo_ta,
             'TrangThai'  => $request->trang_thai,
-            'NoiBat' => $isFeatured,
+            'NoiBat'      => $noiBat,
         ]);
 
         if ($request->has('deleted_images') && !empty($request->deleted_images)) {
@@ -204,7 +205,7 @@ $query = SanPham::with(['category', 'images']);
             }
         }
 
-        return redirect()->route('admin.products')->with('success', 'Cập nhật sản phẩm và hình ảnh thành công');
+        return redirect()->route('admin.products')->with('success', 'Cập nhật sản phẩm thành công');
     }
 
     public function destroy($id)

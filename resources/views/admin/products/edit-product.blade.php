@@ -32,10 +32,15 @@ Quản lý sản phẩm
 
                 <x-input type="text" name="chat_lieu" label="Chất liệu" value="{{ $product->ChatLieu }}" />
                 <x-input type="textarea" name="mo_ta" label="Mô tả sản phẩm" placeholder="Nhập mô tả sản phẩm..." rows="4" value="{{ $product->MoTa }}" />
-    <div class="form-group-image">
-    <label>Hình ảnh sản phẩm <span style="color: red;">*</span></label>
+                   <label style="cursor: pointer;">
+                <input type="checkbox" name="noi_bat" value="1" class="form-check-input me-2" 
+                    {{ isset($product) && $product->NoiBat == 1 ? 'checked' : '' }}>
+                Sản phẩm nổi bật</label>
+                <br>
+                <div class="form-group-image">
+                <label>Hình ảnh sản phẩm <span style="color: red;">*</span></label>
     
-    <div class="image-upload-grid" id="uploadGrid">
+        <div class="image-upload-grid" id="uploadGrid">
         
         @php $img1 = isset($images) ? $images->get(0) : null; @endphp
         <div class="upload-box-item upload-box-item-edit" id="box-1">

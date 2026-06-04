@@ -18,17 +18,18 @@ Quản lý danh mục sản phẩm
         <div class="form-group" style="margin-top: 15px;">
     <label>Ảnh đại diện danh mục</label>
     
-    <div class="image-upload-grid">
-        <div class="upload-box-item" id="box-cat">
-            <input type="file" name="hinh_anh_danhmuc" id="file-cat" accept="image/*" style="display: none;">
-            
-            <label for="file-cat" class="upload-box-placeholder">
-                <i class="fa-solid fa-plus"></i>
-                <span>Tải lên ảnh danh mục</span>
-            </label>
-            
-            <div class="preview-zone" id="preview-cat" style="display: none;"></div>
-        </div>
+<div class="image-upload-grid" id="uploadCategoryGrid" style="margin-bottom: 25px;">
+    <div class="upload-box-item" id="box-cat-1">
+        
+        <input type="file" name="hinh_anh_danhmuc" id="file-cat-1" accept="image/*" style="display: none;">
+        
+        <label for="file-cat-1" class="upload-box-placeholder" id="placeholder-cat-1">
+            <i class="fa-solid fa-plus"></i>
+            <span>Tải lên ảnh danh mục</span>
+        </label>
+        
+        <div class="preview-zone" id="preview-cat-1" style="display: none;"></div>
+        
     </div>
 </div>
         <div class="form-actions">
@@ -41,5 +42,6 @@ Quản lý danh mục sản phẩm
         </div>
     </form>
 </div>
-<script src="{{ asset('js/admin/category-upload.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/category-upload.js') }}"></script>
 @endsection
