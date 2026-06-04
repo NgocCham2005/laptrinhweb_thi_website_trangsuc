@@ -28,7 +28,7 @@ class AdminReportController extends Controller
         }
         $products=$products->get();
 
-        // format group
+        // Format group
         $groupFormat=match($type){
             'month'=>'%Y-%m',
             'year'=>'%Y',
@@ -139,7 +139,6 @@ class AdminReportController extends Controller
             ->groupBy(DB::raw("DATE_FORMAT(NgayDatHang,'$groupFormat')"))
             ->orderBy('ngay')
             ->get();
-
 
         // ================= TỔNG ĐƠN =================
         $totalOrdersQuery=DonHang::query();
