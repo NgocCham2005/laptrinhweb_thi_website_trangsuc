@@ -1,9 +1,8 @@
 /* ===================================================
    FILE CSS RIÊNG BIỆT CHO ĐĂNG NHẬP, ĐĂNG KÝ, QUÊN MK
-   (CỠ CHỮ TO, HỆ THỐNG ALERT VÀ GRID CHIA CỘT)
 =================================================== */
 
-/* Toàn màn hình hệ thống Auth */
+/* Toàn màn hình */
 .auth-page-wrapper {
     display: flex !important;
     justify-content: center !important;
@@ -15,29 +14,30 @@
     font-family: 'Segoe UI', system-ui, sans-serif !important;
 }
 
-/* Hộp chứa lớn (Card chia đôi) */
+/* Card chia đôi - dùng cho ĐĂNG NHẬP */
 .auth-split-card {
     display: flex !important;
     width: 100% !important;
-    max-width: 950px !important; 
+    max-width: 780px !important;
     background: #ffffff !important;
     border-radius: 20px !important;
     overflow: hidden !important;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Khối bên trái: Chứa ảnh trang sức đại diện */
+/* Ảnh bên trái - đăng nhập */
 .auth-side-image {
     flex: 1 !important;
     background-size: cover !important;
     background-position: center !important;
     display: block !important;
+    min-height: 420px !important;
 }
 
-/* Khối bên phải: Khu vực chứa form điền */
+/* Form bên phải */
 .auth-side-form {
     flex: 1 !important;
-    padding: 50px 45px !important; 
+    padding: 45px 38px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -45,41 +45,41 @@
     background: #ffffff !important;
 }
 
-/* Tiêu đề Đăng nhập/Đăng ký căn giữa - 36px */
+/* Tiêu đề to hơn */
 .auth-custom-title {
-    font-size: 36px !important; 
+    font-size: 38px !important;
     font-weight: 700 !important;
     text-align: center !important;
-    color: #15264B !important; 
+    color: #15264B !important;
     margin: 0 0 8px 0 !important;
 }
 
-/* Dòng chữ phụ - 15px */
+/* Dòng phụ */
 .auth-custom-subtitle {
-    font-size: 15px !important; 
+    font-size: 16px !important;
     color: #6b7280 !important;
     text-align: center !important;
-    margin-bottom: 32px !important;
+    margin-bottom: 28px !important;
 }
 
-/* Hỗ trợ chia 2 cột cho form Đăng ký */
+/* Form đăng ký 1 cột */
 .auth-form-grid {
     display: grid !important;
-    grid-template-columns: 1fr 1fr !important; 
-    gap: 15px 20px !important; 
-    margin-bottom: 25px !important;
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    margin-bottom: 0 !important;
 }
 
-/* Định dạng các ô nhập liệu riêng */
+/* Khoảng cách ô */
 .auth-group {
-    margin-bottom: 24px !important; 
+    margin-bottom: 18px !important;
 }
 
-/* Nhãn chữ (Tài khoản/Mật khẩu) - 16px */
+/* Label to hơn */
 .auth-label {
     display: block !important;
-    margin-bottom: 10px !important;
-    font-size: 16px !important; 
+    margin-bottom: 8px !important;
+    font-size: 17px !important;
     font-weight: 600 !important;
     color: #15264B !important;
 }
@@ -88,40 +88,40 @@
     color: #ef4444 !important;
 }
 
-/* Ô Input nhập liệu - 15px và cao 52px */
+/* Input */
 .auth-input {
     width: 100% !important;
-    height: 52px !important; 
-    padding: 0 18px !important;
+    height: 50px !important;
+    padding: 0 16px !important;
     background: #ffffff !important;
     border: 1px solid #e5e7eb !important;
-    border-radius: 14px !important;
-    font-size: 15px !important; 
+    border-radius: 12px !important;
+    font-size: 16px !important;
     color: #111827 !important;
     box-shadow: none !important;
     box-sizing: border-box !important;
     transition: all .2s ease !important;
 }
 
-/* Hiệu ứng khi nhấn vào ô nhập liệu */
 .auth-input:focus {
     border-color: #D4AF37 !important;
     box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15) !important;
     outline: none !important;
 }
 
-/* Nút bấm Đăng nhập/Đăng ký - chữ 17px và cao 52px */
+/* Nút bấm */
 .auth-btn-block {
     width: 100% !important;
-    height: 52px !important; 
+    height: 50px !important;
     background: #15264B !important;
     color: #ffffff !important;
     border: none !important;
-    border-radius: 14px !important;
-    font-size: 17px !important; 
+    border-radius: 12px !important;
+    font-size: 17px !important;
     font-weight: 600 !important;
     cursor: pointer !important;
     transition: all .2s ease !important;
+    margin-top: 6px !important;
 }
 
 .auth-btn-block:hover {
@@ -129,16 +129,16 @@
     transform: translateY(-1px) !important;
 }
 
-/* Link Quên mật khẩu nằm dưới nút lệch PHẢI */
+/* Quên mật khẩu */
 .auth-forgot-right {
     text-align: right !important;
-    margin-top: 14px !important;
-    margin-bottom: 20px !important;
+    margin-top: 12px !important;
+    margin-bottom: 18px !important;
 }
 
-/* Cỡ chữ cho các đường liên kết link */
+/* Link */
 .auth-gold-link {
-    font-size: 15px !important; 
+    font-size: 15px !important;
     color: #15264B !important;
     text-decoration: none !important;
     font-weight: 600 !important;
@@ -149,38 +149,37 @@
     text-decoration: underline !important;
 }
 
-/* Phần chữ Điều hướng dưới cùng căn chính giữa */
+/* Footer */
 .auth-custom-footer {
     text-align: center !important;
-    margin-top: 15px !important;
-    font-size: 15px !important; 
+    margin-top: 14px !important;
+    font-size: 15px !important;
     color: #4b5563 !important;
 }
 
 /* ===================================================
-   HỆ THỐNG HỘP THÔNG BÁO (ALERT) SẠCH SẼ
+   ALERT
 =================================================== */
 .auth-alert {
     padding: 12px 16px !important;
     border-radius: 8px !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 18px !important;
     font-size: 15px !important;
     font-weight: 500 !important;
     text-align: center !important;
     border-left: 4px solid transparent !important;
 }
 
-/* Khi đăng ký/đổi mật khẩu thành công */
 .auth-alert-success {
-    background-color: transparent !important;
+    background-color: #ecfdf5 !important;
     color: #065f46 !important;
-    border-left: none !important;
+    border-left-color: #10b981 !important;
 }
 
 .auth-alert-danger {
-    background-color: transparent !important;
+    background-color: #fef2f2 !important;
     color: #991b1b !important;
-    border-left: none !important;
+    border-left-color: #ef4444 !important;
 }
 
 .auth-alert-list {
@@ -190,36 +189,41 @@
 }
 
 /* ===================================================
-   RESPONSIVE - GIAO DIỆN TRÊN ĐIỆN THOẠI ĐI ĐỘNG
+   CARD ĐƠN - ĐĂNG KÝ, QUÊN MK, ĐỔI MK
+   (không có ảnh, chỉ form, nhỏ gọn)
+=================================================== */
+.auth-card-single {
+    max-width: 500px !important;
+    border-radius: 20px !important;
+}
+
+.auth-card-single .auth-side-image {
+    display: none !important;
+}
+
+.auth-card-single .auth-side-form {
+    padding: 45px 45px !important;
+    flex: 1 !important;
+}
+
+/* ===================================================
+   RESPONSIVE
 =================================================== */
 @media (max-width: 768px) {
     .auth-split-card {
         flex-direction: column !important;
     }
-    
-    /* Ẩn hẳn phần ảnh bên trái trên mobile để form đỡ dài */
+
     .auth-side-image {
         display: none !important;
     }
-    
-    /* Co form đăng ký từ 2 cột về thành 1 cột đứng */
+
     .auth-form-grid {
         grid-template-columns: 1fr !important;
-        gap: 15px 0 !important;
+        gap: 0 !important;
     }
-    
+
     .auth-side-form {
         padding: 30px 20px !important;
     }
-}
-
-/* ===================================================
-   BỔ SUNG RIÊNG CHO TRANG QUÊN MẬT KHẨU (SINGLE CARD)
-=================================================== */
-.auth-card-single {
-    max-width: 520px !important; /* Thu hẹp hộp chứa lại cho vừa vặn với form */
-}
-
-.auth-card-single .auth-side-form {
-    padding: 50px 50px !important;
 }

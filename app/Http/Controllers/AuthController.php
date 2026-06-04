@@ -105,11 +105,11 @@ class AuthController extends Controller
 
     Auth::login($user);
     session()->regenerate();
+   
 
-    if ($user->VaiTro == 'admin') {
-        return redirect('/admin');
-    }
-
+if (trim($user->VaiTro) === 'admin') {
+    return redirect('/admin');
+}
     return redirect('/'); // Sau khi đăng nhập, đẩy thẳng người dùng về trang cá nhân để test
     }
 

@@ -2,10 +2,9 @@
 @section('content')
 
 <div class="auth-page-wrapper">
-    <div class="auth-split-card">
+{{-- Sửa thành --}}
+<div class="auth-split-card auth-card-single">        
         
-        <div class="auth-side-image" style="background-image: url('https://file.hstatic.net/200000355853/file/15-bo-trang-suc-cuoi-vang-trang-sang-trong-h14.png');">
-        </div>
 
         <div class="auth-side-form">
             <h2 class="auth-custom-title">Đăng ký</h2>
@@ -13,13 +12,13 @@
 
             {{-- ĐÃ SỬA: SỬ DỤNG CLASS ĐỂ HIỂN THỊ LỖI THAY VÌ INLINE-STYLE --}}
             @if ($errors->any())
-                <div class="auth-alert auth-alert-danger">
-                    <ul class="auth-alert-list">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+                <div style="margin-bottom: 16px;">
+        @foreach ($errors->all() as $error)
+            <p style="color: #ef4444; font-size: 16px; font-weight: 600; margin: 0 0 8px 0; text-align: center;">
+                <i class="fas fa-exclamation-circle"></i> {{ $error }}
+            </p>
+        @endforeach
+    </div>
             @endif
 
             <form action="/register" method="POST">

@@ -101,7 +101,7 @@ Route::post(
 
 Route::prefix('admin')
 ->name('admin.')
-->middleware(['admin']) // bật sau
+//->middleware(['admin']) // bật sau
 ->group(function(){
 
     // vào admin mặc định hiện đơn hàng

@@ -4,7 +4,7 @@
 <div class="auth-page-wrapper">
     <div class="auth-split-card">
         
-        <div class="auth-side-image" style="background-image: url('https://apj.vn/wp-content/uploads/2024/09/MTDB0513-bo-vang-1.jpg');">
+        <div class="auth-side-image" style="background-image: url('https://file.hstatic.net/200000355853/file/15-bo-trang-suc-cuoi-vang-trang-sang-trong-h14.png');">
         </div>
 
         <div class="auth-side-form">
@@ -13,16 +13,16 @@
 
             {{-- ĐÃ BỔ SUNG: HỨNG THÔNG BÁO THÀNH CÔNG TỪ TRANG ĐĂNG KÝ ĐÁ SANG --}}
             @if(session('success'))
-                <div class="auth-alert auth-alert-success">
-                    {{ session('success') }}
-                </div>
+                <p style="color: #28a745; font-size: 15px; font-weight: 600; margin: 0 0 16px 0; text-align: center;">
+        <i class="fas fa-check-circle"></i> {{ session('success') }}
+    </p>
             @endif
 
             {{-- ĐÃ BỔ SUNG: HỨNG LỖI ĐĂNG NHẬP THẤT BẠI (SAI TK/MK, KHÓA TK) TỪ CONTROLLER --}}
             @if(session('error'))
-                <div class="auth-alert auth-alert-danger">
-                    {{ session('error') }}
-                </div>
+                <p style="color: #ef4444; font-size: 15px; font-weight: 600; margin: 0 0 16px 0; text-align: center;">
+        <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+    </p>
             @endif
 
             <form action="/login" method="POST">
@@ -30,7 +30,10 @@
 
                 {{-- TÀI KHOẢN --}}
                 <div class="auth-group">
+
                     <label class="auth-label">Tên đăng nhập<span class="auth-required">*</span></label>
+
+
                     <input
                         type="text"
                         name="TenDangNhap"
@@ -68,12 +71,9 @@
                     <span>Chưa có tài khoản? </span>
                     <a href="/register" class="auth-gold-link">Đăng ký ngay</a>
                 </div>
-                {{-- NÚT QUAY LẠI TRANG CHỦ --}}
-<div class="auth-custom-footer" style="margin-top: 12px;">
-    <a href="/" class="auth-gold-link">
-        <i class="fas fa-arrow-left" style="margin-right: 4px;"></i> Quay lại trang chủ
-    </a>
-</div>
+
+                
+
             </form>
         </div>
 
