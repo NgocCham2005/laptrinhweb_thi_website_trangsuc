@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\DanhGia;
 use App\Models\ChiTietPhanHoi;
 
@@ -17,29 +16,51 @@ class AdminReviewController extends Controller
 
     public function hide($id)
     {
-        $review = DanhGia::findOrFail($id);
+        $review = DanhGia::find($id);
+        if(!$review)
+        {
+            return back()->with('error','Đánh giá không tồn tại.');
+        }
         $review->update(['TrangThai' => 0]);
-        return redirect()->back()->with('success','Đã ẩn đánh giá');
+        return back()->with('success','Đã ẩn đánh giá');
     }
 
     public function display($id)
     {
-        $review = DanhGia::findOrFail($id);
+        $review = DanhGia::find($id);
+        if(!$review)
+        {
+            return back()->with('error','Đánh giá không tồn tại.');
+        }
         $review->update(['TrangThai' => 1]);
-        return redirect()->back()->with('success','Đã hiển thị đánh giá');
+        return back()->with('success','Đã hiển thị đánh giá');
     }
 
     public function destroy($id)
     {
-        $review = DanhGia::findOrFail($id);
-        ChiTietPhanHoi::where('MaDanhGia', $id)->delete();
+        $review = DanhGia::find($id);
+        if(!$review)
+        {
+            return back()->with('error','Đánh giá không tồn tại.');
+        }
+        ChiTietPhanHoi::where('MaDanhGia',$id)->delete();
         $review->delete();
-        return redirect()->back()->with('success','Đã xóa đánh giá');
+        return back()->with('success','Đã xóa đánh giá');
     }
 
     public function reply(Request $request, $id)
     {
-        $request->validate(['reply' => 'required|max:255']);
+        $request->validate([
+            'reply' => [
+            'required',
+            'string',
+            'min:2',
+            'max:255']
+        ],[
+            'reply.required' => 'Vui lòng nhập nội dung phản hồi.',
+            'reply.min'      => 'Phản hồi phải có ít nhất 2 ký tự.',
+            'reply.max'      => 'Phản hồi không được vượt quá 255 ký tự.'
+        ]);
         $reply = ChiTietPhanHoi::where('MaDanhGia',$id)->first();
         if ($reply)
         {
