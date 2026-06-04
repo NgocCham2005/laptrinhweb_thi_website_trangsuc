@@ -226,8 +226,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/gio-hang/xoa', [CartController::class, 'xoa'])->name('cart.xoa');
 
     // Đặt hàng & thanh toán
-    Route::get('/thanh-toan', [OrderController::class, 'checkout'])->name('order.checkout');
-    Route::post('/thanh-toan/ap-voucher', [OrderController::class, 'apVoucher'])->name('order.apVoucher');
+Route::match(['GET', 'POST'], '/thanh-toan', [OrderController::class, 'checkout']) ->name('order.checkout');
+        Route::post('/thanh-toan/ap-voucher', [OrderController::class, 'apVoucher'])->name('order.apVoucher');
     Route::post('/thanh-toan/dat-hang', [OrderController::class, 'datHang'])->name('order.datHang');
     Route::get('/dat-hang-thanh-cong/{maDonHang}', [OrderController::class, 'success'])->name('order.success');
 
