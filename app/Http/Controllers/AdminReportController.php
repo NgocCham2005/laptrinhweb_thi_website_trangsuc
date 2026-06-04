@@ -38,7 +38,7 @@ class AdminReportController extends Controller
         // DOANH THU
         // =====================================
 
-        $revenueReports = DonHang::join(
+        $ordersSub = DonHang::join(
                 'chi_tiet_don_hang',
                 'don_hang.MaDonHang',
                 '=',
@@ -46,74 +46,30 @@ class AdminReportController extends Controller
             )
             ->where('don_hang.TrangThai', 3)
             ->select(
+                'don_hang.MaDonHang',
+                'don_hang.NgayDatHang',
+                'don_hang.GiaTriApDung',
                 DB::raw("
-                    DATE_FORMAT(
-                        don_hang.NgayDatHang,
-                        '$groupFormat'
-                    ) as ngay
-                "),
-                DB::raw("
-                    SUM(
-                        chi_tiet_don_hang.SoLuong
-                        * chi_tiet_don_hang.DonGia
-                    ) as doanh_thu
-                "),
-                DB::raw("
-                    COUNT(
-                        DISTINCT don_hang.MaDonHang
-                    ) as so_don
+                    SUM(chi_tiet_don_hang.SoLuong * chi_tiet_don_hang.DonGia)
+                    as subtotal
                 ")
-            );
-
-        if($from){
-            $revenueReports->whereDate(
+            )
+            ->groupBy(
+                'don_hang.MaDonHang',
                 'don_hang.NgayDatHang',
-                '>=',
-                $from
-            );
-        }
-
-        if($to){
-            $revenueReports->whereDate(
-                'don_hang.NgayDatHang',
-                '<=',
-                $to
-            );
-        }
-
-        if($product){
-            $revenueReports->where(
-                'chi_tiet_don_hang.MaSanPham',
-                $product
-            );
-        }
-
-        if($category){
-
-            $revenueReports->join(
-                'san_pham',
-                'chi_tiet_don_hang.MaSanPham',
-                '=',
-                'san_pham.MaSanPham'
+                'don_hang.GiaTriApDung'
             );
 
-            $revenueReports->where(
-                'san_pham.MaDanhMuc',
-                $category
-            );
-        }
-
-        $revenueReports = $revenueReports
-        ->groupBy(
-            DB::raw("
-                DATE_FORMAT(
-                    don_hang.NgayDatHang,
-                    '$groupFormat'
-                )
-            ")
-        )
-        ->orderBy('ngay')
-        ->get();
+        $revenueReports = DB::table(DB::raw("({$ordersSub->toSql()}) as t"))
+            ->mergeBindings($ordersSub->getQuery())
+            ->select(
+                DB::raw("DATE_FORMAT(NgayDatHang, '$groupFormat') as ngay"),
+                DB::raw("SUM(GREATEST(subtotal - COALESCE(GiaTriApDung,0), 0)) as doanh_thu"),
+                DB::raw("COUNT(*) as so_don")
+            )
+            ->groupBy('ngay')
+            ->orderBy('ngay')
+            ->get();
 
 
         // =====================================
@@ -166,13 +122,13 @@ class AdminReportController extends Controller
             );
         }
 
-        $totalRevenue = $totalRevenueQuery->sum(
-            DB::raw(
-                'chi_tiet_don_hang.SoLuong * chi_tiet_don_hang.DonGia'
-            )
-        );
-
-
+        $totalRevenue = DB::table(DB::raw("({$ordersSub->toSql()}) as t"))
+            ->mergeBindings($ordersSub->getQuery())
+            ->select(DB::raw("
+                SUM(GREATEST(subtotal - COALESCE(GiaTriApDung,0), 0))
+                as total
+            "))
+            ->value('total') ?? 0;
         // =====================================
         // ĐƠN TẠO DOANH THU
         // =====================================
@@ -305,39 +261,23 @@ class AdminReportController extends Controller
                     '$groupFormat'
                 ) as ngay
             "),
-
             DB::raw('COUNT(*) as so_don'),
 
             DB::raw("
-                SUM(
-                    CASE
-                    WHEN TrangThai = 3
-                    THEN 1
-                    ELSE 0
-                    END
-                ) as hoan_thanh
+                SUM(CASE WHEN TrangThai = 0 THEN 1 ELSE 0 END) as cho_xac_nhan
             "),
 
             DB::raw("
-                SUM(
-                    CASE
-                    WHEN TrangThai = 2
-                    THEN 1
-                    ELSE 0
-                    END
-                ) as dang_giao
+                SUM(CASE WHEN TrangThai = 1 THEN 1 ELSE 0 END) as da_xac_nhan
             "),
 
             DB::raw("
-                SUM(
-                    CASE
-                    WHEN TrangThai = 0
-                    THEN 1
-                    ELSE 0
-                    END
-                ) as cho_xac_nhan
+                SUM(CASE WHEN TrangThai = 2 THEN 1 ELSE 0 END) as dang_giao
+            "),
+
+            DB::raw("
+                SUM(CASE WHEN TrangThai = 3 THEN 1 ELSE 0 END) as hoan_thanh
             ")
-
         );
 
         if($from){

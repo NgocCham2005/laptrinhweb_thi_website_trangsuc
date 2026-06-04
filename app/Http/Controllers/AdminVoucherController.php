@@ -13,18 +13,13 @@ class AdminVoucherController extends Controller
 
         // Tìm kiếm theo mã hoặc tên voucher
         if ($request->keyword) {
-
             $query->where('MaVoucher', 'like', '%' . $request->keyword . '%')
-                ->orWhere('TenVoucher', 'like', '%' . $request->keyword . '%');
+                  ->orWhere('TenVoucher', 'like', '%' . $request->keyword . '%');
         }
 
         // Lọc trạng thái
         if ($request->status != '') {
-
-            $query->where(
-                'TrangThai',
-                $request->status
-            );
+            $query->where('TrangThai', $request->status);
         }
 
         $vouchers = $query
@@ -35,11 +30,9 @@ class AdminVoucherController extends Controller
                 'status' => $request->status
             ]);
 
-        return view(
-            'admin.vouchers.index',
-            compact('vouchers')
-        );
+        return view('admin.vouchers.index', compact('vouchers'));
     }
+
     public function create()
     {
         $lastVoucher = Voucher::orderBy('MaVoucher', 'desc')->first();
@@ -51,11 +44,9 @@ class AdminVoucherController extends Controller
             $newCode = 'VC001';
         }
 
-        return view(
-            'admin.vouchers.create',
-            compact('newCode')
-        );
+        return view('admin.vouchers.create', compact('newCode'));
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -99,16 +90,11 @@ class AdminVoucherController extends Controller
     public function edit($id)
     {
         $voucher = Voucher::findOrFail($id);
-        return view(
-            'admin.vouchers.edit',
-            compact('voucher')
-        );
+
+        return view('admin.vouchers.edit', compact('voucher'));
     }
 
-    public function update(
-        Request $request,
-        $id
-    )
+    public function update(Request $request, $id)
     {
         $request->validate([
             'TenVoucher' => 'required|string|max:255',
@@ -126,6 +112,7 @@ class AdminVoucherController extends Controller
         ]);
 
         $voucher = Voucher::findOrFail($id);
+
         $voucher->update([
             'TenVoucher' => $request->TenVoucher,
             'DieuKien' => $request->DieuKien,
@@ -136,11 +123,9 @@ class AdminVoucherController extends Controller
 
         return redirect()
             ->route('admin.vouchers')
-            ->with(
-                'success',
-                'Cập nhật thành công'
-            );
+            ->with('success', 'Cập nhật thành công');
     }
+
     public function destroy($id)
     {
         $voucher = Voucher::findOrFail($id);
@@ -151,9 +136,6 @@ class AdminVoucherController extends Controller
 
         return redirect()
             ->route('admin.vouchers')
-            ->with(
-                'success',
-                'Đã vô hiệu hóa voucher'
-            );
+            ->with('success', 'Đã vô hiệu hóa voucher');
     }
 }

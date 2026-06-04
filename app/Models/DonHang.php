@@ -23,4 +23,12 @@ class DonHang extends Model {
     public function voucher() {
         return $this->belongsTo(Voucher::class, 'MaVoucher', 'MaVoucher');
     }
+    public function getTongThanhToanAttribute()
+    {
+        $tongTien = $this->chiTietDonHang->sum(
+            fn($d) => $d->SoLuong * $d->DonGia
+        );
+
+        return $tongTien - ($this->GiaTriApDung ?? 0);
+    }
 }

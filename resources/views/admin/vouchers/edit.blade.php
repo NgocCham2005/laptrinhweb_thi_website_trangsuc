@@ -16,29 +16,32 @@
 
 {{-- FORM SỬA VOUCHER --}}
 <form action="{{ route('admin.vouchers.update', $voucher->MaVoucher) }}" method="POST">
+
     @csrf
     @method('PUT')
-    
+
     <x-input name="MaVoucher" label="Mã voucher" :value="$voucher->MaVoucher" disabled />
     <x-input name="TenVoucher" label="Tên voucher" :value="$voucher->TenVoucher" />
     <x-input name="DieuKien" label="Điều kiện" :value="$voucher->DieuKien" />
     <x-input name="GiaTriGiamToiDa" label="Giá trị giảm tối đa" :value="$voucher->GiaTriGiamToiDa" />
     <x-input name="SoLanSuDung" label="Số lần sử dụng" :value="$voucher->SoLanSuDung" />
+
     <x-input type="select" name="TrangThai" label="Trạng thái" required>
         <option value="">-- Chọn trạng thái --</option>
-        <option value="1" {{ old('TrangThai') == '1' ? 'selected' : '' }}> Hoạt động </option>
-        <option value="0" {{ old('TrangThai') == '0' ? 'selected' : '' }}> Vô hiệu hóa </option>
+        <option value="1" {{ old('TrangThai') == '1' ? 'selected' : '' }}>Hoạt động</option>
+        <option value="0" {{ old('TrangThai') == '0' ? 'selected' : '' }}>Vô hiệu hóa</option>
     </x-input>
 
     <div class="action-buttons">
+
         <x-button type="submit">Cập nhật</x-button>
 
         <a href="{{ route('admin.vouchers') }}" style="text-decoration:none;">
-            <x-button variant="outline-navy">
-                Quay lại
-            </x-button>
+            <x-button variant="outline-navy">Quay lại</x-button>
         </a>
+
     </div>
+
 </form>
 
 @endsection

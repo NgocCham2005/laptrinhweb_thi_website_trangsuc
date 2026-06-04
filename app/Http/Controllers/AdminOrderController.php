@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DonHang;   
+use App\Models\DonHang;
 use App\Models\ChiTietDonHang;
 use App\Models\SanPham;
 use Illuminate\Http\Request;
@@ -13,73 +13,40 @@ class AdminOrderController extends Controller
     {
         $query = DonHang::with('chiTietDonHang');
 
-        // tìm kiếm
-        if($request->keyword){
-
-            $query->where(
-                'MaDonHang',
-                'like',
-                '%'.$request->keyword.'%'
-            )
-
-            ->orWhere(
-                'TenNguoiNhan',
-                'like',
-                '%'.$request->keyword.'%'
-            );
+        if ($request->keyword) {
+            $query->where('MaDonHang', 'like', '%'.$request->keyword.'%')
+                  ->orWhere('TenNguoiNhan', 'like', '%'.$request->keyword.'%');
         }
 
-        // lọc trạng thái
-        if($request->status != ''){
-
-            $query->where(
-                'TrangThai',
-                $request->status
-            );
+        if ($request->status != '') {
+            $query->where('TrangThai', $request->status);
         }
 
-        $orders = $query
-            ->orderByDesc('NgayDatHang')
-            ->paginate(5)
+        $orders = $query->orderByDesc('NgayDatHang')
+                        ->paginate(5)
+                        ->appends([
+                            'keyword' => $request->keyword,
+                            'status' => $request->status
+                        ]);
 
-            ->appends([
-                'keyword'=>$request->keyword,
-                'status'=>$request->status
-            ]);
-
-        return view(
-            'admin.orders.index',
-            compact('orders')
-        );
+        return view('admin.orders.index', compact('orders'));
     }
+
     public function show($id)
     {
-        $order = DonHang::with([
-            'chiTietDonHang.sanPham'
-        ])->findOrFail($id);
+        $order = DonHang::with(['chiTietDonHang.sanPham'])->findOrFail($id);
 
-        return view(
-            'admin.orders.show',
-            compact('order')
-        );
+        return view('admin.orders.show', compact('order'));
     }
+
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'TrangThai' => 'required'
-        ]);
+        $request->validate(['TrangThai' => 'required']);
 
         $order = DonHang::findOrFail($id);
-
         $order->TrangThai = $request->TrangThai;
-
         $order->save();
 
-        return redirect()
-            ->back()
-            ->with(
-                'success',
-                'Cập nhật trạng thái thành công'
-            );
+        return redirect()->back()->with('success', 'Cập nhật trạng thái thành công');
     }
 }
