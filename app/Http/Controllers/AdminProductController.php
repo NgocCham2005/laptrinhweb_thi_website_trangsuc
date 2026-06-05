@@ -111,6 +111,7 @@ class AdminProductController extends Controller
         'SoLuongTon' => $request->so_luong_ton,
         'ChatLieu'   => $request->chat_lieu,
         'MoTa'       => $request->mo_ta,
+        'MoTaChiTiet' => $request->mota_chitiet,
         'TrangThai'  => 1,
         'NoiBat'     => $noiBat,
     ]);
@@ -165,6 +166,7 @@ class AdminProductController extends Controller
             'GiaBan'     => $request->gia_ban,
             'ChatLieu'   => $request->chat_lieu,
             'MoTa'       => $request->mo_ta,
+            'MoTaChiTiet' => $request->mota_chitiet,
             'TrangThai'  => $request->trang_thai,
             'NoiBat'      => $noiBat,
         ]);
@@ -225,19 +227,40 @@ class AdminProductController extends Controller
     {
         $product = SanPham::findOrFail($id);
 
-        $images = HinhAnhSP::where('MaSanPham', $id)->get();
-        
-        foreach ($images as $img) {
-            $filePath = public_path('images/products/' . $img->DuongDan);
-            if (file_exists($filePath)) {
-                @unlink($filePath);
+        $hasOrders = \DB::table('chi_tiet_don_hang')
+        ->where('MaSanPham', $id)
+        ->exists();
+
+        if ($hasOrders) {
+        $product->update([
+            'TrangThai' => 0
+        ]);
+
+        return redirect()->route('admin.products')->with('success', 'Sản phẩm này đã có lịch sử đơn hàng nên hệ thống đã tự động chuyển sang trạng thái ẨN!');
+        } else {
+            $images = HinhAnhSP::where('MaSanPham', $id)->get();
+            
+            foreach ($images as $img) {
+                $filePath = public_path('images/products/' . $img->DuongDan);
+                if (file_exists($filePath)) {
+                    @unlink($filePath);
+                }
             }
+
+            $images = HinhAnhSP::where('MaSanPham', $id)->get();
+            
+            foreach ($images as $img) {
+                $filePath = public_path('images/products/' . $img->DuongDan);
+                if (file_exists($filePath)) {
+                    @unlink($filePath);
+                }
+            }
+
+            HinhAnhSP::where('MaSanPham', $id)->delete();
+            $product->delete();
+
+            return redirect()->route('admin.products')->with('success', 'Xóa sản phẩm và toàn bộ hình ảnh thành công!');
         }
-
-        HinhAnhSP::where('MaSanPham', $id)->delete();
-        $product->delete();
-
-        return redirect()->route('admin.products')->with('success', 'Xóa sản phẩm và toàn bộ hình ảnh thành công!');
     }
     public function deleteImage($id)
     {
