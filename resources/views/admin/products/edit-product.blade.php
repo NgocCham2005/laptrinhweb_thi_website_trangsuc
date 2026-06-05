@@ -38,7 +38,7 @@ Quản lý sản phẩm
                 Sản phẩm nổi bật</label>
                 <br>
                 <div class="form-group-image">
-                <label>Hình ảnh sản phẩm <span style="color: red;">*</span></label>
+                <label>Hình ảnh sản phẩm</label>
     
         <div class="image-upload-grid" id="uploadGrid">
         

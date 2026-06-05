@@ -23,7 +23,7 @@ Quản lý danh mục sản phẩm
                 @if(isset($category->TrangThai) && $category->TrangThai == 1)
                     <x-badge variant="success">Hiển thị</x-badge>
                 @else
-                    <x-badge variant="warning">Đang ẩn</x-badge>
+                    <x-badge variant="warning">Ẩn</x-badge>
                 @endif
             </td>
             <td class="action-col">

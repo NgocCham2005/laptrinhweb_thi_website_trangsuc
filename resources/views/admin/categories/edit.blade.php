@@ -17,12 +17,8 @@ Quản lý danh mục sản phẩm
         
         <x-input type="text" name="ma_danhmuc" label="Mã danh mục" value="{{ $category->MaDanhMuc }}" disabled />
         <x-input type="text" name="ten_danhmuc" label="Tên danh mục" value="{{ $category->TenDanhMuc }}" />
-        <x-input type="select" name="trang_thai" label="Trạng thái">
-            <option value="1" {{ $category->TrangThai == 1 ? 'selected' : '' }}>Hiển thị</option>
-            <option value="0" {{ $category->TrangThai == 0 ? 'selected' : '' }}>Ẩn</option>
-        </x-input>
-        
-<div class="image-upload-grid" id="uploadCategoryGrid" style="margin-bottom: 25px;">
+        <label>Ảnh đại diện danh mục</label>
+        <div class="image-upload-grid" id="uploadCategoryGrid" style="margin-bottom: 25px;">
             <div class="upload-box-item" id="box-cat-1">
                 
                 <input type="file" name="hinh_anh_danhmuc" id="file-cat-1" accept="image/*" style="display: none;">
@@ -44,7 +40,10 @@ Quản lý danh mục sản phẩm
                 
             </div>
         </div>
-
+        <x-input type="select" name="trang_thai" label="Trạng thái">
+            <option value="1" {{ $category->TrangThai == 1 ? 'selected' : '' }}>Hiển thị</option>
+            <option value="0" {{ $category->TrangThai == 0 ? 'selected' : '' }}>Ẩn</option>
+        </x-input>
         <div class="form-actions">
             <x-button variant="primary" type="submit">Cập nhật</x-button>
             <a href="{{ route('admin.categories') }}" style="text-decoration: none;">
