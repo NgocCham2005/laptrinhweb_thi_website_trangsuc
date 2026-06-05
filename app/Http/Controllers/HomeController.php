@@ -11,7 +11,6 @@ class HomeController extends Controller
         $categories = DanhMucSP::where('TrangThai', 1)->get();
 
         $featuredProducts = SanPham::where('TrangThai', 1)
-            ->where('NoiBat', 1)
             ->limit(10)
             ->get();
 

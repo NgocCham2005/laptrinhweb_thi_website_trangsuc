@@ -54,7 +54,6 @@
                         label="Họ tên người nhận"
                         placeholder="Nguyễn Văn A"
                         icon="👤"
-                        :required="true"
                         :value="old('TenNguoiNhan')"
                     />
 
@@ -64,7 +63,6 @@
                         type="tel"
                         placeholder="0912 345 678"
                         icon="📞"
-                        :required="true"
                         :value="old('SoDienThoai')"
                     />
 
@@ -73,7 +71,6 @@
                         label="Địa chỉ giao hàng"
                         type="textarea"
                         placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành..."
-                        :required="true"
                         :rows="3"
                         :value="old('DiaChiGiaoHang')"
                     />
