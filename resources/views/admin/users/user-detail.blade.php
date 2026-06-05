@@ -15,12 +15,12 @@
     {{-- HEADER --}}
     <div class="ud-header">
         <div class="ud-header-left">
-            <a href="/admin/customers" class="ud-back-btn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M12 5l-7 7 7 7"/>
-                </svg>
-                Quay lại
-            </a>
+            <a href="/admin/customers" class="btn btn-outline-navy">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+    </svg>
+    Quay lại
+</a>
             <div>
                 <h2 class="ud-title">Chi tiết khách hàng</h2>
                 <p class="ud-subtitle">{{ $user->MaTaiKhoan }}</p>
