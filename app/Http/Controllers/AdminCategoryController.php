@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DanhMucSP;
+use App\Models\SanPham;
 use Illuminate\Support\Facades\File;
 
 class AdminCategoryController extends Controller
@@ -78,22 +79,35 @@ class AdminCategoryController extends Controller
             ], [
                 'hinh_anh_danhmuc.required' => 'Danh mục bắt buộc phải có ảnh đại diện, vui lòng không bỏ trống!'
             ]);
-        $fileName = $category->HinhAnh;
-if ($request->hasFile('hinh_anh_danhmuc')) {
-        if ($fileName && \File::exists(public_path('images/categories/' . $fileName))) {
-            \File::delete(public_path('images/categories/' . $fileName));
-        }
+            $fileName = $category->HinhAnh;
+            if ($request->hasFile('hinh_anh_danhmuc')) {
+                if ($fileName && \File::exists(public_path('images/categories/' . $fileName))) {
+                    \File::delete(public_path('images/categories/' . $fileName));
+                }
 
-        $file = $request->file('hinh_anh_danhmuc');
-        $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('images/categories'), $fileName);
-    }
+                $file = $request->file('hinh_anh_danhmuc');
+                $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images/categories'), $fileName);
+            }
         $category->update([
             'TenDanhMuc' => $request->ten_danhmuc,
             'TrangThai'  => $request->trang_thai,
             'HinhAnh'    => $fileName,
         ]);
-
+        $products = SanPham::where('MaDanhMuc', $category->MaDanhMuc)->get();
+        if ($request->trang_thai == 0 || $request->trang_thai == '0') {
+        $products = SanPham::where('MaDanhMuc', $category->MaDanhMuc)->get();
+        
+            foreach ($products as $product) {
+                $product->TrangThai = 0;
+                $product->save();
+            }
+        }else{
+            foreach ($products as $product) {
+            $product->TrangThai = 1;
+            $product->save();
+        }
+        }
         return redirect()->route('admin.categories')->with('success', 'Cập nhật danh mục thành công!');
     }
 
@@ -109,7 +123,12 @@ if ($request->hasFile('hinh_anh_danhmuc')) {
             $category->update([
                 'TrangThai' => 0
             ]);
-            
+            $products = SanPham::where('MaDanhMuc', $id)->get();
+    
+            foreach ($products as $product) {
+                $product->TrangThai = 0;
+                $product->save();
+            }
             return redirect()->route('admin.categories')->with('success', 'Danh mục này đang chứa sản phẩm nên hệ thống đã tự động chuyển sang trạng thái ẨN!');
         } else {
             $oldImage = $category->HinhAnh; 

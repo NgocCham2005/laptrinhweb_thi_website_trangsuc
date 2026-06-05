@@ -36,7 +36,7 @@ Quản lý sản phẩm
                 Sản phẩm nổi bật</label><br>
                 <x-input type="textarea" name="mo_ta" label="Mô tả sản phẩm"  placeholder="Nhập mô tả sản phẩm..."  rows="4" :value="old('chat_lieu')"/>            
                 <div class="form-group-image">
-                <label>Hình ảnh sản phẩm (Chọn từ 1 đến 3 ảnh) <span style="color: red;">*</span></label>
+                <label>Hình ảnh sản phẩm (Chọn từ 1 đến 3 ảnh)</label>
                 
                 <div class="image-upload-grid" id="uploadGrid">
                     <div class="upload-box-item" id="box-1">
