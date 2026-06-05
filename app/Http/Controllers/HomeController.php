@@ -1,20 +1,24 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\SanPham;
+use App\Models\DanhMucSP;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $featuredProducts = SanPham::where('TenDanhMuc', 'Nhẫn')
-        ->join('danh_muc', 'danh_muc.MaDanhMuc', '=', 'san_pham.MaDanhMuc')
-        ->get();
+        $categories = DanhMucSP::where('TrangThai', 1)->get();
 
-        $newProducts = SanPham::where('TenDanhMuc', 'Dây chuyền')
-        ->join('danh_muc', 'danh_muc.MaDanhMuc', '=', 'san_pham.MaDanhMuc')
-        ->get();
+        $featuredProducts = SanPham::where('TrangThai', 1)
+            ->where('NoiBat', 1)
+            ->limit(10)
+            ->get();
+
+        $newProducts = SanPham::where('TrangThai', 1)
+            ->orderByRaw("CAST(SUBSTRING(MaSanPham, 3) AS UNSIGNED) DESC")
+            ->limit(10)
+            ->get();
 
         $bestSellingProducts = SanPham::select(
                 'san_pham.MaSanPham',
@@ -33,6 +37,7 @@ class HomeController extends Controller
             ->get();
 
         return view('home.index', compact(
+            'categories',
             'featuredProducts',
             'newProducts',
             'bestSellingProducts'

@@ -5,7 +5,7 @@
 <x-banner />
 <div class="product-block">
 <x-section-title title="Danh mục sản phẩm" />  
-<x-hero />
+<x-hero :categories="$categories" />
 </div>
 <div class="product-block">
     <x-section-title title="Sản phẩm nổi bật" />

@@ -1,6 +1,5 @@
 <section class="hero">
 
-
     <div class="hero-slider">
 
         <!-- BUTTON LEFT -->
@@ -13,25 +12,21 @@
 
         <div class="hero-wrapper">
 
-            <div class="hero-item">
-                <img src="https://www.tierra.vn/wp-content/uploads/2025/05/vang-trang-suc-la-vang-gi-hinh-anh-trang-suc-vang-dep.jpg">
-            </div>
+            @foreach($categories as $category)
 
-            <div class="hero-item">
-                <img src="https://photo.znews.vn/w660/Uploaded/wyhktpu/2016_07_26/10.png">
-            </div>
+                <div class="hero-item">
 
-            <div class="hero-item active">
-                <img src="https://www.tierra.vn/wp-content/uploads/2025/05/vang-trang-suc-la-vang-gi-hinh-anh-trang-suc-vang-dep.jpg">
-            </div>
+                        <a href="{{ route('products.index', ['danh_muc' => $category->MaDanhMuc]) }}">
+                        <img
+                            src="{{ asset('images/categories/' . $category->HinhAnh) }}"
+                            alt="{{ $category->TenDanhMuc }}"
+                        >
 
-            <div class="hero-item">
-                <img src="https://photo.znews.vn/w660/Uploaded/wyhktpu/2016_07_26/10.png">
-            </div>
+                    </a>
 
-            <div class="hero-item">
-                <img src="https://photo.znews.vn/w660/Uploaded/wyhktpu/2016_07_26/10.png">
-            </div>
+                </div>
+
+            @endforeach
 
         </div>
 
