@@ -10,13 +10,19 @@
             <h2 class="auth-custom-title">Đổi mật khẩu</h2>
             <p class="auth-custom-subtitle">Vui lòng nhập mật khẩu cũ và mật khẩu mới</p>
 
-           @if(session('success'))
-    <div class="auth-alert-clean success">{{ session('success') }}</div>
-@endif
+         @if(session('success'))
+                <div class="alert alert-success" style="text-align: center; justify-content: center; display: flex;">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-@if(session('error'))
-    <div class="auth-alert-clean error">{{ session('error') }}</div>
-@endif
+            
+            
+            @if(session('error'))
+                <div class="alert alert-danger" style="text-align: center; justify-content: center; display: flex;">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             {{-- Có thuộc tính novalidate để chặn đứng bong bóng mặc định của trình duyệt --}}
             <form action="/change-password" method="POST" novalidate style="width: 100%;">

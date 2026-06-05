@@ -14,7 +14,7 @@ class AdminMiddleware
         // 1. Nếu đã đăng nhập
         if (Auth::check()) {
             // 2. Kiểm tra quyền Admin (Sửa số 1 thành đúng logic role bên bạn nếu nhóm dùng chữ 'admin')
-            if (Auth::user()->role == 1) { 
+            if (trim(Auth::user()->VaiTro) === 'admin') { 
                 return $next($request); // Đúng quyền thì cho qua cửa
             }
             // Đã đăng nhập nhưng là khách thường -> Đá về trang chủ kèm thông báo
