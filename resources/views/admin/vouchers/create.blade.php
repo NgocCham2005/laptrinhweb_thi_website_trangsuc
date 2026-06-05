@@ -2,6 +2,8 @@
 
 @section('page-title', 'Quản lý Voucher')
 
+@section('title','Thêm voucher')
+
 @section('content')
 
 <div class="page-header">

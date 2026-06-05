@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title','Chi tiết đơn hàng {{ $order->MaDonHang }}')
+@section('title','Chi tiết đơn hàng')
 
 @section('page-title','Chi tiết đơn hàng')
 

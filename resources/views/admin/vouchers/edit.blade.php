@@ -2,6 +2,8 @@
 
 @section('page-title', 'Quản lý voucher')
 
+@section('title','Sửa voucher')
+
 @section('content')
 
 <div class="page-header">
@@ -28,8 +30,14 @@
 
     <x-input type="select" name="TrangThai" label="Trạng thái" required>
         <option value="">-- Chọn trạng thái --</option>
-        <option value="1" {{ old('TrangThai') == '1' ? 'selected' : '' }}>Hoạt động</option>
-        <option value="0" {{ old('TrangThai') == '0' ? 'selected' : '' }}>Vô hiệu hóa</option>
+        <option value="1"
+            {{ old('TrangThai', $voucher->TrangThai) == '1' ? 'selected' : '' }}>
+            Hoạt động
+        </option>
+        <option value="0"
+            {{ old('TrangThai', $voucher->TrangThai) == '0' ? 'selected' : '' }}>
+            Vô hiệu hóa
+        </option>
     </x-input>
 
     <div class="action-buttons">
