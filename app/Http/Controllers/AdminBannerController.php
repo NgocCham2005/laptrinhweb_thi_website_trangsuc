@@ -9,7 +9,7 @@ class AdminBannerController extends Controller
 {
     public function index()
     {
-        $banners = Banner::latest('MaBanner')->paginate(3);
+        $banners = Banner::paginate(3);
         return view('admin.banners.banners', compact('banners'));
     }
 

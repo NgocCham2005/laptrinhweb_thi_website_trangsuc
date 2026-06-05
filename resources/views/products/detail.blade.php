@@ -4,7 +4,6 @@
 
 <section class="product-detail">
 
-    <!-- BREADCRUMB -->
     <div class="breadcrumb">
         <a href="{{ route('products.index') }}">Sản phẩm</a>
         <span>/</span>
@@ -14,7 +13,6 @@
         <p>{{ $product->TenSanPham }}</p>
     </div>
 
-    <!-- Thông tin chung -->
     <div class="product-top">
         <div class="product-gallery">
             <div class="main-image">
@@ -37,7 +35,6 @@
         </div>
     </div>
 
-    <!-- Mô tả sản phẩm -->
     <div class="product-description">
         <div class="section-title">
             <h2>MÔ TẢ SẢN PHẨM</h2>
@@ -61,7 +58,6 @@
                     <h4>
                         {{ $review->MaTaiKhoan }}
                     </h4>
-                    <!-- STAR -->
                     <div class="review-stars">
                             @for($i = 1; $i <= 5; $i++)
                             @if($i <= $review->XepHang)
@@ -74,7 +70,6 @@
                     <p>
                         {{ $review->BinhLuan }}
                     </p>
-                    <!-- REPLY -->
                     @foreach($review->replies as $reply)
                         <div class="admin-reply">
                             <strong>Shop phản hồi:</strong>
@@ -96,24 +91,6 @@
         @endif
     </div>
 
-    <!-- <form action="{{ route('review.store') }}" method="POST" class="review-form">
-        @csrf
-        <input type="hidden" name="product_id" value="{{ $product->MaSanPham }}">
-        <select name="rating">
-            <option value="5">5 sao</option>
-            <option value="4">4 sao</option>
-            <option value="3">3 sao</option>
-            <option value="2">2 sao</option>
-            <option value="1">1 sao</option>
-        </select>
-
-        <input type="text" name="comment" placeholder="Viết đánh giá...">
-            <button type="submit">
-                <i class="fa-solid fa-paper-plane"></i>
-            </button>
-    </form> -->
-
-    <!-- Sản phẩm tương tự -->
     <div class="related-products">
         <div class="related-header">
             <h2>SẢN PHẨM TƯƠNG TỰ</h2>
