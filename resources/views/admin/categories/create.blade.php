@@ -11,10 +11,10 @@ Quản lý danh mục sản phẩm
     <div class="page-header">
         <h3>Thêm danh mục sản phẩm mới</h3>
     </div>
-    <form action="{{ route('admin.storeCategory') }}" method="POST">
+    <form action="{{ route('admin.storeCategory') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <x-input type="text" name="ma_danhmuc" label="Mã danh mục" placeholder="Ví dụ: DM01" />
-        <x-input type="text" name="ten_danhmuc" label="Tên danh mục" placeholder="Nhập tên danh mục..." />
+        <x-input type="text" name="ma_danhmuc" label="Mã danh mục" value="{{ $nextMaDanhMuc }}" readonly />        
+        <x-input type="text" name="ten_danhmuc" label="Tên danh mục" placeholder="Nhập tên danh mục..." :value="old('ten_danhmuc')"/>
         <div class="form-group" style="margin-top: 15px;">
     <label>Ảnh đại diện danh mục</label>
     
@@ -27,16 +27,19 @@ Quản lý danh mục sản phẩm
             <i class="fa-solid fa-plus"></i>
             <span>Tải lên ảnh danh mục</span>
         </label>
-        
+        @error('hinh_anh_danhmuc')
+        <span class="inline-error-msg">
+            {{ $message }}
+        </span>
+    @enderror
         <div class="preview-zone" id="preview-cat-1" style="display: none;"></div>
-        
     </div>
 </div>
         <div class="form-actions">
             <x-button variant="primary" type="submit">Lưu danh mục</x-button>
-            <a href="{{ route('admin.categories') }}"
-                <x-button type="button">
-                    <i class="fa-solid fa-arrow-left"></i> Quay lại
+            <a href="{{ route('admin.categories') }}" style="text-decoration: none;">
+                <x-button variant="outline-navy">
+                    Quay lại
                 </x-button>
             </a>
         </div>

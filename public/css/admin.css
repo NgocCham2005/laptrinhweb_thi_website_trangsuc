@@ -777,6 +777,14 @@ min-height:80vh;
     border-radius: 4px;
     pointer-events: none;
 }
+/* Lỗi up ảnh thêm sp */
+.inline-error-msg
+{
+    color: #e74c3c;
+    font-size: 13px;
+    display: block;
+    margin-top: 5px;
+}
 
 /* Tìm kiếm sản phẩm */
 /* Toàn bộ khung bọc ngoài bộ lọc */

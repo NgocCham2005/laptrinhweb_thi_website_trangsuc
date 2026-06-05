@@ -10,26 +10,41 @@ class AdminCategoryController extends Controller
 {
     public function index()
     {
-        $categories = DanhMucSP::paginate(5); 
+        $categories = DanhMucSP::orderBy('MaDanhMuc', 'desc')->paginate(5); 
         
         return view('admin.categories.index', compact('categories'));
     }
 
     public function create()
     {
-        return view('admin.categories.create');
+        $lastCategory = DanhMucSP::orderBy('MaDanhMuc', 'desc')->first();
+
+        $nextNumber = 1;
+
+        if ($lastCategory) {
+            $lastId = $lastCategory->MaDanhMuc;
+                        $currentNumber = (int) substr($lastId, 2); 
+            
+            $nextNumber = $currentNumber + 1;
+        }
+        $nextMaDanhMuc = 'DM' . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
+        return view('admin.categories.create', compact('nextMaDanhMuc'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'ma_danhmuc' => 'required',
-            'ten_danhmuc' => 'required',
-        'hinh_anh_danhmuc' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
+        'ten_danhmuc'      => 'required|min:2|max:100',
+        'hinh_anh_danhmuc' => 'required'
         ], [
-        'hinh_anh_danhmuc.required' => 'Vui lòng chọn ảnh đại diện cho danh mục sản phẩm!'
+        'ten_danhmuc.required'        => 'Vui lòng nhập tên danh mục sản phẩm.',
+        'ten_danhmuc.min'             => 'Tên danh mục phải có ít nhất 2 ký tự.',
+        'ten_danhmuc.max'             => 'Tên danh mục tối đa 100 ký tự.',
+        'hinh_anh_danhmuc.required'   => 'Vui lòng chọn ảnh đại diện cho danh mục sản phẩm.',
+        'hinh_anh_danhmuc.image'      => 'File tải lên phải là hình ảnh.',
+        'hinh_anh_danhmuc.mimes'      => 'Ảnh danh mục chỉ chấp nhận định dạng: jpeg, png, jpg, gif, svg, webp.',
+        'hinh_anh_danhmuc.max'        => 'Dung lượng ảnh danh mục tối đa là 2MB.'
         ]);
-
         $fileName = null;
             if ($request->hasFile('hinh_anh_danhmuc')) {
                 $file = $request->file('hinh_anh_danhmuc');

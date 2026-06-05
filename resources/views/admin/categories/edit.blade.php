@@ -47,9 +47,9 @@ Quản lý danh mục sản phẩm
 
         <div class="form-actions">
             <x-button variant="primary" type="submit">Cập nhật</x-button>
-            <a href="{{ route('admin.categories') }}">
-                <x-button type="button">
-                    <i class="fa-solid fa-arrow-left"></i> Quay lại
+            <a href="{{ route('admin.categories') }}" style="text-decoration: none;">
+                <x-button variant="outline-navy">
+                    Quay lại
                 </x-button>
             </a>
         </div>

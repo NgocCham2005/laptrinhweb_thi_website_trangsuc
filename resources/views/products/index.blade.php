@@ -70,7 +70,7 @@
                 <x-product-card :product="$product" />
             @empty
                 <div class="no-product-message">
-                    <p>Hiện tại chưa có sản phẩm nào thuộc bộ lọc này.</p>
+                    <p>Không tìm thấy sản phẩm.</p>
                 </div>
             @endforelse
         </div>

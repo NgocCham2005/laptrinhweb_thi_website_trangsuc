@@ -121,8 +121,8 @@ Quản lý sản phẩm
 
             <div class="action-buttons">
                 <x-button type="submit" variant="primary">Cập nhật sản phẩm</x-button>
-                <a href="{{ route('admin.products') }}">
-                    <x-button type="button">Quay lại</x-button>
+                <a href="{{ route('admin.products') }}" style="text-decoration: none;">
+                    <x-button variant="outline-navy">Quay lại</x-button>
                 </a>
             </div>
         </form>

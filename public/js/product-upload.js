@@ -1,118 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("🚀 Hệ thống Inline Validation & Popup đã đồng bộ hoàn hảo!");
-
-    // =========================================================
-    // 1. LOGIC KIỂM TRA FORM & BẮN LỖI NGAY TẠI TRƯỜNG NHẬP LIỆU (CLIENT)
-    // =========================================================
-    const adminForm = document.querySelector('form[action*="storeProduct"]') || document.querySelector('form');
-    
-    if (adminForm) {
-        adminForm.addEventListener('submit', function (e) {
-            // Xóa sạch các câu báo lỗi đỏ cũ trên giao diện
-            document.querySelectorAll('.inline-error-msg').forEach(el => el.remove());
-
-            const maSP = document.querySelector('input[name="ma_sanpham"]');
-            const tenSP = document.querySelector('input[name="ten_sanpham"]');
-            const danhMuc = document.querySelector('select[name="ma_danhmuc"]');
-            const giaBan = document.querySelector('input[name="gia_ban"]');
-            const chatLieu = document.querySelector('input[name="chat_lieu"]');
-            const hinhAnhChinh = document.getElementById('file-1');
-
-            let hasError = false;
-
-            function showFieldError(inputElement, message, isImage = false) {
-                hasError = true;
-                const errorSpan = document.createElement('span');
-                errorSpan.className = 'inline-error-msg';
-                errorSpan.style.color = '#e74c3c';
-                errorSpan.style.fontSize = '13px';
-                errorSpan.style.marginTop = '5px';
-                errorSpan.style.display = 'block';
-                errorSpan.innerText = message;
-
-                if (isImage) {
-                    const uploadGrid = document.getElementById('uploadGrid');
-                    if (uploadGrid) uploadGrid.parentNode.appendChild(errorSpan);
-                } else if (inputElement) {
-                    inputElement.parentNode.appendChild(errorSpan);
-                }
-            }
-
-            if (maSP && !maSP.value.trim()) showFieldError(maSP, "Mã sản phẩm không được bỏ trống.");
-            if (tenSP && !tenSP.value.trim()) showFieldError(tenSP, "Tên sản phẩm không được bỏ trống.");
-            if (danhMuc && !danhMuc.value.trim()) showFieldError(danhMuc, "Vui lòng chọn danh mục sản phẩm.");
-            if (giaBan && !giaBan.value.trim()) showFieldError(giaBan, "Giá bán không được bỏ trống.");
-            if (chatLieu && !chatLieu.value.trim()) showFieldError(chatLieu, "Chất liệu không được bỏ trống.");
-            
-            if (hinhAnhChinh) {
-                // Tìm xem ở Ô số 1 (Ảnh đại diện) có cái ảnh cũ nào đang hiển thị không
-                const box1 = document.getElementById('box-1');
-                const hasOldImage = box1 && box1.querySelector('.preview-zone') && box1.querySelector('.preview-zone').style.display === 'block';
-
-                // Điều kiện chặn lỗi: Ô chọn file mới trống KHÔNG ĐỒNG NGHĨA VỚI VIỆC không có ảnh. 
-                // Chỉ báo lỗi khi ô file trống VÀ ảnh cũ cũng không có luôn!
-                if (hinhAnhChinh.files.length === 0 && !hasOldImage) {
-                    showFieldError(null, "Cần tải lên ít nhất 1 ảnh sản phẩm.", true);
-                }
-            }
-
-            if (hasError) {
-                e.preventDefault(); 
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi thêm sản phẩm',
-                        text: 'Vui lòng điền đầy đủ thông tin.',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#e74c3c'
-                    });
-                }
-                return false;
-            }
-        });
-    }
-
-    // =========================================================
-    // 2. HỨNG LỖI TỪ LARAVEL DỘI VỀ (VÍ DỤ: TRÙNG MÃ SẢN PHẨM)
-    // =========================================================
-    const errorContainer = document.getElementById('laravel-errors-data');
-    if (errorContainer) {
-        const errors = JSON.parse(errorContainer.getAttribute('data-errors') || '[]');
-        if (errors.length > 0 && typeof Swal !== 'undefined') {
-            
-            // Tìm xem có lỗi trùng mã trong mảng lỗi gửi về không
-            const hasUniqueError = errors.some(error => error.includes('đã tồn tại'));
-            
-            if (hasUniqueError) {
-                const maSP = document.querySelector('input[name="ma_sanpham"]');
-                if (maSP) {
-                    // Xóa lỗi cũ nếu có trước khi chèn để không bị lặp chữ đỏ
-                    const oldErr = maSP.parentNode.querySelector('.inline-error-msg');
-                    if (oldErr) oldErr.remove();
-
-                    // Tạo chữ đỏ cảnh báo ngay dưới chân ô mã sản phẩm (Đã thêm text thành công kkk)
-                    const errorSpan = document.createElement('span');
-                    errorSpan.className = 'inline-error-msg';
-                    errorSpan.style.color = '#e74c3c';
-                    errorSpan.style.fontSize = '13px';
-                    errorSpan.style.marginTop = '5px';
-                    errorSpan.style.display = 'block';
-                    errorSpan.innerText = "Mã sản phẩm này đã tồn tại trong hệ thống."; // ✨ FIX CHỖ NÀY NHA M
-                    maSP.parentNode.appendChild(errorSpan);
-                }
-            }
-
-            // Đồng bộ tiêu đề thành "Lỗi thêm sản phẩm"
-            Swal.fire({ 
-                icon: 'error', 
-                title: 'Lỗi thêm sản phẩm', 
-                text: 'Mã sản phẩm này đã tồn tại trong hệ thống.', 
-                confirmButtonText: 'OK', 
-                confirmButtonColor: '#e74c3c' 
-            });
-        }
-    }
-
     // TOAST THÀNH CÔNG
     const successContainer = document.getElementById('laravel-success-data');
     if (successContainer) {
@@ -192,8 +78,8 @@ function clearSingleImage(id, maHinhAnh = null) {
         }
     }
 
-    // 🚀 3. LOGIC TỰ ĐỘNG ĐÔN ẢNH PHỤ LÊN LÀM ẢNH ĐẠI DIỆN VÀ XOÁ LỖI
-    // Nếu m vừa xóa ô số 1 (Ảnh Đại Diện)
+    // 3. LOGIC TỰ ĐỘNG ĐÔN ẢNH PHỤ LÊN LÀM ẢNH ĐẠI DIỆN VÀ XOÁ LỖI
+    // Nếu vừa xóa ô số 1 (Ảnh Đại Diện)
     if (id === 1) {
         let sourceBox = null;
         let sourceId = 0;
@@ -254,7 +140,7 @@ function clearSingleImage(id, maHinhAnh = null) {
         }
     }
 
-    // 🚀 4. TỰ ĐỘNG XOÁ CHỮ BÁO LỖI ĐỎ NẾU GIAO DIỆN VẪN CÒN ẢNH
+    // 4. TỰ ĐỘNG XOÁ CHỮ BÁO LỖI ĐỎ NẾU GIAO DIỆN VẪN CÒN ẢNH
     let totalActivePreviews = 0;
     for (let i = 1; i <= 3; i++) {
         const box = document.getElementById(`box-${i}`);
