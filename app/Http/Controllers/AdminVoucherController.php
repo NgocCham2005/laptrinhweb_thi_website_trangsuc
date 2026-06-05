@@ -138,4 +138,16 @@ class AdminVoucherController extends Controller
             ->route('admin.vouchers')
             ->with('success', 'Đã vô hiệu hóa voucher');
     }
+    public function restore($id)
+    {
+        $voucher = Voucher::findOrFail($id);
+
+        $voucher->TrangThai = 1;
+
+        $voucher->save();
+
+        return redirect()
+            ->route('admin.vouchers')
+            ->with('success', 'Đã mở khóa voucher');
+    }
 }

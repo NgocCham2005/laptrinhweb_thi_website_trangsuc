@@ -78,14 +78,27 @@
                         <x-button>Sửa</x-button>
                     </a>
 
-                    <x-button
-                        variant="danger"
-                        class="btn-disable"
-                        type="button"
-                        onclick="openModal('disableVoucher{{ $v->MaVoucher }}')"
-                    >
-                        Vô hiệu
-                    </x-button>
+                    @if($v->TrangThai == 1)
+
+                        <x-button
+                            variant="danger"
+                            type="button"
+                            onclick="openModal('disableVoucher{{ $v->MaVoucher }}')"
+                        >
+                            Vô hiệu
+                        </x-button>
+
+                    @else
+
+                        <x-button
+                            variant="secondary"
+                            type="button"
+                            onclick="openModal('restoreVoucher{{ $v->MaVoucher }}')"
+                        >
+                            Mở khóa
+                        </x-button>
+
+                    @endif
 
                 </div>
 
@@ -116,6 +129,38 @@
                     variant="ghost"
                     type="button"
                     onclick="closeModal('disableVoucher{{ $v->MaVoucher }}')"
+                >
+                    Hủy
+                </x-button>
+
+            </x-slot:footer>
+
+        </x-modal>
+    
+        <x-modal id="restoreVoucher{{ $v->MaVoucher }}" title="Mở khóa voucher">
+
+            Bạn có chắc chắn muốn mở khóa voucher <b>{{ $v->TenVoucher }}</b> ?
+
+            <x-slot:footer>
+
+                <form
+                    action="{{ route('admin.vouchers.restore', $v->MaVoucher) }}"
+                    method="POST"
+                    style="display:inline"
+                >
+                    @csrf
+                    @method('POST')
+
+                    <x-button variant="danger" type="submit">
+                        Xác nhận
+                    </x-button>
+
+                </form>
+
+                <x-button
+                    variant="ghost"
+                    type="button"
+                    onclick="closeModal('restoreVoucher{{ $v->MaVoucher }}')"
                 >
                     Hủy
                 </x-button>

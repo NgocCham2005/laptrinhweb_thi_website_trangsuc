@@ -182,6 +182,8 @@ Route::get(
     ->name('vouchers.update');
     Route::delete('/vouchers/{id}', [AdminVoucherController::class, 'destroy'])
     ->name('vouchers.destroy');
+    Route::post('/vouchers/{id}/restore', [AdminVoucherController::class, 'restore'])
+    ->name('vouchers.restore');
 
     Route::get('/reviews', [AdminReviewController::class, 'index'])->name('reviews');
     Route::get('/reviews/reply/{id}', [AdminReviewController::class, 'showReplyForm'])->name('replyReviewForm');
