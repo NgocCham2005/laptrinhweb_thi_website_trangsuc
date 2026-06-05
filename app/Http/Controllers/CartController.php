@@ -120,18 +120,14 @@ class CartController extends Controller
         if (isset($sanPham->TrangThai) && $sanPham->TrangThai === 'ngung_ban') {
             return $this->phanHoiLoi($request, 'Sản phẩm này đã ngừng kinh doanh!');
         }
-
         // Lấy hoặc tạo giỏ hàng
         $gioHang = $this->layHoacTaoGioHang();
-
         // Kiểm tra sản phẩm đã có trong giỏ chưa
         $chiTiet = ChiTietGioHang::where('MaGio', $gioHang->MaGio)
             ->where('MaSanPham', $request->MaSanPham)
             ->first();
-
         $soLuongHienTai = $chiTiet ? $chiTiet->SoLuong : 0;
         $soLuongMoi     = $soLuongHienTai + $soLuongYC;
-
         // Kiểm tra tồn kho tổng cộng
         if ($soLuongMoi > $sanPham->SoLuongTon) {
             $con = $sanPham->SoLuongTon - $soLuongHienTai;
@@ -140,7 +136,6 @@ class CartController extends Controller
             }
             return $this->phanHoiLoi($request, "Chỉ có thể thêm tối đa {$con} sản phẩm nữa (tồn kho: {$sanPham->SoLuongTon})!");
         }
-
         if ($chiTiet) {
             $chiTiet->update(['SoLuong' => $soLuongMoi]);
         } else {
@@ -174,38 +169,30 @@ class CartController extends Controller
         if ($soLuong < 1 || $soLuong > 999) {
             return $this->phanHoiLoi($request, 'Số lượng không hợp lệ!');
         }
-
         $gioHang = $this->layGioHang();
         if (!$gioHang) {
             return $this->phanHoiLoi($request, 'Không tìm thấy giỏ hàng!', 404);
         }
-
         $chiTiet = ChiTietGioHang::where('MaGio', $gioHang->MaGio)
             ->where('MaSanPham', $maSanPham)
             ->first();
-
         if (!$chiTiet) {
             return $this->phanHoiLoi($request, 'Sản phẩm không có trong giỏ hàng!', 404);
         }
-
         $sanPham = SanPham::find($maSanPham);
         if (!$sanPham) {
             return $this->phanHoiLoi($request, 'Sản phẩm không tồn tại!', 404);
         }
-
         // Giới hạn theo tồn kho
         if ($soLuong > $sanPham->SoLuongTon) {
             $soLuong = $sanPham->SoLuongTon;
         }
-
         $chiTiet->update(['SoLuong' => $soLuong]);
-
         // Tính lại tổng tiền để trả về cho AJAX
         $tongTien = ChiTietGioHang::where('MaGio', $gioHang->MaGio)
             ->with('sanPham')
             ->get()
             ->sum(fn($i) => $i->SoLuong * ($i->sanPham->GiaBan ?? 0));
-
         return $this->phanHoiOk($request, 'Đã cập nhật số lượng!', [
             'soLuongMoi'  => $soLuong,
             'thanhTien'   => ($sanPham->GiaBan ?? 0) * $soLuong,
@@ -227,9 +214,6 @@ class CartController extends Controller
         return back()->with('error', 'Không tìm thấy giỏ hàng!');
     }
 
-    // ❌ Sai nếu đang dùng: $chiTiet->delete()
-
-    // ✅ Đúng — xóa trực tiếp qua where
     ChiTietGioHang::where('MaGio', $gioHang->MaGio)
         ->where('MaSanPham', $request->MaSanPham)
         ->delete();
