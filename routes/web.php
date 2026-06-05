@@ -242,8 +242,5 @@ Route::get('/don-hang/{maDonHang}', [OrderController::class, 'chiTiet'])->name('
         )->name('review.store');
     Route::put('/review/update/{id}',[ReviewController::class,'update']
         )->name('review.update');
-    Route::delete('/review/delete/{id}',[ReviewController::class,'destroy']
-        )->name('review.delete');
-// });
 
 });

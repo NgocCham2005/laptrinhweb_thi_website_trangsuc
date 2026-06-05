@@ -104,10 +104,4 @@ class ReviewController extends Controller
         ]);
         return redirect()->route('order.lichSu') ->with('success','Đã sửa đánh giá');
     }
-
-    public function destroy($id)
-    {
-        DanhGia::where('MaDanhGia', $id)->delete();
-        return redirect()->route('order.lichSu')->with('success','Đã xóa đánh giá');
-    }
 }
