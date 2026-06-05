@@ -2,64 +2,85 @@
 @section('content')
 
 <div class="auth-page-wrapper">
-{{-- Sửa thành --}}
-<div class="auth-split-card auth-card-single">        
+    <div class="auth-split-card auth-card-single">        
         
-
         <div class="auth-side-form">
             <h2 class="auth-custom-title">Đăng ký</h2>
             <p class="auth-custom-subtitle">Tạo tài khoản để trải nghiệm mua sắm</p>
 
-            {{-- ĐÃ SỬA: SỬ DỤNG CLASS ĐỂ HIỂN THỊ LỖI THAY VÌ INLINE-STYLE --}}
-            @if ($errors->any())
-                <div style="margin-bottom: 16px;">
-        @foreach ($errors->all() as $error)
-            <p style="color: #ef4444; font-size: 16px; font-weight: 600; margin: 0 0 8px 0; text-align: center;">
-                <i class="fas fa-exclamation-circle"></i> {{ $error }}
-            </p>
-        @endforeach
-    </div>
+            {{-- ALERT CHUNG THEO FORM.CSS (CHỈ HIỆN KHI CÓ THÔNG BÁO THÀNH CÔNG/THẤT BẠI CHUNG) --}}
+            @if(session('success'))
+                <div class="alert alert-success" style="margin-bottom: 16px;">
+                    <i class="fas fa-check-circle"></i> {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger" style="margin-bottom: 16px;">
+                    <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+                </div>
             @endif
 
             <form action="/register" method="POST">
                 @csrf
 
                 <div class="auth-form-grid">
-                    {{-- HÀNG 1 --}}
+                    {{-- HÀNG 1: HỌ TÊN --}}
                     <div class="auth-group">
                         <label class="auth-label">Họ tên<span class="auth-required">*</span></label>
-                        <input type="text" name="HoTen" class="auth-input" placeholder="Nhập họ tên" value="{{ old('HoTen') }}" required>
+                        <input type="text" name="HoTen" class="auth-input @error('HoTen') is-invalid @enderror" placeholder="Nhập họ tên" value="{{ old('HoTen') }}" required>
+                        @error('HoTen')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
                     </div>
 
+                    {{-- HÀNG 1: TÊN ĐĂNG NHẬP --}}
                     <div class="auth-group">
                         <label class="auth-label">Tên đăng nhập<span class="auth-required">*</span></label>
-                        <input type="text" name="TenDangNhap" class="auth-input" placeholder="Nhập tên đăng nhập" value="{{ old('TenDangNhap') }}" required>
+                        <input type="text" name="TenDangNhap" class="auth-input @error('TenDangNhap') is-invalid @enderror" placeholder="Nhập tên đăng nhập" value="{{ old('TenDangNhap') }}" required>
+                        @error('TenDangNhap')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    {{-- HÀNG 2 --}}
+                    {{-- HÀNG 2: EMAIL --}}
                     <div class="auth-group">
                         <label class="auth-label">Email<span class="auth-required">*</span></label>
-                        <input type="email" name="Email" class="auth-input" placeholder="Nhập Email" value="{{ old('Email') }}" required>
+                        <input type="email" name="Email" class="auth-input @error('Email') is-invalid @enderror" placeholder="Nhập Email" value="{{ old('Email') }}" required>
+                        @error('Email')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
                     </div>
 
+                    {{-- HÀNG 2: SỐ ĐIỆN THOẠI --}}
                     <div class="auth-group">
                         <label class="auth-label">Số điện thoại<span class="auth-required">*</span></label>
-                        <input type="text" name="SoDienThoai" class="auth-input" placeholder="Nhập số điện thoại" value="{{ old('SoDienThoai') }}" required>
+                        <input type="text" name="SoDienThoai" class="auth-input @error('SoDienThoai') is-invalid @enderror" placeholder="Nhập số điện thoại" value="{{ old('SoDienThoai') }}" required>
+                        @error('SoDienThoai')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    {{-- HÀNG 3 --}}
+                    {{-- HÀNG 3: MẬT KHẨU --}}
                     <div class="auth-group">
                         <label class="auth-label">Mật khẩu<span class="auth-required">*</span></label>
-                        <input type="password" name="MatKhau" class="auth-input" placeholder="Từ 6 ký tự, có chữ, số, ký tự đặc biệt" required>
+                        <input type="password" name="MatKhau" class="auth-input @error('MatKhau') is-invalid @enderror" placeholder="Từ 6 ký tự, có chữ, số, ký tự đặc biệt" required>
+                        @error('MatKhau')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
                     </div>
 
+                    {{-- HÀNG 3: NHẬP LẠI MẬT KHẨU --}}
                     <div class="auth-group">
                         <label class="auth-label">Nhập lại mật khẩu<span class="auth-required">*</span></label>
-                        <input type="password" name="NhapLaiMatKhau" class="auth-input" placeholder="Nhập lại mật khẩu" required>
+                        <input type="password" name="NhapLaiMatKhau" class="auth-input @error('NhapLaiMatKhau') is-invalid @enderror" placeholder="Nhập lại mật khẩu" required>
+                        @error('NhapLaiMatKhau')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
-                {{-- NÚT ĐĂNG KÝ RỘNG BẰNG FORM --}}
+                {{-- NÚT ĐĂNG KÝ --}}
                 <button type="submit" class="auth-btn-block">
                     Đăng ký
                 </button>

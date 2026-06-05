@@ -2,40 +2,24 @@
 @section('content')
 
 <div class="auth-page-wrapper">
-    {{-- Đồng bộ class auth-card-single để hộp chứa thu nhỏ gọn gàng, không bị lệch giao diện --}}
+    {{-- Sử dụng class auth-card-single để hộp chứa thu nhỏ gọn gàng --}}
     <div class="auth-split-card auth-card-single">
         
         <div class="auth-side-form">
-           
+
             <h2 class="auth-custom-title">Đổi mật khẩu</h2>
             <p class="auth-custom-subtitle">Vui lòng nhập mật khẩu cũ và mật khẩu mới</p>
 
-            {{-- HỨNG THÔNG BÁO THÀNH CÔNG (Hiện chữ màu xanh lá cây, không có ô khung nền) --}}
-            @if(session('success'))
-                <div style="color: #28a745 !important; font-weight: bold; text-align: center; margin-bottom: 20px; font-size: 16px;">
-                    <i class="fas fa-check-circle" style="color: #28a745 !important; margin-right: 5px;"></i> {{ session('success') }}
-                </div>
-            @endif
+           @if(session('success'))
+    <div class="auth-alert-clean success">{{ session('success') }}</div>
+@endif
 
-            {{-- HỨNG THÔNG BÁO LỖI SAI MẬT KHẨU CŨ --}}
-            @if(session('error'))
-                <p style="color: #ef4444; font-size: 15px; font-weight: 600; margin: 0 0 16px 0; text-align: center;">
-        <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
-    </p>
-            @endif
+@if(session('error'))
+    <div class="auth-alert-clean error">{{ session('error') }}</div>
+@endif
 
-            {{-- HỨNG LỖI VALIDATION (Nếu mật khẩu mới không đủ 6 ký tự hoặc không khớp) --}}
-            @if ($errors->any())
-                <div style="margin-bottom: 16px;">
-                    @foreach ($errors->all() as $error)
-                        <p style="color: #ef4444; font-size: 15px; font-weight: 600; margin: 0 0 8px 0; text-align: center;">
-                            <i class="fas fa-exclamation-circle"></i> {{ $error }}
-                        </p>
-                    @endforeach
-                </div>
-            @endif
-
-            <form method="POST" action="/change-password">
+            {{-- Có thuộc tính novalidate để chặn đứng bong bóng mặc định của trình duyệt --}}
+            <form action="/change-password" method="POST" novalidate style="width: 100%;">
                 @csrf
 
                 {{-- MẬT KHẨU CŨ --}}
@@ -44,10 +28,12 @@
                     <input 
                         type="password" 
                         name="MatKhauCu" 
-                        class="auth-input" 
+                        class="auth-input @error('MatKhauCu') is-invalid @enderror @error('matkhaucu') is-invalid @enderror" 
                         placeholder="Nhập mật khẩu hiện tại" 
                         required
                     >
+                    @error('MatKhauCu') <div class="form-error">{{ $message }}</div> @enderror
+                    @error('matkhaucu') <div class="form-error">{{ $message }}</div> @enderror
                 </div>
 
                 {{-- MẬT KHẨU MỚI --}}
@@ -56,10 +42,13 @@
                     <input 
                         type="password" 
                         name="MatKhauMoi" 
-                        class="auth-input" 
+                        class="auth-input @error('MatKhauMoi') is-invalid @enderror @error('matkhaumoi') is-invalid @enderror @error('password') is-invalid @enderror" 
                         placeholder="Nhập mật khẩu mới" 
                         required
                     >
+                    @error('MatKhauMoi') <div class="form-error">{{ $message }}</div> @enderror
+                    @error('matkhaumoi') <div class="form-error">{{ $message }}</div> @enderror
+                    @error('password') <div class="form-error">{{ $message }}</div> @enderror
                 </div>
 
                 {{-- NHẬP LẠI MẬT KHẨU MỚI --}}
@@ -68,26 +57,39 @@
                     <input 
                         type="password" 
                         name="NhapLaiMatKhauMoi" 
-                        class="auth-input" 
+                        class="auth-input @error('NhapLaiMatKhauMoi') is-invalid @enderror @error('nhaplaimatkhaumoi') is-invalid @enderror @error('password_confirmation') is-invalid @enderror" 
                         placeholder="Nhập lại mật khẩu mới" 
                         required
                     >
+                    @error('NhapLaiMatKhauMoi') <div class="form-error">{{ $message }}</div> @enderror
+                    @error('nhaplaimatkhaumoi') <div class="form-error">{{ $message }}</div> @enderror
+                    @error('password_confirmation') <div class="form-error">{{ $message }}</div> @enderror
                 </div>
 
-                {{-- NÚT BẤM THỰC HIỆN --}}
+                {{-- NÚT BẤM ĐỔI MẬT KHẨU --}}
                 <button type="submit" class="auth-btn-block">
                     Đổi mật khẩu
                 </button>
                 
-              <div style="text-align: left !important; margin-top: 16px;">
-    <a href="/" class="btn btn-outline-navy btn-sm">
-        <i class="fas fa-arrow-left"></i> Quay lại
-    </a>
-</div>
+                {{-- NÚT QUAY LẠI TRANG CHỦ --}}
+                <div style="text-align: left; margin-top: 16px;">
+                    <a href="/" class="btn btn-outline-navy btn-sm" style="text-decoration: none;">
+                        <i class="fas fa-arrow-left"></i> Quay lại
+                    </a>
+                </div>
             </form>
         </div>
 
     </div>
 </div>
+
+{{-- Tự động redirect về trang chủ hoặc trang cá nhân sau 3s nếu đổi thành công --}}
+@if(session('success'))
+<script>
+    setTimeout(function() {
+        window.location.href = '/';
+    }, 3000);
+</script>
+@endif
 
 @endsection

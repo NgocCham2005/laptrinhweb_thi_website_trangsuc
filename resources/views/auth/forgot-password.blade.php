@@ -2,34 +2,33 @@
 @section('content')
 
 <div class="auth-page-wrapper">
-    {{-- Thêm class auth-card-single để ép hộp chứa thu nhỏ gọn gàng, không bị lệch --}}
+    {{-- Sử dụng class auth-card-single để hộp chứa thu nhỏ gọn gàng --}}
     <div class="auth-split-card auth-card-single">
         
         <div class="auth-side-form">
             <h2 class="auth-custom-title">Quên mật khẩu</h2>
-            <p class="auth-custom-subtitle">Nhập email và mật khẩu mới</p>
+            <p class="auth-custom-subtitle">Nhập email và mật khẩu mới để khôi phục</p>
 
-            {{-- HỨNG THÔNG BÁO THÀNH CÔNG (Ép màu xanh lá cây trực tiếp bằng thuộc tính style) --}}
+
+
+
+
             @if(session('success'))
-                <div style="color: #28a745 !important; font-weight: bold; text-align: center; margin-bottom: 20px; font-size: 16px;">
-                    <i class="fas fa-check-circle" style="color: #28a745 !important; margin-right: 5px;"></i> {{ session('success') }}
+                <div class="alert alert-success" style="text-align: center; justify-content: center; display: flex;">
+                    {{ session('success') }}
                 </div>
             @endif
 
-            {{-- HỨNG LỖI VALIDATION --}}
-            @if ($errors->any())
-                <div class="margin-bottom: 16px;">
-
-                    @foreach ($errors->all() as $error)
-                    <p style="color: #ef4444; font-size: 15px; font-weight: 600; margin: 0 0 8px 0;text-align: center;">
-            <i class="fas fa-exclamation-circle"></i> {{ $error }}</p>
-                    @endforeach
-
-
+            
+            
+            @if(session('error'))
+                <div class="alert alert-danger" style="text-align: center; justify-content: center; display: flex;">
+                    {{ session('error') }}
                 </div>
             @endif
 
-            <form action="/forgot-password" method="POST">
+            {{-- Có thuộc tính novalidate để chặn đứng bong bóng mặc định của trình duyệt --}}
+            <form action="/forgot-password" method="POST" novalidate>
                 @csrf
 
                 {{-- EMAIL --}}
@@ -38,11 +37,13 @@
                     <input 
                         type="email" 
                         name="Email" 
-                        class="auth-input" 
+                        class="auth-input @error('Email') is-invalid @enderror @error('email') is-invalid @enderror @if(session('error')) is-invalid @endif" 
                         placeholder="Nhập Email" 
                         value="{{ old('Email') }}" 
                         required
                     >
+                    @error('Email') <div class="form-error">{{ $message }}</div> @enderror
+                    @error('email') <div class="form-error">{{ $message }}</div> @enderror
                 </div>
 
                 {{-- MẬT KHẨU MỚI --}}
@@ -51,10 +52,13 @@
                     <input 
                         type="password" 
                         name="MatKhauMoi" 
-                        class="auth-input" 
+                        class="auth-input @error('MatKhauMoi') is-invalid @enderror @error('matkhaumoi') is-invalid @enderror @error('password') is-invalid @enderror" 
                         placeholder="Nhập mật khẩu mới" 
                         required
                     >
+                    @error('MatKhauMoi') <div class="form-error">{{ $message }}</div> @enderror
+                    @error('matkhaumoi') <div class="form-error">{{ $message }}</div> @enderror
+                    @error('password') <div class="form-error">{{ $message }}</div> @enderror
                 </div>
 
                 {{-- NHẬP LẠI MẬT KHẨU MỚI --}}
@@ -63,24 +67,28 @@
                     <input 
                         type="password" 
                         name="NhapLaiMatKhau" 
-                        class="auth-input" 
+                        class="auth-input @error('NhapLaiMatKhau') is-invalid @enderror @error('nhaplaimatkhau') is-invalid @enderror @error('password_confirmation') is-invalid @enderror" 
                         placeholder="Nhập lại mật khẩu mới" 
                         required
                     >
+                    @error('NhapLaiMatKhau') <div class="form-error">{{ $message }}</div> @enderror
+                    @error('nhaplaimatkhau') <div class="form-error">{{ $message }}</div> @enderror
+                    @error('password_confirmation') <div class="form-error">{{ $message }}</div> @enderror
                 </div>
 
                 {{-- NÚT BẤM ĐẶT LẠI MẬT KHẨU --}}
                 <button type="submit" class="auth-btn-block">
                     Đặt lại mật khẩu
                 </button>
-                
+           
                 
             </form>
         </div>
 
     </div>
 </div>
-{{-- Tự redirect về login sau 3s nếu có thông báo thành công --}}
+
+{{-- Tự động redirect về login sau 3s nếu đổi thành công --}}
 @if(session('success'))
 <script>
     setTimeout(function() {

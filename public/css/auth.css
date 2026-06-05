@@ -227,3 +227,62 @@
         padding: 30px 20px !important;
     }
 }
+/* ===================================================
+   TINH CHỈNH: CHỈ ĐỎ VIỀN, NỀN TRONG Ô MÀU TRẮNG TINH
+=================================================== */
+
+/* Khi dính lỗi: Viền đỏ sắc nét, nền trắng tinh, chữ đen rõ ràng */
+.auth-input.is-invalid {
+    border: 1px solid #ef4444 !important; /* Viền đỏ sắc nét */
+    background-color: #ffffff !important; /* Giữ nền trắng tinh, không bị hồng/đỏ bên trong */
+    box-shadow: none !important; /* Xóa bỏ mọi bóng mờ làm đục ô */
+}
+
+/* Khi người dùng click chuột vào ô đang lỗi: Giữ nguyên viền đỏ và tạo bóng mờ siêu nhẹ */
+.auth-input.is-invalid:focus {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+    outline: none !important;
+}
+/* ===================================================
+   ÉP XÓA HOÀN TOÀN SỌC ĐẬM BÊN TRÁI CỦA KHUNG THÔNG BÁO
+=================================================== */
+
+.auth-alert {
+    border: 1px solid transparent !important; /* Đổi thành viền mảnh đều 4 cạnh */
+}
+
+/* Khung màu xanh lá (Khi thành công) - Trơn phẳng, không sọc */
+.auth-alert-success {
+    background-color: #ecfdf5 !important;
+    color: #065f46 !important;
+    border-color: #a7f3d0 !important; /* Viền mỏng màu xanh nhạt bao quanh */
+}
+
+/* Khung màu đỏ (Khi thất bại) - Trơn phẳng, không sọc */
+.auth-alert-danger {
+    background-color: #fef2f2 !important;
+    color: #991b1b !important;
+    border-color: #fca5a5 !important; /* Viền mỏng màu đỏ nhạt bao quanh */
+}
+/* Alert đổi mật khẩu - không icon, không viền */
+.auth-alert-clean {
+    padding: 16px 18px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    text-align: center;
+    border: none !important;
+    background-image: none !important;
+}
+
+.auth-alert-clean.success {
+    background: #ecfdf3;
+    color: #027a48;
+}
+
+.auth-alert-clean.error {
+    background: #fef3f2;
+    color: #b42318;
+}

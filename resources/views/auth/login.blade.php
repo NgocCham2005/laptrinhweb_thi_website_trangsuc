@@ -11,68 +11,66 @@
             <h2 class="auth-custom-title">Đăng nhập</h2>
             <p class="auth-custom-subtitle">Chào mừng quay trở lại website trang sức</p>
 
-            {{-- ĐÃ BỔ SUNG: HỨNG THÔNG BÁO THÀNH CÔNG TỪ TRANG ĐĂNG KÝ ĐÁ SANG --}}
+            {{-- CHỈ HIỆN ALERT XANH KHI ĐĂNG KÝ THÀNH CÔNG TỪ TRANG KHÁC ĐÁ SANG --}}
             @if(session('success'))
-                <p style="color: #28a745; font-size: 15px; font-weight: 600; margin: 0 0 16px 0; text-align: center;">
-        <i class="fas fa-check-circle"></i> {{ session('success') }}
-    </p>
-            @endif
-
-            {{-- ĐÃ BỔ SUNG: HỨNG LỖI ĐĂNG NHẬP THẤT BẠI (SAI TK/MK, KHÓA TK) TỪ CONTROLLER --}}
-            @if(session('error'))
-                <p style="color: #ef4444; font-size: 15px; font-weight: 600; margin: 0 0 16px 0; text-align: center;">
-        <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
-    </p>
+                <div class="auth-alert auth-alert-success">
+                    <i class="fas fa-check-circle"></i> {{ session('success') }}
+                </div>
             @endif
 
             <form action="/login" method="POST">
                 @csrf
 
-                {{-- TÀI KHOẢN --}}
+                {{-- TÊN ĐĂNG NHẬP --}}
                 <div class="auth-group">
 
                     <label class="auth-label">Tên đăng nhập<span class="auth-required">*</span></label>
-
-
+                    {{-- Nếu dính session('error') thì lập tức ép class is-invalid để lên viền đỏ --}}
                     <input
                         type="text"
                         name="TenDangNhap"
-                        class="auth-input"
+                        class="auth-input @if(session('error')) is-invalid @endif"
                         placeholder="Nhập tên đăng nhập"
                         value="{{ old('TenDangNhap') }}"
                         required
                     >
+                    @if(session('error'))
+                        <div class="form-error">Tên đăng nhập không chính xác</div>
+                    @endif
                 </div>
 
                 {{-- MẬT KHẨU --}}
                 <div class="auth-group">
                     <label class="auth-label">Mật khẩu<span class="auth-required">*</span></label>
+                    {{-- Nếu dính session('error') thì lập tức ép class is-invalid để lên viền đỏ --}}
                     <input
                         type="password"
                         name="MatKhau"
-                        class="auth-input"
+                        class="auth-input @if(session('error')) is-invalid @endif"
                         placeholder="Nhập mật khẩu"
                         required
                     >
+                    @if(session('error'))
+                        <div class="form-error">Mật khẩu không đúng, vui lòng kiểm tra lại</div>
+                    @endif
                 </div>
 
-                {{-- NÚT ĐĂNG NHẬP RỘNG BẰNG FORM --}}
+                {{-- NÚT ĐĂNG NHẬP --}}
                 <button type="submit" class="auth-btn-block">
                     Đăng nhập
                 </button>
                 
-                {{-- LINK QUÊN MẬT KHẨU (Nằm dưới nút và lệch hẳn về góc BÊN PHẢI) --}}
+                {{-- LINK QUÊN MẬT KHẨU --}}
                 <div class="auth-forgot-right">
                     <a href="/forgot-password" class="auth-gold-link">Quên mật khẩu?</a>
                 </div>
                 
-                {{-- CHUYỂN SANG ĐĂNG KÝ (Nằm dưới cùng và CĂN CHÍNH GIỮA) --}}
+                {{-- LINK SANG ĐĂNG KÝ --}}
                 <div class="auth-custom-footer">
                     <span>Chưa có tài khoản? </span>
                     <a href="/register" class="auth-gold-link">Đăng ký ngay</a>
                 </div>
 
-                
 
             </form>
         </div>
