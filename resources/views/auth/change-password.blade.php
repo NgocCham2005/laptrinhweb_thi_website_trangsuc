@@ -10,31 +10,26 @@
             <h2 class="auth-custom-title">Đổi mật khẩu</h2>
             <p class="auth-custom-subtitle">Vui lòng nhập mật khẩu cũ và mật khẩu mới</p>
 
-         @if(session('success'))
+            @if(session('success'))
                 <div class="alert alert-success" style="text-align: center; justify-content: center; display: flex;">
                     {{ session('success') }}
                 </div>
             @endif
 
-            
-            
-            @if(session('error'))
-                <div class="alert alert-danger" style="text-align: center; justify-content: center; display: flex;">
-                    {{ session('error') }}
-                </div>
-            @endif
 
+
+        
             {{-- Có thuộc tính novalidate để chặn đứng bong bóng mặc định của trình duyệt --}}
             <form action="/change-password" method="POST" novalidate style="width: 100%;">
                 @csrf
 
                 {{-- MẬT KHẨU CŨ --}}
-                <div class="auth-group">
-                    <label class="auth-label">Mật khẩu cũ<span class="auth-required">*</span></label>
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu cũ<span class="required">*</span></label>
                     <input 
                         type="password" 
                         name="MatKhauCu" 
-                        class="auth-input @error('MatKhauCu') is-invalid @enderror @error('matkhaucu') is-invalid @enderror" 
+                        class="form-control @error('MatKhauCu') is-invalid @enderror @error('matkhaucu') is-invalid @enderror" 
                         placeholder="Nhập mật khẩu hiện tại" 
                         required
                     >
@@ -43,12 +38,12 @@
                 </div>
 
                 {{-- MẬT KHẨU MỚI --}}
-                <div class="auth-group">
-                    <label class="auth-label">Mật khẩu mới<span class="auth-required">*</span></label>
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu mới<span class="required">*</span></label>
                     <input 
                         type="password" 
                         name="MatKhauMoi" 
-                        class="auth-input @error('MatKhauMoi') is-invalid @enderror @error('matkhaumoi') is-invalid @enderror @error('password') is-invalid @enderror" 
+                        class="form-control @error('MatKhauMoi') is-invalid @enderror @error('matkhaumoi') is-invalid @enderror @error('password') is-invalid @enderror" 
                         placeholder="Nhập mật khẩu mới" 
                         required
                     >
@@ -58,12 +53,12 @@
                 </div>
 
                 {{-- NHẬP LẠI MẬT KHẨU MỚI --}}
-                <div class="auth-group">
-                    <label class="auth-label">Nhập lại mật khẩu mới<span class="auth-required">*</span></label>
+                <div class="form-group">
+                    <label class="form-label">Nhập lại mật khẩu mới<span class="required">*</span></label>
                     <input 
                         type="password" 
                         name="NhapLaiMatKhauMoi" 
-                        class="auth-input @error('NhapLaiMatKhauMoi') is-invalid @enderror @error('nhaplaimatkhaumoi') is-invalid @enderror @error('password_confirmation') is-invalid @enderror" 
+                        class="form-control @error('NhapLaiMatKhauMoi') is-invalid @enderror @error('nhaplaimatkhaumoi') is-invalid @enderror @error('password_confirmation') is-invalid @enderror" 
                         placeholder="Nhập lại mật khẩu mới" 
                         required
                     >
@@ -73,7 +68,7 @@
                 </div>
 
                 {{-- NÚT BẤM ĐỔI MẬT KHẨU --}}
-                <button type="submit" class="auth-btn-block">
+                <button type="submit" class="btn btn-secondary btn-block" style="height: 48px; border-radius: 14px;">
                     Đổi mật khẩu
                 </button>
                 

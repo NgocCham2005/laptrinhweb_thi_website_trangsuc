@@ -43,10 +43,8 @@
         <div class="profile-main">
 
             @if(session('success'))
-                <div class="profile-success-text">
-                    <i class="fas fa-check-circle"></i> {{ session('success') }}
-                </div>
-            @endif
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
 
             <div class="profile-main-title">
                 <i class="far fa-user"></i> Thông tin tài khoản

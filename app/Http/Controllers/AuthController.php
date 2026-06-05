@@ -202,7 +202,7 @@ if (trim($user->VaiTro) === 'admin') {
 
         // Kiểm tra password cũ có khớp không
         if (!Hash::check($request->MatKhauCu, $user->MatKhau)) {
-            return back()->with('error', 'Mật khẩu cũ không đúng');
+    return back()->withErrors(['MatKhauCu' => 'Mật khẩu cũ không đúng'])->withInput();
         }
 
         // Cập nhật password mới mã hóa bằng Hash

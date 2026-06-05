@@ -13,12 +13,10 @@
 
             {{-- CHỈ HIỆN ALERT XANH KHI ĐĂNG KÝ THÀNH CÔNG TỪ TRANG KHÁC ĐÁ SANG --}}
             @if(session('success'))
-                <div class="auth-alert auth-alert-success">
-                    <i class="fas fa-check-circle"></i> {{ session('success') }}
-                </div>
-            @endif
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
 
-            <form action="/login" method="POST">
+            <form action="/login" method="POST" novalidate>
                 @csrf
 
                 {{-- TÊN ĐĂNG NHẬP --}}
