@@ -31,7 +31,7 @@ class AdminBannerController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $rules = [
             'ten_banner' => [
                 'required',
                 'string',
@@ -39,12 +39,23 @@ class AdminBannerController extends Controller
                 'max:100',
                 'regex:/.*\S.*/'
             ],
-            'hinh_anh' => [
+        ];
+
+        if (!$request->input('temp_hinh_anh')) {
+            $rules['hinh_anh'] = [
                 'required',
                 'image',
                 'mimes:jpg,jpeg,png,webp',
-            ]
-        ], [
+            ];
+        } else {
+            $rules['hinh_anh'] = [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+            ];
+        }
+
+        $messages = [
             'ten_banner.required' => 'Vui lòng nhập tên banner.',
             'ten_banner.min' => 'Tên banner phải có ít nhất 3 ký tự.',
             'ten_banner.max' => 'Tên banner tối đa 100 ký tự.',
@@ -53,15 +64,33 @@ class AdminBannerController extends Controller
             'hinh_anh.required' => 'Vui lòng chọn ảnh.',
             'hinh_anh.image' => 'File phải là hình ảnh.',
             'hinh_anh.mimes' => 'Ảnh chỉ được là jpg, jpeg, png hoặc webp.'
-        ]);
-        $maBanner = $this->taoMaBanner();
-        $imageName = time() . '.' .
-            $request->file('hinh_anh')->getClientOriginalExtension();
+        ];
 
-        $request->file('hinh_anh')->move(
-            public_path('images/banners'),
-            $imageName
-        );
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            $tempImage = $request->input('temp_hinh_anh');
+            
+            if ($request->hasFile('hinh_anh') && !$validator->errors()->has('hinh_anh')) {
+                $imageName = time() . '.' . $request->file('hinh_anh')->getClientOriginalExtension();
+                $request->file('hinh_anh')->move(public_path('images/banners'), $imageName);
+                $tempImage = $imageName;
+            }
+
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('temp_image', $tempImage);
+        }
+
+        $maBanner = $this->taoMaBanner();
+        $imageName = $request->input('temp_hinh_anh');
+
+        if ($request->hasFile('hinh_anh')) {
+            $imageName = time() . '.' . $request->file('hinh_anh')->getClientOriginalExtension();
+            $request->file('hinh_anh')->move(public_path('images/banners'), $imageName);
+        }
+
         Banner::create([
             'MaBanner' => $maBanner,
             'TenBanner' => trim($request->ten_banner),
