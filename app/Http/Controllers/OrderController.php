@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth; // TẠM THỜI — bật lại khi auth xong
 use App\Models\DonHang;
 use App\Models\ChiTietDonHang;
 use App\Models\ChiTietGioHang;
@@ -14,7 +14,7 @@ use App\Models\Voucher;
 class OrderController extends Controller
 {
     private function layMaTaiKhoan() {
-        return Auth::user()->MaTaiKhoan;
+        return 'TK007'; // TODO: thay bằng Auth::user()->MaTaiKhoan
     }
 
     private function taoMaDonHang() {
@@ -255,6 +255,36 @@ return view('order.manage_user_orders', compact('donHangs'));
     // =====================
     // CHI TIẾT ĐƠN HÀNG (user) — dùng lại view success
     // =====================
+    // =====================
+    // HỦY ĐƠN HÀNG (user)
+    // =====================
+    public function huy($maDonHang) {
+        $maTaiKhoan = $this->layMaTaiKhoan();
+
+        $donHang = DonHang::with('chiTietDonHang.sanPham')
+            ->where('MaDonHang', $maDonHang)
+            ->where('MaTaiKhoan', $maTaiKhoan)
+            ->firstOrFail();
+
+        // Chỉ cho hủy khi đang chờ xác nhận
+        if ($donHang->TrangThai !== 0) {
+            return back()->with('error', 'Chỉ có thể hủy đơn hàng đang chờ xác nhận!');
+        }
+
+        // Hoàn lại tồn kho
+        foreach ($donHang->chiTietDonHang as $item) {
+            if ($item->sanPham) {
+                $item->sanPham->increment('SoLuongTon', $item->SoLuong);
+            }
+        }
+
+        // Cập nhật trạng thái hủy (4)
+        $donHang->TrangThai = 4;
+        $donHang->save();
+
+        return back()->with('success', 'Đã hủy đơn hàng ' . $maDonHang . ' thành công!');
+    }
+
     public function chiTiet($maDonHang) {
         $maTaiKhoan = $this->layMaTaiKhoan();
 
@@ -303,9 +333,7 @@ return view('order.manage_user_orders', compact('donHangs'));
     // ADMIN - CẬP NHẬT TRẠNG THÁI
     // =====================
     public function update(Request $request, $id) {
-        $request->validate([
-    'TrangThai' => 'required|integer|in:0,1,2,3',
-]);
+        $request->validate(['TrangThai' => 'required|integer|in:0,1']);
 
         $order = DonHang::where('MaDonHang', $id)->firstOrFail();
         $order->TrangThai = $request->TrangThai;

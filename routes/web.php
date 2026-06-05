@@ -235,7 +235,7 @@ Route::match(['GET', 'POST'], '/thanh-toan', [OrderController::class, 'checkout'
     Route::post('/mua-ngay', [OrderController::class, 'muaNgay'])->name('order.muaNgay');
    Route::get('/don-hang', [OrderController::class, 'lichSu'])->name('order.lichSu');
 Route::get('/don-hang/{maDonHang}', [OrderController::class, 'chiTiet'])->name('order.chiTiet');
-
+Route::put('/don-hang/{maDonHang}/huy', [OrderController::class, 'huy'])->name('order.huy');
 
     // đánh giá sản phẩm trong đơn hàng
     Route::get('/review/create/{product}/{order}',[ReviewController::class,'create']

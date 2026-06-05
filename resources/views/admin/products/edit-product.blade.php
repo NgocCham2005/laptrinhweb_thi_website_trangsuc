@@ -32,6 +32,9 @@ Quản lý sản phẩm
 
                 <x-input type="text" name="chat_lieu" label="Chất liệu" value="{{ $product->ChatLieu }}" />
                 <x-input type="textarea" name="mo_ta" label="Mô tả sản phẩm" placeholder="Nhập mô tả sản phẩm..." rows="4" value="{{ $product->MoTa }}" />
+                <x-input type="textarea" name="mota_chitiet" label="Mô tả chi tiết sản phẩm" rows="6">
+                    {{ old('mota_chitiet', $product->MoTaChiTiet) }}
+                </x-input>
                    <label style="cursor: pointer;">
                 <input type="checkbox" name="noi_bat" value="1" class="form-check-input me-2" 
                     {{ isset($product) && $product->NoiBat == 1 ? 'checked' : '' }}>

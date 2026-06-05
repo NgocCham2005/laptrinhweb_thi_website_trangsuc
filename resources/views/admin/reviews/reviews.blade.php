@@ -16,7 +16,7 @@ Quản lý đánh giá
     </div>
 
     <x-table 
-        :headers="['Sản phẩm', 'Tên đăng nhập', 'Đánh giá', 'Số sao', 'Ngày tạo', 'Trạng thái', 'Thao tác']"
+        :headers="['Sản phẩm', 'Tên đăng nhập', 'Đánh giá', 'Số sao', 'Ngày tạo', 'Ngày phản hồi', 'Trạng thái', 'Thao tác']"
         striped
     >
 
@@ -36,6 +36,7 @@ Quản lý đánh giá
                 </td>
                 <td>{{ $review->XepHang }} ⭐</td>
                 <td>{{ $review->NgayTao }}</td>
+                <td>{{ $review->replies->first()?->NgayPhanHoi ?? 'Chưa phản hồi' }}</td>
                 <td> 
                     @if($review->TrangThai == 1) <x-badge variant="success">Hiển thị</x-badge>
                     @elseif($review->TrangThai == 0)<x-badge variant="warning">Đã ẩn</x-badge>

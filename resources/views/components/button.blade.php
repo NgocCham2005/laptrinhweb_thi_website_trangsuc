@@ -20,5 +20,5 @@
     @if($icon)
         <span class="btn-icon-left">{{ $icon }}</span>
     @endif
-    {{ $slot }}
+    <span style="position:relative; z-index:2;">{{ $slot }}</span>
 </button>
