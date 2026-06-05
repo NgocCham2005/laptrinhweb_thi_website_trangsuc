@@ -118,6 +118,7 @@
 .status-1 { background: var(--success-bg); color: var(--success); }
 .status-2 { background: var(--info-bg);    color: var(--info); }
 .status-3 { background: var(--success-bg); color: var(--success); }
+.status-4 { background: var(--danger-pale); color: var(--danger); }
 
 /* ── Body card ── */
 .don-hang-body {

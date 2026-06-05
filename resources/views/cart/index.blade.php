@@ -337,39 +337,40 @@ function xoaNhieu() {
 }
 
 // ── Đặt hàng chỉ SP đã chọn ──
+// ── Đặt hàng chỉ SP đã chọn ──
 function diDenCheckout() {
     const checked = document.querySelectorAll('.sp-checkbox:checked');
     if (checked.length === 0) return;
 
+    // Kiểm tra tồn kho trước khi submit
+    let loi = [];
+    checked.forEach(cb => {
+        const row  = cb.closest('tr');
+        const input = row.querySelector('.qty-input');
+        const soLuong = parseInt(input.value);
+        const max     = parseInt(input.dataset.max);
+        const tenSP   = row.querySelector('.item-name').textContent.trim();
+
+        if (soLuong > max) {
+            loi.push(`"${tenSP}": chỉ còn ${max} sản phẩm trong kho`);
+        }
+    });
+
+    if (loi.length > 0) {
+        showToast('Số lượng vượt tồn kho:\n' + loi.join('\n'), 'danger');
+        return; // chặn không cho submit
+    }
+
     // Tạo form POST gửi danh sách SP đã chọn
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = '{{ route("order.checkout") }}';
-
-    // CSRF
-    const csrf = document.createElement('input');
-    csrf.type  = 'hidden';
-    csrf.name  = '_token';
-    csrf.value = CSRF;
-    form.appendChild(csrf);
-
-    // Danh sách SP đã chọn
-    checked.forEach(cb => {
-        const input = document.createElement('input');
-        input.type  = 'hidden';
-        input.name  = 'sp_chon[]';
-        input.value = cb.dataset.ma;
-        form.appendChild(input);
-    });
-
-    document.body.appendChild(form);
-    form.submit();
-}
+    form.action = '{{ route("order.checkout") }}';}
 
 function showToast(msg, type) {
     const t = document.createElement('div');
-    t.className = 'alert alert-' + (type || 'success');
-    t.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;min-width:260px;box-shadow:0 4px 16px rgba(0,0,0,.12);';
+    const isDanger = type === 'danger';
+    t.style.cssText = `position: fixed;top: 80px;right: 20px;z-index: 99999;min-width: 300px;max-width: 400px;padding: 12px 16px;border-radius: 8px; font-size: 14px;box-shadow: 0 4px 16px rgba(0,0,0,.15);background-color: ${isDanger ? '#f8d7da' : '#d1e7dd'}; color: ${isDanger ? '#842029' : '#0f5132'}; border: 1px solid ${isDanger ? '#f5c2c7' : '#badbcc'};
+    `;
     t.textContent = msg;
     document.body.appendChild(t);
     setTimeout(() => t.remove(), 3000);

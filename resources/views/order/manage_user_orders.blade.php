@@ -14,9 +14,9 @@
             <span class="lich-su-empty-icon">🛍️</span>
             <h3>Chưa có đơn hàng nào</h3>
             <p>Bạn chưa thực hiện đơn hàng nào. Hãy khám phá bộ sưu tập của chúng tôi!</p>
-           <a href="{{ route('products.index') }}">
-    <x-button variant="primary">Mua sắm ngay</x-button>
-</a>
+            <a href="{{ route('products.index') }}">
+                <x-button variant="primary">Mua sắm ngay</x-button>
+            </a>
         </div>
 
     {{-- ── Danh sách ── --}}
@@ -29,6 +29,14 @@
                     $tongCuoi = $tamTinh - $giam;
                     $spHien   = $dh->chiTietDonHang->take(2);
                     $conLai   = $dh->chiTietDonHang->count() - 2;
+                    $trangThaiMap = [
+                        0 => ['class' => 'status-0', 'label' => 'Chờ xác nhận'],
+                        1 => ['class' => 'status-1', 'label' => 'Đã xác nhận'],
+                        2 => ['class' => 'status-2', 'label' => 'Đang giao'],
+                        3 => ['class' => 'status-3', 'label' => 'Hoàn thành'],
+                        4 => ['class' => 'status-4', 'label' => 'Đã hủy'],
+                    ];
+                    $tt = $trangThaiMap[$dh->TrangThai] ?? $trangThaiMap[0];
                 @endphp
 
                 <div class="don-hang-card">
@@ -45,16 +53,7 @@
                             <span class="pttt-badge {{ $dh->PTTT === 'COD' ? 'pttt-cod' : 'pttt-ck' }}">
                                 {{ $dh->PTTT === 'COD' ? '🚚 COD' : '🏦 Chuyển khoản' }}
                             </span>
-                           @php
-    $trangThaiMap = [
-        0 => ['class' => 'status-0', 'label' => 'Chờ xác nhận'],
-        1 => ['class' => 'status-1', 'label' => 'Đã xác nhận'],
-        2 => ['class' => 'status-2', 'label' => 'Đang giao'],
-        3 => ['class' => 'status-3', 'label' => 'Hoàn thành'],
-    ];
-    $tt = $trangThaiMap[$dh->TrangThai] ?? $trangThaiMap[0];
-@endphp
-<span class="status-badge {{ $tt['class'] }}">{{ $tt['label'] }}</span>
+                            <span class="status-badge {{ $tt['class'] }}">{{ $tt['label'] }}</span>
                         </div>
                     </div>
 
@@ -87,6 +86,16 @@
                                 <a href="{{ route('order.chiTiet', $dh->MaDonHang) }}">
                                     <x-button variant="outline-navy" size="sm">Xem chi tiết →</x-button>
                                 </a>
+
+                                {{-- Nút hủy — chỉ hiện khi Chờ xác nhận --}}
+                                @if($dh->TrangThai == 0)
+                                    <x-button variant="danger" size="sm"
+                                        onclick="openModal('modal-huy-{{ $dh->MaDonHang }}')">
+                                        Hủy đơn
+                                    </x-button>
+                                @endif
+
+                                {{-- Nút đánh giá — chỉ hiện khi Hoàn thành --}}
                                 @if($dh->TrangThai == 3)
                                     <div style="display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end;">
                                         @foreach($dh->chiTietDonHang as $item)
@@ -105,6 +114,26 @@
                 </div>
             @endforeach
         </div>
+
+        {{-- ── Modal hủy đơn — đặt NGOÀI vòng lặp card ── --}}
+        @foreach($donHangs as $dh)
+            @if($dh->TrangThai == 0)
+                <x-modal id="modal-huy-{{ $dh->MaDonHang }}" title="Xác nhận hủy đơn hàng">
+                    <p>Bạn có chắc muốn hủy đơn hàng <strong>{{ $dh->MaDonHang }}</strong> không?</p>
+                    <p style="margin-top:8px; font-size:13px; color:#888;">
+                        Sau khi hủy, tồn kho sẽ được hoàn lại và thao tác này không thể hoàn tác.
+                    </p>
+                    <x-slot name="footer">
+                        <x-button variant="ghost" onclick="closeModal('modal-huy-{{ $dh->MaDonHang }}')">Không</x-button>
+                        <form action="{{ route('order.huy', $dh->MaDonHang) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <x-button type="submit" variant="danger">Xác nhận hủy</x-button>
+                        </form>
+                    </x-slot>
+                </x-modal>
+            @endif
+        @endforeach
 
         {{-- Phân trang --}}
         <div class="lich-su-pagination">

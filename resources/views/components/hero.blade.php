@@ -18,9 +18,9 @@
 
                         <a href="{{ route('products.index', ['danh_muc' => $category->MaDanhMuc]) }}">
                         <img
-                            src="{{ asset('images/categories/' . $category->HinhAnh) }}"
-                            alt="{{ $category->TenDanhMuc }}"
-                        >
+                                     src="{{ asset('images/categories/' . rawurlencode($category->HinhAnh)) }}"
+                                     alt="{{ $category->TenDanhMuc }}"
+                                    >
 
                     </a>
 

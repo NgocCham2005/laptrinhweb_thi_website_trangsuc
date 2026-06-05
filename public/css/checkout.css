@@ -527,6 +527,13 @@
     box-shadow: 0 16px 36px rgba(22,39,79,.28) !important;
 }
 
+/* Thêm cái này để text luôn nổi trên lớp vàng */
+.btn-checkout span,
+.btn-checkout-text {
+    position: relative;
+    z-index: 2;
+}
+
 .btn-checkout:active { transform: scale(.98); }
 
 .btn-checkout:disabled {

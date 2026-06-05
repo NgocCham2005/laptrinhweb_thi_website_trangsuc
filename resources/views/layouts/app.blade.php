@@ -34,6 +34,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 3500);
     }
 });
+document.addEventListener('DOMContentLoaded', function () {
+    ['toast-success', 'toast-error'].forEach(id => {
+        const toast = document.getElementById(id);
+        if (toast) {
+            setTimeout(() => toast.classList.add('hide'), 3000);
+            setTimeout(() => toast.remove(), 3500);
+        }
+    });
+});
 </script>
 <body>
 
@@ -51,6 +60,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
    @include('partials.footer') 
    
+   @if(session('error'))
+    <div id="toast-error">
+        <i class="fa-solid fa-circle-xmark"></i>
+        {{ session('error') }}
+    </div>
+@endif
 
 </body>
 <script src="{{ asset('js/header.js') }}"></script>
