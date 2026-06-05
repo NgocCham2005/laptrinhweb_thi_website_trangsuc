@@ -101,7 +101,7 @@ Route::post(
 
 Route::prefix('admin')
 ->name('admin.')
-// ->middleware(['auth','admin']) // bật sau
+//->middleware(['admin']) // bật sau
 ->group(function(){
 
     // vào admin mặc định hiện đơn hàng
@@ -183,16 +183,14 @@ Route::get(
     Route::delete('/vouchers/{id}', [AdminVoucherController::class, 'destroy'])
     ->name('vouchers.destroy');
 
-    Route::get('/reviews', [AdminReviewController::class, 'index'])
-    ->name('reviews');
-    Route::post('/reviews/reply/{id}',[AdminReviewController::class, 'reply'])
-    ->name('replyReview');
-    Route::put('/reviews/hide/{id}',[AdminReviewController::class, 'hide'])
-    ->name('hideReview');
-    Route::put('/reviews/display/{id}',[AdminReviewController::class, 'display'])
-    ->name('displayReview');
-    Route::delete('/reviews/delete/{id}',[AdminReviewController::class, 'destroy'])
-    ->name('deleteReview');
+    Route::get('/reviews', [AdminReviewController::class, 'index'])->name('reviews');
+    Route::get('/reviews/reply/{id}', [AdminReviewController::class, 'showReplyForm'])->name('replyReviewForm');
+    Route::post('/reviews/reply/{id}', [AdminReviewController::class, 'reply'])->name('replyReview');
+    Route::get('/reviews/edit-reply/{id}', [AdminReviewController::class, 'showEditReplyForm'])->name('editReplyForm');
+    Route::put('/reviews/edit-reply/{id}', [AdminReviewController::class, 'updateReply'])->name('updateReply');
+    Route::put('/reviews/hide/{id}', [AdminReviewController::class, 'hide'])->name('hideReview');
+    Route::put('/reviews/display/{id}', [AdminReviewController::class, 'display'])->name('displayReview');
+    Route::delete('/reviews/delete/{id}', [AdminReviewController::class, 'destroy'])->name('deleteReview');
 
     Route::get(
         '/reports',
@@ -226,8 +224,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/gio-hang/xoa', [CartController::class, 'xoa'])->name('cart.xoa');
 
     // Đặt hàng & thanh toán
-    Route::get('/thanh-toan', [OrderController::class, 'checkout'])->name('order.checkout');
-    Route::post('/thanh-toan/ap-voucher', [OrderController::class, 'apVoucher'])->name('order.apVoucher');
+Route::match(['GET', 'POST'], '/thanh-toan', [OrderController::class, 'checkout']) ->name('order.checkout');
+        Route::post('/thanh-toan/ap-voucher', [OrderController::class, 'apVoucher'])->name('order.apVoucher');
     Route::post('/thanh-toan/dat-hang', [OrderController::class, 'datHang'])->name('order.datHang');
     Route::get('/dat-hang-thanh-cong/{maDonHang}', [OrderController::class, 'success'])->name('order.success');
 

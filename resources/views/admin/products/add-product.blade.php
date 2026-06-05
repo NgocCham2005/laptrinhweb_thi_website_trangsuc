@@ -32,9 +32,9 @@ Quản lý sản phẩm
                 <x-input type="text" name="chat_lieu" label="Chất liệu" placeholder="Ví dụ: Vàng 18K, Bạc Ý..." />
                 <label style="cursor: pointer;">
                 <input type="checkbox" name="noi_bat" value="1" class="form-check-input me-2" 
-       {{ isset($product) && $product->NoiBat == 1 ? 'checked' : '' }}>
-                Sản phẩm nổi bật</label>
-       <x-input type="textarea" name="mo_ta" label="Mô tả sản phẩm"  placeholder="Nhập mô tả sản phẩm..."  rows="4"/>            <div class="form-group-image">
+                    {{ isset($product) && $product->NoiBat == 1 ? 'checked' : '' }}>
+                Sản phẩm nổi bật</label><br>
+                <x-input type="textarea" name="mo_ta" label="Mô tả sản phẩm"  placeholder="Nhập mô tả sản phẩm..."  rows="4"/>            <div class="form-group-image">
                 <label>Hình ảnh sản phẩm (Chọn từ 1 đến 3 ảnh) <span style="color: red;">*</span></label>
                 
                 <div class="image-upload-grid" id="uploadGrid">
@@ -66,7 +66,7 @@ Quản lý sản phẩm
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
 
             <div class="action-buttons">
                 <x-button type="submit" variant="primary">

@@ -9,7 +9,7 @@
     <div class="review-product">
         <h3 class="product-name">{{ $sanPham->TenSanPham }}</h3>
         <p class="product-code">Mã sản phẩm: {{ $sanPham->MaSanPham }}</p>
-        <div style="display:flex; justify-content:center; align-items:center; height:400px;">
+        <div style="display:flex; justify-content:center; align-items:center; height:300px;">
             <img src="{{ asset('images/products/'.$sanPham->MaSanPham.'_1.png') }}" width=300px alt="{{ $sanPham->TenSanPham }}">
         </div>  
     </div>
@@ -27,36 +27,29 @@
     @endif
     
             <div class="form-group">
-                <label>Số sao</label>
-                <br><br>
-                <select name="rating">
+                <x-input type="select" name="rating" label="Số sao">
                     @for($i = 5; $i >= 1; $i--)
                         <option value="{{ $i }}" {{ isset($review) && $review->XepHang == $i ? 'selected' : ''}}>
                             {{ $i }} ⭐
                         </option>
                     @endfor
-                </select>
+                </x-input>
             </div>
 
             <div class="form-group">
-                <label>Bình luận</label>
-                <br><br>
-                <textarea name="comment" rows="5">{{ $review->BinhLuan ?? '' }}</textarea>
+                <x-input type="textarea" name="comment" label="Bình luận" rows="5" value="{{ $review->BinhLuan ?? '' }}"></x-input>
             </div>
 
             <div class="review-actions">
                 @if($review)
                 <x-button type="button" variant="outline-navy" onclick="history.back()">Quay lại</x-button>
-
                     <x-button type="submit" variant="secondary">
                         Sửa đánh giá
                     </x-button>
-
         </form>
                     <x-button type="button" variant="danger" 
                         onclick="openModal('deleteReview{{ $review->MaDanhGia }}')">Xóa đánh giá
                     </x-button>
-
                     <x-modal id="deleteReview{{ $review->MaDanhGia }}" title="Xác nhận xóa đánh giá">
                         Bạn có chắc chắn muốn xóa đánh giá này?
                         <x-slot:footer>

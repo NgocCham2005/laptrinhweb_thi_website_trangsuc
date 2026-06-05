@@ -1,99 +1,88 @@
-// public/js/admin/category-upload.js
-
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("🚀 Hệ thống Preview ảnh & Validation Danh mục đã kích hoạt!");
+    console.log("🚀 JS danh mục bảo mật chống bỏ trống ảnh đã hoạt động!");
 
-    const categoryForm = document.querySelector('form[action*="storeCategory"]') || document.querySelector('form');
-    const fileCat = document.getElementById('file-cat');
+    const fileInput = document.getElementById('file-cat-1');
+    const placeholder = document.getElementById('placeholder-cat-1');
+    const previewZone = document.getElementById('preview-cat-1');
 
-    // 1. XỬ LÝ SỰ KIỆN SUBMIT FORM (VALIDATION CLIENT)
-    if (categoryForm) {
-        categoryForm.addEventListener('submit', function (e) {
-            // Xóa sạch các câu báo lỗi đỏ cũ trên giao diện nếu có
-            document.querySelectorAll('.inline-error-msg').forEach(el => el.remove());
+    // 1. Hàm dùng chung để xóa ảnh preview
+    function clearCurrentPreview() {
+        if (fileInput) fileInput.value = ''; 
+        if (previewZone) {
+            previewZone.innerHTML = '';
+            previewZone.style.display = 'none';
+        }
+        if (placeholder) {
+            placeholder.style.display = 'flex';
+        }
+    }
 
-            const tenDanhMuc = document.querySelector('input[name="ten_danhmuc"]');
-            let hasError = false;
-
-            // Hàm tạo chữ đỏ báo lỗi dưới chân input
-            function showFieldError(inputElement, message, isImage = false) {
-                hasError = true;
-                const errorSpan = document.createElement('span');
-                errorSpan.className = 'inline-error-msg';
-                errorSpan.style.color = '#e74c3c';
-                errorSpan.style.fontSize = '13px';
-                errorSpan.style.marginTop = '5px';
-                errorSpan.style.display = 'block';
-                errorSpan.innerText = message;
-
-                if (isImage) {
-                    const boxCat = document.getElementById('box-cat');
-                    if (boxCat) boxCat.parentNode.appendChild(errorSpan);
-                } else if (inputElement) {
-                    inputElement.parentNode.appendChild(errorSpan);
-                }
-            }
-
-            // Kiểm tra tên danh mục trống
-            if (tenDanhMuc && !tenDanhMuc.value.trim()) {
-                showFieldError(tenDanhMuc, "Tên danh mục không được bỏ trống.");
-            }
-
-            // Kiểm tra nếu chưa chọn ảnh (Nếu m bắt buộc danh mục phải có ảnh thì mở đoạn này ra nhé)
-            /*
-            if (fileCat && fileCat.files.length === 0) {
-                showFieldError(null, "Vui lòng tải lên ảnh đại diện cho danh mục.", true);
-            }
-            */
-
-            if (hasError) {
-                e.preventDefault(); // Chặn form không cho reload trang
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi thêm danh mục',
-                        text: 'Vui lòng điền đầy đủ thông tin danh mục.',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#e74c3c'
-                    });
-                }
-                return false;
-            }
+    // Nút xóa ảnh cũ (nếu có sẵn trên giao diện Sửa)
+    const existingBtnDelete = document.getElementById('btn-delete-cat');
+    if (existingBtnDelete) {
+        existingBtnDelete.addEventListener('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            clearCurrentPreview();
         });
     }
 
-    // 2. LOGIC XỬ LÝ PREVIEW (XEM TRƯỚC) ẢNH DANH MỤC
-    if (fileCat) {
-        fileCat.addEventListener('change', function () {
-            const boxCat = document.getElementById('box-cat');
-            if (!boxCat) return;
-
-            const placeholder = boxCat.querySelector('.upload-box-placeholder');
-            const previewZone = document.getElementById('preview-cat');
-
+    // 2. Lắng nghe chọn file ảnh mới để tạo preview
+    if (fileInput) {
+        fileInput.addEventListener('change', function () {
             if (this.files && this.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    // Render giao diện preview thừa hưởng từ CSS chung của m
                     previewZone.innerHTML = `
                         <div class="preview-item-box">
                             <img src="${e.target.result}" alt="Preview">
-                            <span class="img-badge">Ảnh Danh Mục</span>
-                            <button type="button" class="btn-delete-img" id="btn-clear-cat">×</button>
+                            <span class="img-badge">Ảnh định tải lên</span>
+                            <button type="button" class="btn-delete-img" id="btn-delete-cat-new">×</button>
                         </div>
                     `;
                     previewZone.style.display = 'block';
                     if (placeholder) placeholder.style.display = 'none';
 
-                    // Lắng nghe sự kiện bấm nút Xóa ảnh X
-                    document.getElementById('btn-clear-cat').addEventListener('click', function() {
-                        fileCat.value = ''; // Xóa sạch file trong input
-                        previewZone.innerHTML = '';
-                        previewZone.style.display = 'none';
-                        if (placeholder) placeholder.style.display = 'flex';
-                    });
+                    // Gắn sự kiện xóa cho ảnh mới
+                    const btnDeleteNew = document.getElementById('btn-delete-cat-new');
+                    if (btnDeleteNew) {
+                        btnDeleteNew.addEventListener('click', function (event) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            clearCurrentPreview();
+                        });
+                    }
                 };
                 reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+
+    // =========================================================
+    // 🎯 CHẶN KHÔNG CHO BỎ TRỐNG ẢNH KHI SUBMIT FORM
+    // =========================================================
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function (event) {
+            // Kiểm tra xem vùng previewZone có đang hiển thị ảnh hay không
+            // Nếu previewZone đang ẩn (display === 'none'), tức là không có cả ảnh cũ lẫn ảnh mới!
+            const isPreviewEmpty = !previewZone || previewZone.style.display === 'none' || previewZone.innerHTML.trim() === '';
+
+            if (isPreviewEmpty) {
+                event.preventDefault(); // 🛑 CHẶN ĐỨNG FORM LẠI, KHÔNG CHO GỬI
+
+                // Bắn thông báo cảnh báo trực quan bằng SweetAlert2
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Thiếu hình ảnh!',
+                        text: 'Vui lòng tải lên ảnh đại diện cho danh mục sản phẩm trước khi lưu.',
+                        confirmButtonText: 'Đồng ý',
+                        confirmButtonColor: '#d33'
+                    });
+                } else {
+                    alert("Vui lòng tải lên ảnh đại diện cho danh mục sản phẩm!");
+                }
             }
         });
     }

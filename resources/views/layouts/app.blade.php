@@ -18,11 +18,32 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script src="{{ asset('js/slider.js') }}"></script>
+    
 </head>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const toast = document.getElementById('toast-success');
 
+    if (toast) {
+        setTimeout(() => {
+            toast.classList.add('hide');
+        }, 3000);
+
+        setTimeout(() => {
+            toast.remove();
+        }, 3500);
+    }
+});
+</script>
 <body>
 
      @include('partials.header') 
+        @if(session('success'))
+        <div id="toast-success">
+            <i class="fa-solid fa-circle-check"></i>
+            {{ session('success') }}
+        </div>
+    @endif
 
     <main>
        @yield('content') 
@@ -32,5 +53,5 @@
    
 
 </body>
-
+<script src="{{ asset('js/header.js') }}"></script>
 </html>

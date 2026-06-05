@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title','Quản lý danh mục sản phẩm')
+@section('title','Danh mục sản phẩm')
 
 @section('page-title')
 Quản lý danh mục sản phẩm

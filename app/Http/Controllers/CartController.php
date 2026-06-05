@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-// use Illuminate\Support\Facades\Auth; // TODO: bật lại khi auth xong
+use Illuminate\Support\Facades\Auth;
 use App\Models\GioHang;
 use App\Models\ChiTietGioHang;
 use App\Models\SanPham;
@@ -17,9 +17,7 @@ class CartController extends Controller
 
     private function getMaTaiKhoan(): string
     {
-        // TODO: đổi lại khi auth xong:
-        // return Auth::user()->MaTaiKhoan;
-        return 'TK007';
+        return Auth::user()->MaTaiKhoan;
     }
 
     private function layGioHang(): ?GioHang
@@ -45,15 +43,19 @@ class CartController extends Controller
     /**
      * Sinh mã giỏ hàng duy nhất, tránh trùng với DB.
      */
-    private function sinhMaGio(): string
-    {
-        do {
-            $ma = 'GH' . now()->format('ymdHis') . strtoupper(substr(uniqid(), -4));
-        } while (GioHang::where('MaGio', $ma)->exists());
+  private function sinhMaGio(): string
+{
+    $cuoi = GioHang::orderBy('MaGio', 'desc')->first();
 
-        return $ma;
+    if (!$cuoi) {
+        return 'G0001';
     }
 
+    $so = (int) substr($cuoi->MaGio, 1);
+    $so++;
+
+    return 'G' . str_pad($so, 4, '0', STR_PAD_LEFT);
+}
     /**
      * Trả về JSON lỗi hoặc redirect lỗi tùy loại request.
      */

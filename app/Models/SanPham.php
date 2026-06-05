@@ -22,6 +22,7 @@ class SanPham extends Model
         'GiaBan',
         'ChatLieu',
         'MoTa',
+        'MoTaChiTiet',
         'SoLuongTon',
         'TrangThai',
         'MaDanhMuc',

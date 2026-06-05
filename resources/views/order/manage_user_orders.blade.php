@@ -14,9 +14,9 @@
             <span class="lich-su-empty-icon">🛍️</span>
             <h3>Chưa có đơn hàng nào</h3>
             <p>Bạn chưa thực hiện đơn hàng nào. Hãy khám phá bộ sưu tập của chúng tôi!</p>
-            <a href="{{ url('/san-pham') }}">
-                <x-button variant="primary">Mua sắm ngay</x-button>
-            </a>
+           <a href="{{ route('products.index') }}">
+    <x-button variant="primary">Mua sắm ngay</x-button>
+</a>
         </div>
 
     {{-- ── Danh sách ── --}}

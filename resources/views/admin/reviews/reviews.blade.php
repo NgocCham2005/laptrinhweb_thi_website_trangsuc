@@ -68,64 +68,19 @@ Quản lý đánh giá
                             </x-button>
                         </form>
                     </div>
-                    <!-- <form
-                        action="{{ route('admin.replyReview',$review->MaDanhGia) }}" method="POST" class="reply-form">
-                        @csrf
-                        <x-input type="text" name="reply" placeholder="Phản hồi đánh giá..." />
-                        <x-button type="submit">Phản hồi</x-button>
-                    </form> -->
                     @if($review->replies->count() > 0)
-
-    <x-button
-        variant="warning"
-        type="button"
-        onclick="openModal('replyModal{{ $review->MaDanhGia }}')">
-        Sửa phản hồi
-    </x-button>
-
-@else
-
-    <x-button
-        variant="primary"
-        type="button"
-        onclick="openModal('replyModal{{ $review->MaDanhGia }}')">
-        Phản hồi
-    </x-button>
-
-@endif
-<x-modal id="replyModal{{ $review->MaDanhGia }}"
-         title="{{ $review->replies->count() > 0 ? 'Sửa phản hồi' : 'Phản hồi đánh giá' }}">
-
-    <form id="replyForm{{ $review->MaDanhGia }}"
-          action="{{ route('admin.replyReview',$review->MaDanhGia) }}"
-          method="POST">
-
-        @csrf
-
-        <textarea
-            name="reply"
-            rows="5"
-            style="width:100%;padding:10px;">{{ $review->replies->first()->NoiDungPhanHoi ?? '' }}</textarea>
-
-    </form>
-
-    <x-slot:footer>
-        <x-button
-            type="submit"
-            form="replyForm{{ $review->MaDanhGia }}"
-            variant="primary">
-            Gửi phản hồi
-        </x-button>
-
-        <x-button
-            type="button"
-            variant="ghost"
-            onclick="closeModal('replyModal{{ $review->MaDanhGia }}')">
-            Hủy
-        </x-button>
-    </x-slot:footer>
-
-</x-modal>
+                        <a href="{{ route('admin.editReplyForm', $review->MaDanhGia) }}" style="text-decoration: none;">
+                            <x-button variant="warning" type="button">
+                                Sửa phản hồi
+                            </x-button>
+                        </a>
+                    @else
+                        <a href="{{ route('admin.replyReviewForm', $review->MaDanhGia) }}" style="text-decoration: none;">
+                            <x-button variant="primary" type="button">
+                                Phản hồi
+                            </x-button>
+                        </a>
+                    @endif
                 </td>
             </tr>
             <x-modal id="deleteReview{{ $review->MaDanhGia }}" title="Xác nhận xóa đánh giá">

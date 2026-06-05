@@ -3,18 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use App\Models\DanhGia;
 use App\Models\SanPham;
 
 class ReviewController extends Controller
 {
+    private function layMaTaiKhoan() {
+        return Auth::user()->MaTaiKhoan;
+    }
+
     public function create($product, $order)
     {
         $sanPham = SanPham::findOrFail($product);
 
         $review = DanhGia::where('MaSanPham', $product)
                     ->where('MaDonHang', $order)
-                    ->where( 'MaTaiKhoan','TK014' ) // giả sử tài khoản đang đăng nhập là TK014
+                    ->where( 'MaTaiKhoan', $this->layMaTaiKhoan() )
                     ->first();
         return view('order.review',compact( 'sanPham','order','review' ));
     }
@@ -22,16 +28,10 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'rating' => [
-            'required',
-            'integer',
-            'between:1,5'
-        ],
         'comment' => [
             'required',
             'string',
-            'min:5',
-            'max:255'
+            'min:30'
         ],
         'product_id' => [
             'required',
@@ -42,21 +42,18 @@ class ReviewController extends Controller
             'exists:don_hang,MaDonHang'
         ]
         ],[
-            'rating.required' => 'Vui lòng chọn số sao.',
-            'rating.between' => 'Số sao phải từ 1 đến 5.',
-            'comment.required' => 'Vui lòng nhập nhận xét.',
-            'comment.min' => 'Nhận xét phải có ít nhất 5 ký tự.',
-            'comment.max' => 'Nhận xét tối đa 255 ký tự.',
+            'comment.required' => 'Vui lòng nhập bình luận.',
+            'comment.min' => 'Bình luận phải có ít nhất 30 ký tự.',
             'product_id.exists' => 'Sản phẩm không tồn tại.',
             'order_id.exists' => 'Đơn hàng không tồn tại.'
         ]);
         if(trim($request->comment) == '')
         {
-            return back()->withErrors(['comment' => 'Nhận xét không hợp lệ.'])->withInput();
+            return back()->withErrors(['comment' => 'Bình luận không hợp lệ.'])->withInput();
         }
         $exists = DanhGia::where('MaSanPham', $request->product_id)
                     ->where('MaDonHang', $request->order_id )
-                    ->where('MaTaiKhoan', 'TK014') // giả sử tài khoản đang đăng nhập là TK014
+                    ->where('MaTaiKhoan', $this->layMaTaiKhoan())
                     ->exists();
         if($exists)
         {
@@ -79,7 +76,7 @@ class ReviewController extends Controller
             'BinhLuan' => $request->comment,
             'XepHang' => $request->rating,
             'TrangThai' => 1,
-            'MaTaiKhoan' => 'TK014',
+            'MaTaiKhoan' => $this->layMaTaiKhoan(),
             'MaSanPham' => $request->product_id,
             'MaDonHang' => $request->order_id
         ]);
@@ -89,27 +86,18 @@ class ReviewController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'rating' => [
-            'required',
-            'integer',
-            'between:1,5'
-        ],
         'comment' => [
             'required',
             'string',
-            'min:5',
-            'max:255'
+            'min:30',
         ]
         ],[
-            'rating.required' => 'Vui lòng chọn số sao.',
-            'rating.between' => 'Số sao phải từ 1 đến 5.',
-            'comment.required' => 'Vui lòng nhập nhận xét.',
-            'comment.min' => 'Nhận xét phải có ít nhất 5 ký tự.',
-            'comment.max' => 'Nhận xét tối đa 255 ký tự.'
+            'comment.required' => 'Vui lòng nhập bình luận.',
+            'comment.min' => 'Bình luận phải có ít nhất 30 ký tự.'
         ]);
         if(trim($request->comment) == '')
         {
-            return back()->withErrors(['comment' => 'Nhận xét không hợp lệ.'])->withInput();
+            return back()->withErrors(['comment' => 'Bình luận không hợp lệ.'])->withInput();
         }
         $review = DanhGia::findOrFail($id);
         $review->update(['XepHang' => $request->rating,'BinhLuan' => $request->comment

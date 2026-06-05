@@ -212,64 +212,43 @@
     --font-display: 'Georgia', serif;
     --radius-full: 9999px;
     --font-display: 'Segoe UI', system-ui, sans-serif;
+
 }
 
 
 /* =========================
-   SECTION TITLE
+   SECTION TITLE (ĐÃ SỬA SẠCH SẼ LỖI 2 GẠCH)
 ========================= */
 
 .section-title {
-
-    text-align: center;
-
-    margin-bottom:
-        var(--space-8);
+    text-align: center !important;
+    width: 100% !important;
+    display: block !important;
+    margin-bottom: var(--space-8);
+    
+    border-bottom: none !important; 
+    border: none !important;
 }
 
 .section-heading {
-
-    font-family:
-        var(--font-display);
-
-    font-size:
-        42px;
-
-    color:
-        var(--navy);
-
-    margin-bottom:
-        var(--space-4);
-
-    position:
-        relative;
-
-    display:
-        inline-block;
+    font-family: var(--font-display);
+    font-size: 33px !important; 
+    color: var(--navy);
+    margin-bottom: var(--space-4);
+    position: relative;
+    display: inline-block;
+    text-decoration: none !important;
 }
 
 .section-heading::after {
-
     content: '';
-
-    width: 60%;
-
-    height: 3px;
-
-    background:
-        var(--gold);
-
-    display:
-        block;
-
-    margin:
-        12px auto 0;
-
-    border-radius:
-        var(--radius-full);
-
+    width: 60px;         
+    height: 3px;          
+    background: var(--gold);
+    display: block;
+    margin: 10px auto 0;  
+    border-radius: var(--radius-full);
 }
-
 /* =========================
    PRODUCT BLOCK (KHỐI CHỮ NHẬT)
 ========================= */
@@ -353,4 +332,5 @@
 
 .product-block + .product-block {
     margin-top: 70px;
+
 }

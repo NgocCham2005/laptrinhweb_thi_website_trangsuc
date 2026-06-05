@@ -18,10 +18,14 @@
 
             {{-- HỨNG LỖI VALIDATION --}}
             @if ($errors->any())
-                <div class="auth-alert auth-alert-danger">
+                <div class="margin-bottom: 16px;">
+
                     @foreach ($errors->all() as $error)
-                    <p style="margin: 0 0 4px 0;">{{ $error }}</p>
+                    <p style="color: #ef4444; font-size: 15px; font-weight: 600; margin: 0 0 8px 0;text-align: center;">
+            <i class="fas fa-exclamation-circle"></i> {{ $error }}</p>
                     @endforeach
+
+
                 </div>
             @endif
 
@@ -70,16 +74,19 @@
                     Đặt lại mật khẩu
                 </button>
                 
-                {{-- FOOTER ĐIỀU HƯỚNG QUAY LẠI TRANG ĐĂNG NHẬP --}}
-                <div class="auth-custom-footer" style="margin-top: 25px;">
-                    <a href="/login" class="auth-gold-link">
-                        <i class="fas fa-arrow-left" style="margin-right: 4px;"></i> Quay lại Đăng nhập
-                    </a>
-                </div>
+                
             </form>
         </div>
 
     </div>
 </div>
+{{-- Tự redirect về login sau 3s nếu có thông báo thành công --}}
+@if(session('success'))
+<script>
+    setTimeout(function() {
+        window.location.href = '/login';
+    }, 3000);
+</script>
+@endif
 
 @endsection
