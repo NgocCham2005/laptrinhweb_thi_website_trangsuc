@@ -34,7 +34,8 @@ Quản lý sản phẩm
                 <input type="checkbox" name="noi_bat" value="1" class="form-check-input me-2" 
                     {{ old('noi_bat') ? 'checked' : '' }}>
                 Sản phẩm nổi bật</label><br>
-                <x-input type="textarea" name="mo_ta" label="Mô tả sản phẩm"  placeholder="Nhập mô tả sản phẩm..."  rows="4" :value="old('chat_lieu')"/>            
+                <x-input type="textarea" name="mo_ta" label="Mô tả sản phẩm"  placeholder="Nhập mô tả sản phẩm..."  rows="3" :value="old('mo_ta')"/>
+                <x-input type="textarea" name="mota_chitiet" label="Mô tả chi tiết sản phẩm" placeholder="Nhập mô tả chi tiết sản phẩm..." rows="10" :value="old('mota_chitiet')" /> 
                 <div class="form-group-image">
                 <label>Hình ảnh sản phẩm (Chọn từ 1 đến 3 ảnh)</label>
                 

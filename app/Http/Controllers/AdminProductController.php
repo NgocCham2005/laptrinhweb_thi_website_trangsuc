@@ -111,6 +111,7 @@ class AdminProductController extends Controller
         'SoLuongTon' => $request->so_luong_ton,
         'ChatLieu'   => $request->chat_lieu,
         'MoTa'       => $request->mo_ta,
+        'MoTaChiTiet' => $request->mota_chitiet,
         'TrangThai'  => 1,
         'NoiBat'     => $noiBat,
     ]);
@@ -165,6 +166,7 @@ class AdminProductController extends Controller
             'GiaBan'     => $request->gia_ban,
             'ChatLieu'   => $request->chat_lieu,
             'MoTa'       => $request->mo_ta,
+            'MoTaChiTiet' => $request->mota_chitiet,
             'TrangThai'  => $request->trang_thai,
             'NoiBat'      => $noiBat,
         ]);
