@@ -16,11 +16,15 @@
 
                 <div class="hero-item">
 
-                        <a href="{{ route('products.index', ['danh_muc' => $category->MaDanhMuc]) }}">
+                    <a href="{{ route('products.index', ['danh_muc' => $category->MaDanhMuc]) }}">
+
                         <img
-                                     src="{{ asset('images/categories/' . rawurlencode($category->HinhAnh)) }}"
-                                     alt="{{ $category->TenDanhMuc }}"
-                                    >
+                            src="{{ asset('images/categories/' . rawurlencode($category->HinhAnh)) }}"
+                            alt="{{ $category->TenDanhMuc }}">
+
+                        <div class="hero-overlay">
+                            <span>{{ $category->TenDanhMuc }}</span>
+                        </div>
 
                     </a>
 

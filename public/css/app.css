@@ -58,166 +58,153 @@
 /* =========================
    HERO
 ========================= */
+/* =========================
+   HERO
+========================= */
 
 .hero {
-
-    padding: 0px 0px 30px 0px;
-
+    padding: 0 0 30px;
     background: var(--gray-50);
 }
 
-/* SLIDER */
-
 .hero-slider {
-
     width: 100%;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 }
 
-/* WRAPPER */
-
 .hero-wrapper {
-
     width: 100%;
-
     max-width: 1400px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 20px;
-
     overflow: hidden;
-
     padding: 20px;
 }
 
 /* ITEM */
 
 .hero-item {
-
+    position: relative;
     width: 220px;
-
     height: 300px;
-
     border-radius: 12px;
-
     overflow: hidden;
-
     cursor: pointer;
-
-    transition: .35s ease;
+    flex-shrink: 0;
 
     opacity: .75;
-
     transform: scale(.9);
+    transition: .35s ease;
 
     box-shadow: var(--shadow);
-
-    flex-shrink: 0;
 }
 
-/* ACTIVE */
-
 .hero-item.active {
-
     opacity: 1;
-
     transform: scale(1.08);
-
     border: 2px solid var(--gold);
-
     z-index: 5;
-
     box-shadow: var(--shadow-lg);
 }
 
-/* IMAGE */
+.hero-item a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
 
 .hero-item img {
-
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
-
     display: block;
+    transition: .3s ease;
+}
+
+/* OVERLAY */
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0,0,0,.35);
+
+    opacity: 0;
+    transition: .3s ease;
+
+    pointer-events: none;
+}
+
+.hero-overlay span {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+
+    transform: translateY(10px);
+    transition: .3s ease;
+
+    padding: 0 12px;
+}
+
+/* HOVER */
+
+.hero-item:hover img {
+    filter: brightness(60%);
+    transform: scale(1.05);
+}
+
+.hero-item:hover .hero-overlay {
+    opacity: 1;
+}
+
+.hero-item:hover .hero-overlay span {
+    transform: translateY(0);
 }
 
 /* BUTTON */
 
 .hero-btn {
-
     width: 44px;
-
     height: 44px;
-
     border: none;
-
     border-radius: 50%;
-
     background: var(--white);
-
     box-shadow: var(--shadow);
 
     cursor: pointer;
-
     font-size: 16px;
-
     color: var(--navy);
 
     transition: var(--transition);
-
-    z-index: 10;
-
     flex-shrink: 0;
+    z-index: 10;
 }
 
 .hero-btn:hover {
-
     background: var(--gold);
-
     color: var(--white);
 }
 
 .hero-btn.prev {
-
     margin-right: 10px;
 }
 
 .hero-btn.next {
-
     margin-left: 10px;
 }
 
-:root {
-    --navy: #1a2a4a;
-    --gold: #c9a84c;
-    --white: #ffffff;
-    --gray-50: #f9f9f9;
-    --shadow: 0 2px 8px rgba(0,0,0,0.1);
-    --shadow-lg: 0 8px 24px rgba(0,0,0,0.15);
-    --transition: all 0.3s ease;
-    --space-4: 16px;
-    --space-8: 32px;
-    --font-display: 'Georgia', serif;
-    --radius-full: 9999px;
-    --font-display: 'Segoe UI', system-ui, sans-serif;
-
-}
-
-
 /* =========================
-   SECTION TITLE (ĐÃ SỬA SẠCH SẼ LỖI 2 GẠCH)
+   SECTION TITLE 
 ========================= */
 
 .section-title {
