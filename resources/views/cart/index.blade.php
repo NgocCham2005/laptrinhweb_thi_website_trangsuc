@@ -364,7 +364,27 @@ function diDenCheckout() {
     // Tạo form POST gửi danh sách SP đã chọn
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = '{{ route("order.checkout") }}';}
+    form.action = '{{ route("order.checkout") }}';
+
+    // CSRF
+    const csrf = document.createElement('input');
+    csrf.type  = 'hidden';
+    csrf.name  = '_token';
+    csrf.value = CSRF;
+    form.appendChild(csrf);
+
+    // Danh sách SP đã chọn
+    checked.forEach(cb => {
+        const input = document.createElement('input');
+        input.type  = 'hidden';
+        input.name  = 'sp_chon[]';
+        input.value = cb.dataset.ma;
+        form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+}
 
 function showToast(msg, type) {
     const t = document.createElement('div');
