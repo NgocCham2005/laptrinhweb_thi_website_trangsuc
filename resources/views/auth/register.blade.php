@@ -6,7 +6,7 @@
         
         <div class="auth-side-form">
             <h2 class="auth-custom-title">Đăng ký</h2>
-            <p class="auth-custom-subtitle">Tạo tài khoản để trải nghiệm mua sắm</p>
+            <p class="auth-custom-subtitle">Tạo tài khoản để trải nghiệm mua sắm tại Luminous Jewelry </p>
 
 
             @if(session('success'))

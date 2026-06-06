@@ -9,7 +9,7 @@
 
         <div class="auth-side-form">
             <h2 class="auth-custom-title">Đăng nhập</h2>
-            <p class="auth-custom-subtitle">Chào mừng quay trở lại website trang sức</p>
+            <p class="auth-custom-subtitle">Chào mừng quay trở lại Luminous Jewelry</p>
 
             {{-- CHỈ HIỆN ALERT XANH KHI ĐĂNG KÝ THÀNH CÔNG TỪ TRANG KHÁC ĐÁ SANG --}}
             @if(session('success'))
