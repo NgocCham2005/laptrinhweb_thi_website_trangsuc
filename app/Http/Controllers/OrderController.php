@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Auth; // TẠM THỜI — bật lại khi auth xong
+use Illuminate\Support\Facades\Auth; // TẠM THỜI — bật lại khi auth xong
 use App\Models\DonHang;
 use App\Models\ChiTietDonHang;
 use App\Models\ChiTietGioHang;
@@ -14,7 +14,7 @@ use App\Models\Voucher;
 class OrderController extends Controller
 {
     private function layMaTaiKhoan() {
-        return 'TK007'; // TODO: thay bằng Auth::user()->MaTaiKhoan
+        return Auth::user()->MaTaiKhoan;
     }
 
     private function taoMaDonHang() {
