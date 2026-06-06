@@ -2,8 +2,7 @@
 {{-- ĐƠN HÀNG --}}
 {{-- ========================= --}}
 
-<div id="orders" class="tab-content">
-
+<div id="orders" class="tab-content {{ $tab == 'orders' ? 'active' : '' }}">
     <form method="GET" class="report-filter">
 
         <div class="filter-header">

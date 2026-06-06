@@ -2,8 +2,7 @@
 {{-- DOANH THU --}}
 {{-- ========================= --}}
 
-<div id="revenue" class="tab-content active">
-
+<div id="revenue" class="tab-content {{ $tab == 'revenue' ? 'active' : '' }}">
     <form method="GET" class="report-filter">
         <div class="filter-header">
             <h2 class="section-title">

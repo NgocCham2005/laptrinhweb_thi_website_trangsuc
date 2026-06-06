@@ -13,15 +13,19 @@
     <div class="report-tabs">
 
         <button
-            class="tab-btn active"
+            class="tab-btn {{ $tab == 'revenue' ? 'active' : '' }}"
             onclick="showTab(event,'revenue')">
+
             Báo cáo doanh thu
+
         </button>
 
         <button
-            class="tab-btn"
+            class="tab-btn {{ $tab == 'orders' ? 'active' : '' }}"
             onclick="showTab(event,'orders')">
+
             Báo cáo đơn hàng
+
         </button>
 
     </div>

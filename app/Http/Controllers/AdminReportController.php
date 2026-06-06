@@ -12,6 +12,7 @@ class AdminReportController extends Controller
 {
     public function index(Request $request)
     {
+        $tab = $request->tab ?? 'revenue';
         $from = $request->from;
         $to = $request->to;
         $product = $request->product;
@@ -232,7 +233,8 @@ class AdminReportController extends Controller
             'completedOrders',
             'shippingOrders',
             'completionRate',
-            'orderStatusStats'
+            'orderStatusStats',
+            'tab'
         ));
     }
 }
