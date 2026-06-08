@@ -22,14 +22,15 @@ class HomeController extends Controller
         $bestSellingProducts = SanPham::select(
                 'san_pham.MaSanPham',
                 'san_pham.TenSanPham',
-                'san_pham.GiaBan'
-            )
+                'san_pham.GiaBan',
+                'san_pham.ChatLieu')
             ->join('chi_tiet_don_hang', 'chi_tiet_don_hang.MaSanPham', '=', 'san_pham.MaSanPham')
             ->selectRaw('SUM(chi_tiet_don_hang.SoLuong) as total_sold')
             ->groupBy(
                 'san_pham.MaSanPham',
                 'san_pham.TenSanPham',
-                'san_pham.GiaBan'
+                'san_pham.GiaBan',
+                'san_pham.ChatLieu'
             )
             ->orderByDesc('total_sold')
             ->limit(10)
