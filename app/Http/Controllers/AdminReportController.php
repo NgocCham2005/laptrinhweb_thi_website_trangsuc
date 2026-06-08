@@ -46,8 +46,17 @@ class AdminReportController extends Controller
                 '=',
                 'chi_tiet_don_hang.MaDonHang'
             )
-            ->where('don_hang.TrangThai', 3)
-            ->select(
+            ->where('don_hang.TrangThai', 3);
+
+        if ($from) {
+            $ordersSub->whereDate('don_hang.NgayDatHang', '>=', $from);
+        }
+
+        if ($to) {
+            $ordersSub->whereDate('don_hang.NgayDatHang', '<=', $to);
+        }
+
+        $ordersSub->select(
                 'don_hang.MaDonHang',
                 'don_hang.NgayDatHang',
                 'don_hang.GiaTriApDung',
@@ -193,12 +202,30 @@ class AdminReportController extends Controller
 
         // ================= TỔNG ĐƠN =================
 
-        $totalOrders = DonHang::count();
+        $orderQuery = DonHang::query();
 
-        $completedOrders = DonHang::where('TrangThai', 3)->count();
+        if ($from) {
+            $orderQuery->whereDate('NgayDatHang', '>=', $from);
+        }
 
-        $shippingOrders = DonHang::where('TrangThai', 2)->count();
+        if ($to) {
+            $orderQuery->whereDate('NgayDatHang', '<=', $to);
+        }
 
+        $totalOrders = (clone $orderQuery)->count();
+
+        $completedOrders = (clone $orderQuery)
+            ->where('TrangThai', 3)
+            ->count();
+
+        $shippingOrders = (clone $orderQuery)
+            ->where('TrangThai', 2)
+            ->count();
+
+        $failedOrders = (clone $orderQuery)
+            ->where('TrangThai', 4)
+            ->count();
+        
         $completionRate = $totalOrders > 0
             ? round(($completedOrders / $totalOrders) * 100, 2)
             : 0;
@@ -208,7 +235,17 @@ class AdminReportController extends Controller
         $orderStatusStats = DonHang::select(
                 'TrangThai',
                 DB::raw('COUNT(*) as tong')
-            )
+            );
+
+        if ($from) {
+            $orderStatusStats->whereDate('NgayDatHang', '>=', $from);
+        }
+
+        if ($to) {
+            $orderStatusStats->whereDate('NgayDatHang', '<=', $to);
+        }
+
+        $orderStatusStats = $orderStatusStats
             ->groupBy('TrangThai')
             ->get();
 
@@ -233,6 +270,7 @@ class AdminReportController extends Controller
             'totalOrders',
             'completedOrders',
             'shippingOrders',
+            'failedOrders',
             'completionRate',
             'orderStatusStats',
             'tab'

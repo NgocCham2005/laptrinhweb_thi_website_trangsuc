@@ -40,10 +40,27 @@
                 <label>Trạng thái</label>
 
                 <select name="status">
-                    <option value="0" {{ $status === '0' ? 'selected' : '' }}>Chờ xác nhận</option>
-                    <option value="1" {{ $status === '1' ? 'selected' : '' }}>Đã xác nhận</option>
-                    <option value="2" {{ $status === '2' ? 'selected' : '' }}>Đang giao</option>
-                    <option value="3" {{ $status === '3' ? 'selected' : '' }}>Hoàn thành</option>
+                    <option value="">Tất cả</option>
+
+                    <option value="0" {{ $status === '0' ? 'selected' : '' }}>
+                        Chờ xác nhận
+                    </option>
+
+                    <option value="1" {{ $status === '1' ? 'selected' : '' }}>
+                        Đã xác nhận
+                    </option>
+
+                    <option value="2" {{ $status === '2' ? 'selected' : '' }}>
+                        Đang giao
+                    </option>
+
+                    <option value="3" {{ $status === '3' ? 'selected' : '' }}>
+                        Thành công
+                    </option>
+
+                    <option value="4" {{ $status === '4' ? 'selected' : '' }}>
+                        Không thành công
+                    </option>
                 </select>
 
             </div>
@@ -74,15 +91,17 @@
         </div>
 
         <div class="dashboard-card">
-            <div class="card-title">Đơn hoàn thành</div>
-            <div class="card-value">{{ $completedOrders }}</div>
-        </div>
-
-        <div class="dashboard-card">
             <div class="card-title">Đơn đang giao</div>
             <div class="card-value">{{ $shippingOrders }}</div>
         </div>
-
+        <div class="dashboard-card">
+            <div class="card-title">Đơn thành công</div>
+            <div class="card-value">{{ $completedOrders }}</div>
+        </div>
+        <div class="dashboard-card">
+            <div class="card-title">Đơn không thành công</div>
+            <div class="card-value">{{ $failedOrders }}</div>
+        </div>
         <div class="dashboard-card">
             <div class="card-title">Tỷ lệ hoàn thành</div>
             <div class="card-value">{{ $completionRate }}%</div>
@@ -123,11 +142,32 @@
             @foreach($orderStatusStats as $s)
                 <tr>
                     <td>
-                        @if($s->TrangThai == 0) Chờ xác nhận
-                        @elseif($s->TrangThai == 1) Đã xác nhận
-                        @elseif($s->TrangThai == 2) Đang giao
-                        @else Hoàn thành
-                        @endif
+                    @switch($s->TrangThai)
+
+                        @case(0)
+                            Chờ xác nhận
+                            @break
+
+                        @case(1)
+                            Đã xác nhận
+                            @break
+
+                        @case(2)
+                            Đang giao
+                            @break
+
+                        @case(3)
+                            Thành công
+                            @break
+
+                        @case(4)
+                            Không thành công
+                            @break
+
+                        @default
+                            Không xác định
+
+                    @endswitch
                     </td>
                     <td>{{ $s->tong }}</td>
                     <td>
@@ -152,7 +192,8 @@
                 <th>Chờ xác nhận</th>
                 <th>Đã xác nhận</th>
                 <th>Đang giao</th>
-                <th>Hoàn thành</th>
+                <th>Thành công</th>
+                <th>Không thành công</th>
             </tr>
 
             @forelse($orderReports as $r)
@@ -163,13 +204,14 @@
                     <td>{{ $r->cho_xac_nhan }}</td>
                     <td>{{ $r->da_xac_nhan }}</td>
                     <td>{{ $r->dang_giao }}</td>
-                    <td>{{ $r->hoan_thanh }}</td>
+                    <td>{{ $r->thanh_cong }}</td>
+                    <td>{{ $r->khong_thanh_cong }}</td>
                 </tr>
 
             @empty
 
                 <tr>
-                    <td colspan="6">Không có dữ liệu</td>
+                    <td colspan="7">Không có dữ liệu</td>
                 </tr>
 
             @endforelse

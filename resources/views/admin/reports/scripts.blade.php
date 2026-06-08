@@ -68,10 +68,17 @@ new Chart(
                 'Chờ xác nhận',
                 'Đã xác nhận',
                 'Đang giao',
-                'Hoàn thành'
+                'Thành công',
+                'Không thành công'
             ],
             datasets: [{
-                data: @json($orderStatusStats->pluck('tong'))
+                data: [
+                    {{ $orderStatusStats->firstWhere('TrangThai',0)?->tong ?? 0 }},
+                    {{ $orderStatusStats->firstWhere('TrangThai',1)?->tong ?? 0 }},
+                    {{ $orderStatusStats->firstWhere('TrangThai',2)?->tong ?? 0 }},
+                    {{ $orderStatusStats->firstWhere('TrangThai',3)?->tong ?? 0 }},
+                    {{ $orderStatusStats->firstWhere('TrangThai',4)?->tong ?? 0 }}
+                ]
             }]
         }
     }
