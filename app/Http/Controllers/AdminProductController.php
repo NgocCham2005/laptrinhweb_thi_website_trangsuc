@@ -80,7 +80,7 @@ class AdminProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-        'ten_sanpham'    => 'required',
+        'ten_sanpham'    => 'required|unique:san_pham,TenSanPham|min:2|max:255',
         'ma_danhmuc'     => 'required',
         'gia_ban'        => 'required|numeric|min:0',
         'so_luong_ton'   => 'required|integer|min:0',
@@ -89,6 +89,9 @@ class AdminProductController extends Controller
     ], [
         // Viết lại câu thông báo lỗi bằng tiếng Việt để popup hiện lên thân thiện
         'ten_sanpham.required'    => 'Vui lòng nhập tên sản phẩm.',
+        'ten_sanpham.unique'      => 'Tên sản phẩm này đã tồn tại trong hệ thống.',
+        'ten_sanpham.min'             => 'Tên sản phẩm phải có ít nhất 2 ký tự.',
+        'ten_sanpham.max'             => 'Tên sản phẩm tối đa 255 ký tự.',
         'ma_danhmuc.required'     => 'Vui lòng chọn danh mục sản phẩm.',
         'gia_ban.required'        => 'Vui lòng nhập giá bán.',
         'gia_ban.numeric'         => 'Giá bán phải là số hợp lệ.',

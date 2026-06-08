@@ -35,10 +35,11 @@ class AdminCategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-        'ten_danhmuc'      => 'required|min:2|max:100',
+        'ten_danhmuc'      => 'required|unique:danh_muc,TenDanhMuc|min:2|max:100',
         'hinh_anh_danhmuc' => 'required'
         ], [
         'ten_danhmuc.required'        => 'Vui lòng nhập tên danh mục sản phẩm.',
+        'ten_danhmuc.unique'          => 'Tên danh mục đã tồn tại trong hệ thống',
         'ten_danhmuc.min'             => 'Tên danh mục phải có ít nhất 2 ký tự.',
         'ten_danhmuc.max'             => 'Tên danh mục tối đa 100 ký tự.',
         'hinh_anh_danhmuc.required'   => 'Vui lòng chọn ảnh đại diện cho danh mục sản phẩm.',
