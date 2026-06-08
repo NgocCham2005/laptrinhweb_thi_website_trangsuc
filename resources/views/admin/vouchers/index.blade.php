@@ -47,8 +47,7 @@
 
 {{-- TABLE --}}
 <x-table
-    :headers="['Mã','Tên','Điều kiện','Giảm tối đa','Số lần','Trạng thái','Thao tác']"
-    striped
+:headers="['Mã','Tên','Điều kiện','Giảm tối đa','Ngày hết hạn','Số lượng','Trạng thái','Thao tác']"    striped
 >
 
     @foreach($vouchers as $v)
@@ -59,7 +58,8 @@
             <td>{{ $v->TenVoucher }}</td>
             <td>{{ $v->DieuKien }}</td>
             <td>{{ $v->GiaTriGiamToiDa }}</td>
-            <td>{{ $v->SoLanSuDung }}</td>
+            <td>{{ $v->NgayHetHan }}</td>
+            <td>{{ $v->SoLuong }}</td>
 
             <td>
                 @if($v->TrangThai == 1)

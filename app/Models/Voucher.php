@@ -17,11 +17,12 @@ class Voucher extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'MaVoucher',
-        'TenVoucher',
-        'DieuKien',
-        'GiaTriGiamToiDa',
-        'SoLanSuDung',
-        'TrangThai'
-    ];
+    'MaVoucher',
+    'TenVoucher',
+    'DieuKien',
+    'GiaTriGiamToiDa',
+    'NgayHetHan',
+    'SoLuong',
+    'TrangThai'
+];
 }

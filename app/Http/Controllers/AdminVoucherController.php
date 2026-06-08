@@ -53,14 +53,16 @@ class AdminVoucherController extends Controller
             'TenVoucher' => 'required|string|max:255',
             'DieuKien' => 'required|numeric|min:0',
             'GiaTriGiamToiDa' => 'required|numeric|min:0',
-            'SoLanSuDung' => 'required|integer|min:1',
+            'NgayHetHan' => 'required|date',
+            'SoLuong' => 'required|integer|min:1',
             'TrangThai' => 'required|in:0,1'
         ], [
             'TenVoucher.required' => 'Vui lòng nhập tên voucher.',
             'DieuKien.required' => 'Vui lòng nhập điều kiện áp dụng.',
             'GiaTriGiamToiDa.required' => 'Vui lòng nhập giá trị giảm tối đa.',
-            'SoLanSuDung.required' => 'Vui lòng nhập số lần sử dụng.',
-            'SoLanSuDung.min' => 'Số lần sử dụng phải lớn hơn 0.',
+            'NgayHetHan.required' => 'Vui lòng nhập ngày hết hạn.',
+            'SoLuong.required' => 'Vui lòng nhập số lượng.',
+            'SoLuong.min' => 'Số lượng phải lớn hơn 0.',
             'TrangThai.required' => 'Vui lòng chọn trạng thái.'
         ]);
 
@@ -78,7 +80,8 @@ class AdminVoucherController extends Controller
             'TenVoucher' => $request->TenVoucher,
             'DieuKien' => $request->DieuKien,
             'GiaTriGiamToiDa' => $request->GiaTriGiamToiDa,
-            'SoLanSuDung' => $request->SoLanSuDung,
+            'NgayHetHan' => $request->NgayHetHan,
+            'SoLuong' => $request->SoLuong,
             'TrangThai' => $request->TrangThai,
         ]);
 
@@ -100,14 +103,16 @@ class AdminVoucherController extends Controller
             'TenVoucher' => 'required|string|max:255',
             'DieuKien' => 'required|numeric|min:0',
             'GiaTriGiamToiDa' => 'required|numeric|min:0',
-            'SoLanSuDung' => 'required|integer|min:1',
+            'NgayHetHan' => 'required|date|after_or_equal:today',            'SoLuong' => 'required|integer|min:1',
             'TrangThai' => 'required|in:0,1'
         ], [
             'TenVoucher.required' => 'Vui lòng nhập tên voucher.',
             'DieuKien.required' => 'Vui lòng nhập điều kiện áp dụng.',
             'GiaTriGiamToiDa.required' => 'Vui lòng nhập giá trị giảm tối đa.',
-            'SoLanSuDung.required' => 'Vui lòng nhập số lần sử dụng.',
-            'SoLanSuDung.min' => 'Số lần sử dụng phải lớn hơn 0.',
+            'NgayHetHan.required' => 'Vui lòng nhập ngày hết hạn.',
+            'NgayHetHan.after_or_equal' => 'Ngày hết hạn phải là ngày hôm nay hoặc sau đó.',
+            'SoLuong.required' => 'Vui lòng nhập số lượng.',
+            'SoLuong.min' => 'Số lượng phải lớn hơn 0.',
             'TrangThai.required' => 'Vui lòng chọn trạng thái.'
         ]);
 
@@ -117,7 +122,8 @@ class AdminVoucherController extends Controller
             'TenVoucher' => $request->TenVoucher,
             'DieuKien' => $request->DieuKien,
             'GiaTriGiamToiDa' => $request->GiaTriGiamToiDa,
-            'SoLanSuDung' => $request->SoLanSuDung,
+            'NgayHetHan' => $request->NgayHetHan,
+            'SoLuong' => $request->SoLuong,
             'TrangThai' => $request->TrangThai
         ]);
 

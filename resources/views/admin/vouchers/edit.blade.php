@@ -26,7 +26,20 @@
     <x-input name="TenVoucher" label="Tên voucher" :value="$voucher->TenVoucher" />
     <x-input name="DieuKien" label="Điều kiện" :value="$voucher->DieuKien" />
     <x-input name="GiaTriGiamToiDa" label="Giá trị giảm tối đa" :value="$voucher->GiaTriGiamToiDa" />
-    <x-input name="SoLanSuDung" label="Số lần sử dụng" :value="$voucher->SoLanSuDung" />
+    <x-input
+        name="NgayHetHan"
+        label="Ngày hết hạn"
+        type="date"
+        :value="$voucher->NgayHetHan"
+        min="{{ date('Y-m-d') }}"
+        required
+    />
+
+    <x-input
+        name="SoLuong"
+        label="Số lượng"
+        :value="$voucher->SoLuong"
+    />
 
     <x-input type="select" name="TrangThai" label="Trạng thái" required>
         <option value="">-- Chọn trạng thái --</option>

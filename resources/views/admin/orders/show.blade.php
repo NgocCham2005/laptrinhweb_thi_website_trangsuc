@@ -24,28 +24,46 @@
             @csrf
             @method('PUT')
 
+            @php
+                $statuses = [
+                    0 => 'Chờ xác nhận',
+                    1 => 'Đã xác nhận',
+                    2 => 'Đang giao',
+                    3 => 'Hoàn thành',
+                ];
+            @endphp
+
             <select name="TrangThai" class="form-control status-select" required>
 
-                <option value="0" {{ $order->TrangThai == 0 ? 'selected' : '' }}>
-                    Chờ xác nhận
-                </option>
+                @foreach($statuses as $value => $label)
 
-                <option value="1" {{ $order->TrangThai == 1 ? 'selected' : '' }}>
-                    Đã xác nhận
-                </option>
+                    <option
+                        value="{{ $value }}"
+                        {{ $order->TrangThai == $value ? 'selected' : '' }}
 
-                <option value="2" {{ $order->TrangThai == 2 ? 'selected' : '' }}>
-                    Đang giao
-                </option>
+                        @if(
+                            $value != $order->TrangThai
+                            && $value != $order->TrangThai + 1
+                        )
+                            disabled
+                        @endif
+                    >
+                        {{ $label }}
+                    </option>
 
-                <option value="3" {{ $order->TrangThai == 3 ? 'selected' : '' }}>
-                    Hoàn thành
-                </option>
+                @endforeach
 
             </select>
 
-            <x-button type="submit">Cập nhật trạng thái</x-button>
-
+            @if($order->TrangThai < 3)
+                <x-button type="submit">
+                    Cập nhật trạng thái
+                </x-button>
+            @else
+                <button type="button" class="btn btn-secondary" disabled>
+                    Đã hoàn thành
+                </button>
+            @endif
         </form>
 
     </div>

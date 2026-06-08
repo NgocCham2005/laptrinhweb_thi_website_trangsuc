@@ -26,8 +26,19 @@
         <x-input name="TenVoucher" label="Tên voucher" required />
         <x-input name="DieuKien" label="Điều kiện" />
         <x-input name="GiaTriGiamToiDa" label="Giá trị giảm tối đa" type="number" />
-        <x-input name="SoLanSuDung" label="Số lần sử dụng" type="number" />
+        <x-input
+            name="NgayHetHan"
+            label="Ngày hết hạn"
+            type="date"
+            min="{{ date('Y-m-d') }}"
+            required
+        />
 
+        <x-input
+            name="SoLuong"
+            label="Số lượng"
+            type="number"
+        />
         <x-input type="select" name="TrangThai" label="Trạng thái" required>
             <option value="">-- Chọn trạng thái --</option>
             <option value="1" {{ old('TrangThai') == '1' ? 'selected' : '' }}>Hoạt động</option>

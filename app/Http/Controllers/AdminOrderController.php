@@ -41,12 +41,31 @@ class AdminOrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate(['TrangThai' => 'required']);
+        $request->validate([
+            'TrangThai' => 'required|integer'
+        ]);
 
         $order = DonHang::findOrFail($id);
-        $order->TrangThai = $request->TrangThai;
+
+        $currentStatus = (int)$order->TrangThai;
+        $newStatus = (int)$request->TrangThai;
+
+        // Đã hoàn thành thì không cho đổi nữa
+        if ($currentStatus == 3) {
+            return redirect()->back()
+                ->with('error', 'Đơn hàng đã hoàn thành.');
+        }
+
+        // Chỉ cho phép chuyển sang trạng thái kế tiếp
+        if ($newStatus !== $currentStatus + 1) {
+            return redirect()->back()
+                ->with('error', 'Chỉ được chuyển sang trạng thái tiếp theo.');
+        }
+
+        $order->TrangThai = $newStatus;
         $order->save();
 
-        return redirect()->back()->with('success', 'Cập nhật trạng thái thành công');
+        return redirect()->back()
+            ->with('success', 'Cập nhật trạng thái thành công');
     }
 }
