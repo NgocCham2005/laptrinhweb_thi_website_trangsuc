@@ -51,7 +51,13 @@ class OrderController extends Controller
     // =====================
     public function checkout(Request $request) {
         $maTaiKhoan = $this->layMaTaiKhoan();
-        $vouchers   = Voucher::where('SoLanSuDung', '>', 0)->where('TrangThai', 1)->get();
+        $vouchers = Voucher::where('SoLuong', '>', 0)  // đổi tên field
+                   ->where('TrangThai', 1)
+                   ->where(function($q) {
+                       $q->whereNull('NgayHetHan')
+                         ->orWhere('NgayHetHan', '>=', now());
+                   })
+                   ->get();
         $gioHang    = null;
 
         // Flow MUA NGAY
@@ -175,8 +181,12 @@ class OrderController extends Controller
 
         if ($request->MaVoucher) {
             $voucher = Voucher::where('MaVoucher', $request->MaVoucher)
-                ->where('SoLanSuDung', '>', 0)
-                ->first();
+    ->where('SoLuong', '>', 0)  // đổi tên field
+    ->where(function($q) {
+        $q->whereNull('NgayHetHan')
+          ->orWhere('NgayHetHan', '>=', now());
+    })
+    ->first();
 
             if ($voucher && $tongTien >= (float) $voucher->DieuKien) {
                 $maVoucher    = $voucher->MaVoucher;
