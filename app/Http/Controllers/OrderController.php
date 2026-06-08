@@ -185,7 +185,7 @@ class OrderController extends Controller
             if ($voucher && $tongTien >= (float) $voucher->DieuKien) {
                 $maVoucher    = $voucher->MaVoucher;
                 $giaTriApDung = (float) $voucher->GiaTriGiamToiDa;
-                $voucher->decrement('SoLanSuDung');
+                $voucher->decrement('SoLuong');
             }
         }
 

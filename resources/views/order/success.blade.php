@@ -52,17 +52,36 @@
 
            <div class="info-item">
     <label>Trạng thái</label>
-    @php
-        $trangThaiMap = [
-    0 => ' Chờ xác nhận',
-    1 => ' Đã xác nhận',
-    2 => ' Đang giao',
-    3 => ' Hoàn thành',
-    4 => ' Đã hủy',
-];
-        $tt = $trangThaiMap[$donHang->TrangThai] ?? $trangThaiMap[0];
-    @endphp
-    <span class="status-badge {{ $tt['class'] }}">{{ $tt['label'] }}</span>  {{-- ← thêm dòng này --}}
+@php
+    $trangThaiMap = [
+        0 => [
+            'label' => 'Chờ xác nhận',
+            'class' => 'status-0'
+        ],
+        1 => [
+            'label' => 'Đã xác nhận',
+            'class' => 'status-1'
+        ],
+        2 => [
+            'label' => 'Đang giao',
+            'class' => 'status-2'
+        ],
+        3 => [
+            'label' => 'Hoàn thành',
+            'class' => 'status-3'
+        ],
+        4 => [
+            'label' => 'Đã hủy',
+            'class' => 'status-4'
+        ],
+    ];
+
+    $tt = $trangThaiMap[$donHang->TrangThai] ?? $trangThaiMap[0];
+@endphp
+
+<span class="status-badge {{ $tt['class'] }}">
+    {{ $tt['label'] }}
+</span>
 </div>
 
             <div class="info-item">
