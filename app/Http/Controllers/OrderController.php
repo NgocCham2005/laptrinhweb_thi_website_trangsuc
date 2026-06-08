@@ -51,7 +51,16 @@ class OrderController extends Controller
     // =====================
     public function checkout(Request $request) {
         $maTaiKhoan = $this->layMaTaiKhoan();
-        $vouchers   = Voucher::where('SoLuong', '>', 0)->where('TrangThai', 1)->get();
+        $vouchers = Voucher::where('SoLuong', '>', 0)
+    ->where('TrangThai', 1)
+    ->get()
+    ->filter(function ($voucher) use ($maTaiKhoan) {
+
+        return !DonHang::where('MaTaiKhoan', $maTaiKhoan)
+            ->where('MaVoucher', $voucher->MaVoucher)
+            ->where('TrangThai', '!=', 4)
+            ->exists();
+    });
         $gioHang    = null;
 
         // Flow MUA NGAY
@@ -170,24 +179,37 @@ class OrderController extends Controller
         }
 
         // ── Xử lý voucher ──
-        $maVoucher    = null;
-        $giaTriApDung = 0;
+        // ── Xử lý voucher ──
+$maVoucher    = null;
+$giaTriApDung = 0;
 
-        if ($request->MaVoucher) {
-            $voucher = Voucher::where('MaVoucher', $request->MaVoucher)
-    ->where('SoLuong', '>', 0)  // đổi tên field
-    ->where(function($q) {
-        $q->whereNull('NgayHetHan')
-          ->orWhere('NgayHetHan', '>=', now());
-    })
-    ->first();
+if ($request->MaVoucher) {
 
-            if ($voucher && $tongTien >= (float) $voucher->DieuKien) {
-                $maVoucher    = $voucher->MaVoucher;
-                $giaTriApDung = (float) $voucher->GiaTriGiamToiDa;
-                $voucher->decrement('SoLuong');
-            }
-        }
+    // Kiểm tra khách đã dùng voucher này chưa
+    $daSuDung = DonHang::where('MaTaiKhoan', $maTaiKhoan)
+        ->where('MaVoucher', $request->MaVoucher)
+        ->where('TrangThai', '!=', 4) // 4 = đã hủy
+        ->exists();
+
+    if ($daSuDung) {
+        return back()->with('error',
+            'Voucher này chỉ được sử dụng 1 lần cho mỗi khách hàng.');
+    }
+
+    $voucher = Voucher::where('MaVoucher', $request->MaVoucher)
+        ->where('SoLuong', '>', 0)
+        ->where(function($q) {
+            $q->whereNull('NgayHetHan')
+              ->orWhere('NgayHetHan', '>=', now());
+        })
+        ->first();
+
+    if ($voucher && $tongTien >= (float) $voucher->DieuKien) {
+        $maVoucher    = $voucher->MaVoucher;
+        $giaTriApDung = (float) $voucher->GiaTriGiamToiDa;
+        $voucher->decrement('SoLuong');
+    }
+}
 
         // ── Tạo đơn hàng ──
         $maDonHang = $this->taoMaDonHang();

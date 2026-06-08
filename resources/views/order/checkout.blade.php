@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 {{-- CSS riêng cho trang checkout --}}
 <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
 
