@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\AdminVoucherController;
 use App\Http\Controllers\AdminBannerController;
@@ -19,16 +20,28 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminCustomerController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+   // return view('welcome');
+//});
 
+
+// TỰ ĐỊNH NGHĨA MIDDLEWARE NGAY TẠI ĐÂY ĐỂ TRÁNH LỖI CLOSURE TO STRING
+// =========================================================================
+class CheckNotAdmin {
+    public function handle($request, $next) {
+        if (Illuminate\Support\Facades\Auth::check() && trim(Illuminate\Support\Facades\Auth::user()->VaiTro) === 'admin') {
+            return redirect('/admin')->with('error', 'Tài khoản Admin không được phép truy cập trang này!');
+        }
+        return $next($request);
+    }
+}
+Route::middleware(CheckNotAdmin::class)->group(function () {
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/products/{id}',[ProductController::class, 'show'])->name('products.detail');
 
 Route::get('/products', [ListProductController::class, 'index'])->name('products.index');
-
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -216,9 +229,13 @@ Route::get(
 // =====================
 // GIỎ HÀNG & ĐẶT HÀNG (cần đăng nhập)
 // =====================
-Route::middleware('auth')->group(function () {
+//Route::middleware('auth')->group(function () {//mới sửa
 //Route::group([], function () {
 
+// =====================
+// GIỎ HÀNG & ĐẶT HÀNG (cần đăng nhập)
+// =====================
+Route::middleware(['auth', CheckNotAdmin::class])->group(function () {
     // Giỏ hàng
     Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
     Route::post('/gio-hang/them', [CartController::class, 'them'])->name('cart.them');
