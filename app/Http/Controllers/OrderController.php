@@ -175,8 +175,12 @@ class OrderController extends Controller
 
         if ($request->MaVoucher) {
             $voucher = Voucher::where('MaVoucher', $request->MaVoucher)
-                ->where('SoLanSuDung', '>', 0)
-                ->first();
+    ->where('SoLuong', '>', 0)  // đổi tên field
+    ->where(function($q) {
+        $q->whereNull('NgayHetHan')
+          ->orWhere('NgayHetHan', '>=', now());
+    })
+    ->first();
 
             if ($voucher && $tongTien >= (float) $voucher->DieuKien) {
                 $maVoucher    = $voucher->MaVoucher;

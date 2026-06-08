@@ -190,6 +190,11 @@
                                                 ⛔ Đơn tối thiểu {{ number_format($v->DieuKien) }}đ
                                             @endif
                                         </div>
+                                        @if(!empty($v->NgayHetHan))
+                                        <div class="vd-note ok">
+                                        🕒 HSD: {{ \Carbon\Carbon::parse($v->NgayHetHan)->format('d/m/Y') }}
+                                        </div>
+                                        @endif
                                     </div>
                                 @endforeach
 
