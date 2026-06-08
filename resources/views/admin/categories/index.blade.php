@@ -14,12 +14,13 @@ Quản lý danh mục sản phẩm
         </a>
     </div>
 
-    <x-table :headers="['Mã danh mục', 'Tên danh mục', 'Hình ảnh', 'Trạng thái', 'Thao tác']" striped>
+    <x-table :headers="['Mã danh mục', 'Tên danh mục', 'Hình ảnh', 'Số lượng SP', 'Trạng thái', 'Thao tác']" striped>
         @foreach($categories as $category)
         <tr>
             <td>{{ $category->MaDanhMuc }}</td>
             <td>{{ $category->TenDanhMuc }}</td>
             <td><img src="{{ asset('images/categories/' . $category->HinhAnh) }}" alt="{{ $category->TenDanhMuc ?? 'Ảnh danh mục' }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 6px;"</td>
+            <td> {{ $category->san_phams_count }} </td>
             <td>
                 @if(isset($category->TrangThai) && $category->TrangThai == 1)
                     <x-badge variant="success">Hiển thị</x-badge>

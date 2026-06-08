@@ -11,7 +11,8 @@ class AdminCategoryController extends Controller
 {
     public function index()
     {
-        $categories = DanhMucSP::orderBy('MaDanhMuc', 'desc')->paginate(3); 
+        $categories = DanhMucSP::withCount('sanPhams')->paginate(3);
+        //$categories = DanhMucSP::orderBy('MaDanhMuc', 'desc')->paginate(3); 
         
         return view('admin.categories.index', compact('categories'));
     }

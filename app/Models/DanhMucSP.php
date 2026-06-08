@@ -18,4 +18,8 @@ class DanhMucSP extends Model
         'TrangThai',
         'HinhAnh'
     ];
+    public function sanPhams()
+    {
+        return $this->hasMany(SanPham::class, 'MaDanhMuc', 'MaDanhMuc');
+    }
 }
