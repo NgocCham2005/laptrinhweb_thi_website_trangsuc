@@ -54,11 +54,12 @@
     <label>Trạng thái</label>
     @php
         $trangThaiMap = [
-            0 => ['class' => 'status-0', 'label' => 'Chờ xác nhận'],
-            1 => ['class' => 'status-1', 'label' => 'Đã xác nhận'],
-            2 => ['class' => 'status-2', 'label' => 'Đang giao'],
-            3 => ['class' => 'status-3', 'label' => 'Hoàn thành'],
-        ];
+    0 => ' Chờ xác nhận',
+    1 => ' Đã xác nhận',
+    2 => ' Đang giao',
+    3 => ' Hoàn thành',
+    4 => ' Đã hủy',
+];
         $tt = $trangThaiMap[$donHang->TrangThai] ?? $trangThaiMap[0];
     @endphp
     <span class="status-badge {{ $tt['class'] }}">{{ $tt['label'] }}</span>  {{-- ← thêm dòng này --}}

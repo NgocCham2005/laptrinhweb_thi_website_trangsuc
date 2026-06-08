@@ -83,7 +83,7 @@ class OrderController extends Controller
             session()->forget('sp_chon');
         }
 
-        $chiTiet = $query->get();
+        $chiTiet = $query->get()->filter(fn($i) => $i->sanPham !== null);
 
         if ($chiTiet->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng trống!');
@@ -152,7 +152,7 @@ class OrderController extends Controller
                 $query->whereIn('MaSanPham', $spChon);
             }
 
-            $chiTiet = $query->get();
+            $chiTiet = $query->get()->filter(fn($i) => $i->sanPham !== null);
 
             if ($chiTiet->isEmpty()) {
                 return back()->with('error', 'Giỏ hàng trống!');
@@ -160,6 +160,7 @@ class OrderController extends Controller
 
             // Kiểm tra tồn kho
             foreach ($chiTiet as $item) {
+                 if (!$item->sanPham) continue;
                 if ($item->sanPham->SoLuongTon < $item->SoLuong) {
                     return back()->with('error', "Sản phẩm '{$item->sanPham->TenSanPham}' không đủ số lượng tồn kho!");
                 }
@@ -332,9 +333,8 @@ return view('order.manage_user_orders', compact('donHangs'));
     // =====================
     // ADMIN - CẬP NHẬT TRẠNG THÁI
     // =====================
-    public function update(Request $request, $id) {
-        $request->validate(['TrangThai' => 'required|integer|in:0,1']);
-
+public function update(Request $request, $id) {
+    $request->validate(['TrangThai' => 'required|integer|in:0,1,2,3,4']); // ← sửa từ in:0,1
         $order = DonHang::where('MaDonHang', $id)->firstOrFail();
         $order->TrangThai = $request->TrangThai;
         $order->save();
