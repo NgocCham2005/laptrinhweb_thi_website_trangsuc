@@ -116,10 +116,18 @@
         @foreach($donHang->chiTietDonHang as $item)
             <div class="order-item">
                 <div class="order-item-info">
-                    <div class="order-item-name">{{ $item->sanPham->TenSanPham }}</div>
-                    <div class="order-item-qty">
-                        x{{ $item->SoLuong }} × {{ number_format($item->DonGia) }}đ
-                    </div>
+                    @if($item->sanPham)
+                        <a href="{{ route('products.detail', $item->MaSanPham) }}" class="order-item-name-link">
+                            <div class="order-item-name">{{ $item->sanPham->TenSanPham }}</div>
+                        </a>
+                        <div class="order-item-qty">x{{ $item->SoLuong }} × {{ number_format($item->DonGia) }}đ</div>
+                        <a href="{{ route('products.detail', $item->MaSanPham) }}" class="order-item-detail-link">
+                            Xem chi tiết sản phẩm
+                        </a>
+                    @else
+                        <div class="order-item-name">Sản phẩm không còn tồn tại</div>
+                        <div class="order-item-qty">x{{ $item->SoLuong }} × {{ number_format($item->DonGia) }}đ</div>
+                    @endif
                 </div>
                 <div class="order-item-price">
                     {{ number_format($item->SoLuong * $item->DonGia) }}đ

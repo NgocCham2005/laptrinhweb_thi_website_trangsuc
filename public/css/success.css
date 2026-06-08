@@ -209,6 +209,24 @@
     color: var(--navy);
 }
 
+.order-item-name-link {
+    text-decoration: none;
+}
+
+.order-item-detail-link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold);
+    text-decoration: none;
+}
+
+.order-item-detail-link:hover {
+    text-decoration: underline;
+}
+
 .order-item-qty {
     font-family: var(--font-body);
     font-size: 12px;
