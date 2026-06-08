@@ -51,7 +51,7 @@ class OrderController extends Controller
     // =====================
     public function checkout(Request $request) {
         $maTaiKhoan = $this->layMaTaiKhoan();
-        $vouchers   = Voucher::where('SoLanSuDung', '>', 0)->where('TrangThai', 1)->get();
+        $vouchers   = Voucher::where('SoLuong', '>', 0)->where('TrangThai', 1)->get();
         $gioHang    = null;
 
         // Flow MUA NGAY

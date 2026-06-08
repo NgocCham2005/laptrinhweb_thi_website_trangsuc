@@ -33,36 +33,45 @@
                 ];
             @endphp
 
-            <select name="TrangThai" class="form-control status-select" required>
+            <select name="TrangThai"
+                    class="form-control status-select"
+                    required>
 
-                @foreach($statuses as $value => $label)
+                <option value="0"
+                    {{ $order->TrangThai == 0 ? 'selected' : '' }}
+                    {{ $order->TrangThai > 0 ? 'disabled' : '' }}>
+                    Chờ xác nhận
+                </option>
 
-                    <option
-                        value="{{ $value }}"
-                        {{ $order->TrangThai == $value ? 'selected' : '' }}
+                <option value="1"
+                    {{ $order->TrangThai == 1 ? 'selected' : '' }}
+                    {{ !in_array($order->TrangThai,[0,1]) ? 'disabled' : '' }}>
+                    Đã xác nhận
+                </option>
 
-                        @if(
-                            $value != $order->TrangThai
-                            && $value != $order->TrangThai + 1
-                        )
-                            disabled
-                        @endif
-                    >
-                        {{ $label }}
-                    </option>
-
-                @endforeach
+                <option value="2"
+                    {{ $order->TrangThai == 2 ? 'selected' : '' }}
+                    {{ !in_array($order->TrangThai,[1,2]) ? 'disabled' : '' }}>
+                    Đang giao
+                </option>
 
             </select>
 
-            @if($order->TrangThai < 3)
+            @if($order->TrangThai < 2)
+
                 <x-button type="submit">
                     Cập nhật trạng thái
                 </x-button>
+
             @else
-                <button type="button" class="btn btn-secondary" disabled>
-                    Đã hoàn thành
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    disabled>
+                    Chờ shipper cập nhật
                 </button>
+
             @endif
         </form>
 

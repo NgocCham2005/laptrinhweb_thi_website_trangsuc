@@ -170,7 +170,8 @@ class AdminReportController extends Controller
             DB::raw("SUM(CASE WHEN TrangThai = 0 THEN 1 ELSE 0 END) as cho_xac_nhan"),
             DB::raw("SUM(CASE WHEN TrangThai = 1 THEN 1 ELSE 0 END) as da_xac_nhan"),
             DB::raw("SUM(CASE WHEN TrangThai = 2 THEN 1 ELSE 0 END) as dang_giao"),
-            DB::raw("SUM(CASE WHEN TrangThai = 3 THEN 1 ELSE 0 END) as hoan_thanh")
+            DB::raw("SUM(CASE WHEN TrangThai = 3 THEN 1 ELSE 0 END) as thanh_cong"),
+            DB::raw("SUM(CASE WHEN TrangThai = 4 THEN 1 ELSE 0 END) as khong_thanh_cong")
         );
 
         if ($from) {

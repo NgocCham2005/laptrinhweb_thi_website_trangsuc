@@ -50,7 +50,7 @@
 :headers="['Mã','Tên','Điều kiện','Giảm tối đa','Ngày hết hạn','Số lượng','Trạng thái','Thao tác']"    striped
 >
 
-    @foreach($vouchers as $v)
+    @forelse($vouchers as $v)
 
         <tr>
 
@@ -168,11 +168,20 @@
             </x-slot:footer>
 
         </x-modal>
+        @empty
 
-    @endforeach
+        <tr>
+            <td colspan="8" class="text-center py-4">
+                Không có dữ liệu
+            </td>
+        </tr>
+
+    @endforelse
 
 </x-table>
 
-<x-pagination :paginator="$vouchers" />
+@if($vouchers->count())
+    <x-pagination :paginator="$vouchers" />
+@endif
 
 @endsection

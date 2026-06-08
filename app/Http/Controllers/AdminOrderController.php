@@ -47,25 +47,31 @@ class AdminOrderController extends Controller
 
         $order = DonHang::findOrFail($id);
 
-        $currentStatus = (int)$order->TrangThai;
-        $newStatus = (int)$request->TrangThai;
+        $current = (int)$order->TrangThai;
+        $new = (int)$request->TrangThai;
 
-        // Đã hoàn thành thì không cho đổi nữa
-        if ($currentStatus == 3) {
-            return redirect()->back()
-                ->with('error', 'Đơn hàng đã hoàn thành.');
+        // QTV chỉ được thao tác khi trạng thái < 2
+        if ($current >= 2) {
+            return back()->with(
+                'error',
+                'Đơn hàng đang giao hoặc đã kết thúc.'
+            );
         }
 
-        // Chỉ cho phép chuyển sang trạng thái kế tiếp
-        if ($newStatus !== $currentStatus + 1) {
-            return redirect()->back()
-                ->with('error', 'Chỉ được chuyển sang trạng thái tiếp theo.');
+        // Chỉ được chuyển tiếp 1 bước
+        if ($new !== $current + 1) {
+            return back()->with(
+                'error',
+                'Chỉ được chuyển sang trạng thái tiếp theo.'
+            );
         }
 
-        $order->TrangThai = $newStatus;
+        $order->TrangThai = $new;
         $order->save();
 
-        return redirect()->back()
-            ->with('success', 'Cập nhật trạng thái thành công');
+        return back()->with(
+            'success',
+            'Cập nhật trạng thái thành công.'
+        );
     }
 }

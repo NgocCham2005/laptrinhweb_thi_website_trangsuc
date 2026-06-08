@@ -21,13 +21,29 @@
             value="{{ request('keyword') }}"
         >
 
-        <select name="status" class="form-control status-filter">
-            <option value="">Tất cả trạng thái</option>
-            <option value="0" {{ request('status')==='0' ? 'selected':'' }}>Chờ xác nhận</option>
-            <option value="1" {{ request('status')==='1' ? 'selected':'' }}>Đã xác nhận</option>
-            <option value="2" {{ request('status')==='2' ? 'selected':'' }}>Đang giao</option>
-            <option value="3" {{ request('status')==='3' ? 'selected':'' }}>Hoàn thành</option>
-        </select>
+    <select name="status" class="form-control status-filter">
+        <option value="">Tất cả trạng thái</option>
+
+        <option value="0" {{ request('status')==='0' ? 'selected':'' }}>
+            Chờ xác nhận
+        </option>
+
+        <option value="1" {{ request('status')==='1' ? 'selected':'' }}>
+            Đã xác nhận
+        </option>
+
+        <option value="2" {{ request('status')==='2' ? 'selected':'' }}>
+            Đang giao
+        </option>
+
+        <option value="3" {{ request('status')==='3' ? 'selected':'' }}>
+            Thành công
+        </option>
+
+        <option value="4" {{ request('status')==='4' ? 'selected':'' }}>
+            Không thành công
+        </option>
+    </select>
 
         <x-button type="submit">Lọc</x-button>
 
@@ -45,27 +61,41 @@
     'Chi tiết'
 ]">
 
-@foreach($orders as $o)
+@forelse($orders as $o)
 
 <tr>
     <td>{{ $o->MaDonHang }}</td>
     <td>{{ $o->NgayDatHang }}</td>
     <td>{{ $o->TenNguoiNhan }}</td>
 
-    <td>   
+    <td>
         {{ number_format($o->TongThanhToan) }}đ
     </td>
 
     <td>
-        @if($o->TrangThai == 0)
-            <x-badge variant="warning">Chờ xác nhận</x-badge>
-        @elseif($o->TrangThai == 1)
-            <x-badge variant="info">Đã xác nhận</x-badge>
-        @elseif($o->TrangThai == 2)
-            <x-badge variant="gold">Đang giao</x-badge>
-        @else
-            <x-badge variant="success">Hoàn thành</x-badge>
-        @endif
+        @switch($o->TrangThai)
+
+            @case(0)
+                <x-badge variant="warning">Chờ xác nhận</x-badge>
+            @break
+
+            @case(1)
+                <x-badge variant="info">Đã xác nhận</x-badge>
+            @break
+
+            @case(2)
+                <x-badge variant="gold">Đang giao</x-badge>
+            @break
+
+            @case(3)
+                <x-badge variant="success">Thành công</x-badge>
+            @break
+
+            @case(4)
+                <x-badge variant="danger">Không thành công</x-badge>
+            @break
+
+        @endswitch
     </td>
 
     <td>
@@ -75,10 +105,20 @@
     </td>
 </tr>
 
-@endforeach
+@empty
+
+<tr>
+    <td colspan="6" class="text-center">
+        Không có dữ liệu
+    </td>
+</tr>
+
+@endforelse
 
 </x-table>
 
-<x-pagination :paginator="$orders"/>
+@if($orders->count())
+    <x-pagination :paginator="$orders"/>
+@endif
 
 @endsection
