@@ -168,6 +168,7 @@ class AdminProductController extends Controller
             'MaDanhMuc'  => $request->ma_danhmuc,
             'GiaBan'     => $request->gia_ban,
             'ChatLieu'   => $request->chat_lieu,
+            'SoLuongTon'=>$request->so_luong_ton,
             'MoTa'       => $request->mo_ta,
             'MoTaChiTiet' => $request->mota_chitiet,
             'TrangThai'  => $request->trang_thai,
