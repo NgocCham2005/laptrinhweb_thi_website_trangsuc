@@ -114,25 +114,35 @@
         <div class="success-card-title">🧾 Chi tiết sản phẩm</div>
 
         @foreach($donHang->chiTietDonHang as $item)
-            <div class="order-item">
-                <div class="order-item-info">
-                    @if($item->sanPham)
-                        <a href="{{ route('products.detail', $item->MaSanPham) }}" class="order-item-name-link">
-                            <div class="order-item-name">{{ $item->sanPham->TenSanPham }}</div>
-                        </a>
-                        <div class="order-item-qty">x{{ $item->SoLuong }} × {{ number_format($item->DonGia) }}đ</div>
-                        <a href="{{ route('products.detail', $item->MaSanPham) }}" class="order-item-detail-link">
-                            Xem chi tiết sản phẩm
-                        </a>
-                    @else
-                        <div class="order-item-name">Sản phẩm không còn tồn tại</div>
-                        <div class="order-item-qty">x{{ $item->SoLuong }} × {{ number_format($item->DonGia) }}đ</div>
-                    @endif
-                </div>
-                <div class="order-item-price">
-                    {{ number_format($item->SoLuong * $item->DonGia) }}đ
-                </div>
-            </div>
+            @if($item->sanPham)
+                @if($item->sanPham->TrangThai == 0)
+                    <div class="order-item-name" 
+                        style="color: #999; cursor: not-allowed;" 
+                        title="Sản phẩm này hiện đã ngừng kinh doanh hoặc bị ẩn bởi hệ thống!">
+                        {{ $item->sanPham->TenSanPham }} <span style="color: red; font-size: 12px;">(Đã ẩn)</span>
+                    </div>
+                    
+                    <div class="order-item-qty">x{{ $item->SoLuong }} × {{ number_format($item->DonGia) }}đ</div>
+                    
+                    <span style="color: red; font-size: 13px; cursor: not-allowed;" 
+                        title="Sản phẩm này hiện đã ngừng kinh doanh hoặc bị ẩn bởi hệ thống!">
+                        Sản phẩm đã bị ẩn
+                    </span>
+                @else
+                    <a href="{{ route('products.detail', $item->MaSanPham) }}" class="order-item-name-link">
+                        <div class="order-item-name">{{ $item->sanPham->TenSanPham }}</div>
+                    </a>
+                    
+                    <div class="order-item-qty">x{{ $item->SoLuong }} × {{ number_format($item->DonGia) }}đ</div>
+                    
+                    <a href="{{ route('products.detail', $item->MaSanPham) }}" class="order-item-detail-link">
+                        Xem chi tiết sản phẩm
+                    </a>
+                @endif
+            @else
+                <div class="order-item-name" style="color: #999; font-style: italic;">Sản phẩm không còn tồn tại</div>
+                <div class="order-item-qty">x{{ $item->SoLuong }} × {{ number_format($item->DonGia) }}đ</div>
+            @endif
         @endforeach
 
         @php
