@@ -40,7 +40,11 @@
             <h2>MÔ TẢ SẢN PHẨM</h2>
         </div>
         <div class="description-content">
-            <p>{{ $product->MoTaChiTiet }}</p>
+            @if(trim($product->MoTaChiTiet ?? '') !== '')
+                <p>{{ $product->MoTaChiTiet }}</p>
+            @else
+                <p>Chưa có mô tả chi tiết cho sản phẩm này.</p>
+            @endif
         </div>
     </div>
 

@@ -20,19 +20,67 @@
         </div>
     </div>
 
+    <div class="quantity-row">
+        <span class="info-label">Số lượng:</span>
+        <div class="col-qty">
+            <button type="button" class="qty-btn qty-decrease" aria-label="Giảm số lượng">−</button>
+            <input id="productQuantity" class="qty-input" type="number" min="1" value="1" inputmode="numeric" pattern="[0-9]*">
+            <button type="button" class="qty-btn qty-increase" aria-label="Tăng số lượng">+</button>
+        </div>
+    </div>
+
     <div class="product-actions">
-    <form action="{{ route('cart.them') }}" method="POST" style="flex:1">
+    <form id="addToCartForm" action="{{ route('cart.them') }}" method="POST" style="flex:1">
         @csrf
         <input type="hidden" name="MaSanPham" value="{{ $product->MaSanPham }}">
-        <input type="hidden" name="SoLuong" value="1">
+        <input type="hidden" id="addToCartQuantity" name="SoLuong" value="1">
         <x-button type="submit" variant="secondary" :block="true">Thêm vào giỏ</x-button>
     </form>
 
-    <form action="{{ route('order.muaNgay') }}" method="POST" style="flex:1">
+    <form id="buyNowForm" action="{{ route('order.muaNgay') }}" method="POST" style="flex:1">
         @csrf
         <input type="hidden" name="MaSanPham" value="{{ $product->MaSanPham }}">
-        <input type="hidden" name="SoLuong" value="1">
+        <input type="hidden" id="buyNowQuantity" name="SoLuong" value="1">
         <x-button type="submit" :block="true">Mua ngay</x-button>
     </form>
 </div>
 </div>
+
+<script>
+    (function() {
+        const quantityInput = document.getElementById('productQuantity');
+        const hiddenQtys = [
+            document.getElementById('addToCartQuantity'),
+            document.getElementById('buyNowQuantity')
+        ];
+
+        const updateHiddenValues = value => {
+            hiddenQtys.forEach(input => {
+                if (input) input.value = value;
+            });
+        };
+
+        const normalizeQuantity = value => {
+            const qty = parseInt(value, 10);
+            return Number.isNaN(qty) || qty < 1 ? 1 : qty;
+        };
+
+        const setQuantity = value => {
+            const normalized = normalizeQuantity(value);
+            quantityInput.value = normalized;
+            updateHiddenValues(normalized);
+        };
+
+        Array.from(document.querySelectorAll('.qty-btn')).forEach(button => {
+            button.addEventListener('click', function () {
+                const current = normalizeQuantity(quantityInput.value);
+                const next = this.classList.contains('qty-increase') ? current + 1 : current - 1;
+                setQuantity(next);
+            });
+        });
+
+        quantityInput.addEventListener('input', function () {
+            setQuantity(this.value);
+        });
+    })();
+</script>

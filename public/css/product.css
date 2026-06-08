@@ -63,6 +63,58 @@ body {
     width: 100%;
     box-sizing: border-box;
 }
+.quantity-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.quantity-row .info-label {
+    width: 80px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+}
+.product-info-box .col-qty {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    overflow: hidden;
+    width: fit-content;
+}
+.product-info-box .qty-btn {
+    width: 38px;
+    height: 38px;
+    border: none;
+    background: #f3f4f6;
+    color: #162a4a;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+.product-info-box .qty-btn:hover {
+    background: #eab30833;
+}
+.product-info-box .qty-input {
+    width: 60px;
+    height: 38px;
+    border: none;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #162a4a;
+    outline: none;
+}
+.product-info-box .qty-input::-webkit-outer-spin-button,
+.product-info-box .qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 /* --- BỐ CỤC CHUNG TRANG SẢN PHẨM (SIDEBAR + GRID) --- */
 .products-container {
     display: flex;
